@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 import { useProducts } from '@/lib/api/hooks/useProducts';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function SearchModal({ isOpen, onClose }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,6 +27,7 @@ export function SearchModal({ isOpen, onClose }) {
   const products = data?.products || [];
 
   // Focus input on open
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (isOpen && inputRef.current) {
       setTimeout(() => inputRef.current.focus(), 100);
@@ -34,6 +36,7 @@ export function SearchModal({ isOpen, onClose }) {
       setDebouncedSearch('');
     }
   }, [isOpen]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -87,11 +90,13 @@ export function SearchModal({ isOpen, onClose }) {
                         onClick={onClose}
                         className="flex items-center gap-4 rounded-lg p-3 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
                       >
-                        <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-zinc-100 dark:bg-zinc-800">
-                           <img 
+                        <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-zinc-100 dark:bg-zinc-800">
+                           <Image 
                              src={product.images?.[0]?.url || '/placeholder.jpg'} 
                              alt={product.name}
-                             className="h-full w-full object-cover"
+                             fill
+                             sizes="48px"
+                             className="object-cover"
                            />
                         </div>
                         <div className="flex flex-col flex-1">
@@ -106,13 +111,13 @@ export function SearchModal({ isOpen, onClose }) {
                       onClick={handleSubmit}
                       className="w-full mt-2 rounded-lg bg-zinc-100 p-3 text-center text-sm font-medium text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800 transition-colors"
                     >
-                      View all results for "{debouncedSearch}"
+                      View all results for &quot;{debouncedSearch}&quot;
                     </button>
                   </li>
                 </ul>
               ) : (
                 <div className="p-4 text-center text-sm text-zinc-500">
-                  No products found for "{debouncedSearch}"
+                  No products found for &quot;{debouncedSearch}&quot;
                 </div>
               )}
             </div>

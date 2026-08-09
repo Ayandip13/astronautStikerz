@@ -23,7 +23,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-black/80">
+      <header className="sticky top-0 z-50 w-full border-b border-foreground/10 bg-background/90 backdrop-blur-md">
         <AnnouncementBar />
         
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -41,9 +41,9 @@ export function Header() {
 
           {/* Logo */}
           <div className="flex flex-1 justify-center md:flex-none md:justify-start">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="text-xl font-black tracking-tighter text-zinc-900 dark:text-white">
-                ASTRONAUT <br className="hidden sm:block" /> STICKERZ
+            <Link href="/" className="flex items-center gap-2 transition-transform hover:scale-105 active:scale-95">
+              <span className="font-display text-2xl font-bold tracking-tight text-foreground">
+                Astronaut Stickerz ✨
               </span>
             </Link>
           </div>
@@ -54,8 +54,8 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white ${
-                  isActive(item.href) ? 'text-black dark:text-white' : 'text-zinc-500 dark:text-zinc-400'
+                className={`text-sm font-bold transition-all hover:-translate-y-0.5 hover:text-brand-purple ${
+                  isActive(item.href) ? 'text-brand-purple' : 'text-foreground/70'
                 }`}
               >
                 {item.name}
@@ -64,24 +64,26 @@ export function Header() {
           </nav>
 
           {/* Right side icons */}
-          <div className="flex flex-1 items-center justify-end gap-4">
+          <div className="flex flex-1 items-center justify-end gap-5">
             <button 
-              className="text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
+              className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple"
               onClick={() => setIsSearchOpen(true)}
             >
               <span className="sr-only">Search</span>
               <Search className="h-5 w-5" />
             </button>
             
-            <Link href="/admin" className="text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors">
+            <Link href="/admin" className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple">
               <span className="sr-only">Account</span>
               <User className="h-5 w-5" />
             </Link>
             
-            <button className="group flex items-center text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors">
+            <button className="group flex items-center text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple">
               <span className="sr-only">Cart</span>
               <ShoppingCart className="h-5 w-5" />
-              <span className="ml-2 text-sm font-medium">0</span>
+              <span className="ml-1.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-brand-coral px-1 text-[10px] font-bold text-white shadow-sm">
+                0
+              </span>
             </button>
           </div>
         </div>
@@ -98,8 +100,8 @@ export function Header() {
             {/* Panel */}
             <div className="fixed inset-y-0 left-0 z-50 w-full max-w-xs bg-white px-6 py-6 shadow-xl dark:bg-zinc-900 sm:max-w-sm sm:ring-1 sm:ring-zinc-900/10">
               <div className="flex items-center justify-between">
-                <Link href="/" className="text-lg font-black tracking-tighter text-zinc-900 dark:text-white" onClick={() => setIsMobileMenuOpen(false)}>
-                  ASTRONAUT STICKERZ
+                <Link href="/" className="font-display text-2xl font-bold tracking-tight text-foreground" onClick={() => setIsMobileMenuOpen(false)}>
+                  Astronaut Stickerz ✨
                 </Link>
                 <button
                   type="button"
@@ -118,7 +120,7 @@ export function Header() {
                       <Link
                         key={item.name}
                         href={item.href}
-                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-zinc-900 hover:bg-zinc-50 dark:text-white dark:hover:bg-zinc-800"
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-bold text-foreground hover:bg-foreground/5 hover:text-brand-purple"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {item.name}
@@ -128,7 +130,7 @@ export function Header() {
                   <div className="py-6">
                     <Link
                       href="/admin"
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-zinc-900 hover:bg-zinc-50 dark:text-white dark:hover:bg-zinc-800"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-bold text-foreground hover:bg-foreground/5 hover:text-brand-purple"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Log in

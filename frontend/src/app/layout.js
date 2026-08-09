@@ -1,31 +1,31 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit, Nunito } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/lib/providers/QueryProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fontOutfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fontNunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
 });
 
 export const metadata = {
-  title: "Astronaut Stickerz",
-  description: "Premium quality custom stickers, notebooks, and mousepads for creators and developers.",
+  title: "Astronaut Stickerz ✨",
+  description: "Stuff that makes your desk happier. Fun stickers, notebooks, and desk goodies.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${fontOutfit.variable} ${fontNunito.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white dark:bg-black text-zinc-900 dark:text-zinc-50">
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans selection:bg-pink-200 dark:selection:bg-pink-900">
         <QueryProvider>
           <Header />
           <main className="flex-1 flex flex-col">

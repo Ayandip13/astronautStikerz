@@ -38,11 +38,13 @@ function ShopContent() {
   }, [page, sort, category, keywordParam, router]);
 
   // Sync URL changes back to state (e.g. back button)
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     setPage(parseInt(searchParams.get('page') || '1', 10));
     setSort(searchParams.get('sort') || 'newest');
     setCategory(searchParams.get('category') || '');
   }, [searchParams]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const { data: categoriesData } = useCategories();
   const categories = categoriesData || [];
