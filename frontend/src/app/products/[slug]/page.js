@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useProductBySlug } from '@/lib/api/hooks/useProducts';
 import { RelatedProducts } from '@/components/product/RelatedProducts';
 import { Button } from '@/components/ui/Button';
+import { useCartStore } from '@/store/cartStore';
 
 // For Next.js 15 params unwrapping
 export default function ProductDetailPage({ params }) {
@@ -16,6 +17,7 @@ export default function ProductDetailPage({ params }) {
 
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const { addItem, openCart } = useCartStore();
 
   if (isLoading) {
     return (
@@ -55,6 +57,11 @@ export default function ProductDetailPage({ params }) {
     if (newQuantity >= 1 && newQuantity <= (product.stock || 10)) {
       setQuantity(newQuantity);
     }
+  };
+
+  const handleAddToCart = () => {
+    addItem(product, quantity);
+    openCart();
   };
 
   return (
@@ -193,7 +200,7 @@ export default function ProductDetailPage({ params }) {
                   Customize Yours ✨
                 </Button>
               ) : (
-                <Button size="lg" className="w-full sm:w-auto shadow-lg" disabled={isOutOfStock}>
+                <Button size="lg" onClick={handleAddToCart} className="w-full sm:w-auto shadow-lg" disabled={isOutOfStock}>
                   Add to Cart 🛒
                 </Button>
               )}

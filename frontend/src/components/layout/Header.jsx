@@ -1,16 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, Search, ShoppingCart, User, X } from 'lucide-react';
 import { AnnouncementBar } from './AnnouncementBar';
 import { SearchModal } from '../search/SearchModal';
+import { CartDrawer } from '../cart/CartDrawer';
+import { useCartStore } from '@/store/cartStore';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const { isCartOpen, openCart, closeCart, getTotalItems } = useCartStore();
+  const totalItems = getTotalItems();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -78,12 +88,17 @@ export function Header() {
               <User className="h-5 w-5" />
             </Link>
             
-            <button className="group flex items-center text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple">
+            <button 
+              className="group flex items-center text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple"
+              onClick={openCart}
+            >
               <span className="sr-only">Cart</span>
               <ShoppingCart className="h-5 w-5" />
-              <span className="ml-1.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-brand-coral px-1 text-[10px] font-bold text-white shadow-sm">
-                0
-              </span>
+              {mounted && totalItems > 0 && (
+                <span className="ml-1.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-brand-coral px-1 text-[10px] font-bold text-white shadow-sm">
+                  {totalItems}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -144,6 +159,7 @@ export function Header() {
       </header>
 
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
     </>
   );
 }
