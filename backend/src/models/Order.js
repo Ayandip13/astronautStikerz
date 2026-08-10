@@ -24,6 +24,12 @@ const shippingAddressSchema = new mongoose.Schema({
     country: { type: String, required: true, default: 'India' }
 });
 
+const shippingDetailsSchema = new mongoose.Schema({
+    courier: { type: String },
+    trackingNumber: { type: String },
+    trackingUrl: { type: String }
+}, { _id: false });
+
 const orderSchema = new mongoose.Schema({
     orderNumber: {
         type: String,
@@ -42,6 +48,7 @@ const orderSchema = new mongoose.Schema({
     },
     items: [orderItemSchema],
     shippingAddress: shippingAddressSchema,
+    shippingDetails: shippingDetailsSchema,
     
     subtotal: { type: Number, required: true },
     shippingAmount: { type: Number, required: true, default: 0 },
@@ -64,5 +71,8 @@ const orderSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+orderSchema.index({ user: 1 });
+orderSchema.index({ orderNumber: 1 });
 
 module.exports = mongoose.model('Order', orderSchema);

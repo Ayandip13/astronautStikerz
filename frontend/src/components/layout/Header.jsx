@@ -31,6 +31,10 @@ export function Header() {
 
   const isActive = (path) => pathname === path;
 
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-foreground/10 bg-background/90 backdrop-blur-md">

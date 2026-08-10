@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import apiClient from '@/lib/api/client';
 import { Package, ArrowRight, Loader2, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -111,11 +112,13 @@ export default function MyOrdersPage() {
               <div className="px-6 py-6 flex flex-col sm:flex-row items-center gap-6">
                 <div className="flex-1 flex gap-4 overflow-x-auto pb-2">
                   {order.items.slice(0, 4).map((item, idx) => (
-                    <div key={idx} className="relative h-20 w-20 flex-shrink-0 rounded-xl bg-brand-yellow/10 border border-foreground/5 overflow-hidden">
-                      <img 
+                    <div key={idx} className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-zinc-200 sm:h-24 sm:w-24">
+                      <Image 
                         src={item.previewImage || item.image || '/placeholder.jpg'} 
                         alt={item.name} 
-                        className="h-full w-full object-cover"
+                        width={96}
+                        height={96}
+                        className="h-full w-full object-cover object-center"
                       />
                     </div>
                   ))}

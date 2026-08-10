@@ -2,58 +2,98 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import apiClient from '@/lib/api/client';
 import useAuthStore from '@/store/authStore';
+import { Button } from '@/components/ui/Button';
 
 export default function Register() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const setUser = useAuthStore(state => state.setUser);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
         try {
             const user = await apiClient.post('/auth/register', { name, email, password });
             setUser(user);
             router.push('/');
         } catch (err) {
             setError(err.message || 'Registration failed');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="p-8 max-w-md mx-auto">
-            <h1 className="text-2xl font-bold mb-4">Register</h1>
-            {error && <p className="text-red-500 mb-4">{error}</p>}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="border p-2 rounded text-black"
-                />
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="border p-2 rounded text-black"
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="border p-2 rounded text-black"
-                />
-                <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-                    Register
-                </button>
-            </form>
+        <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
+            <div className="w-full max-w-md rounded-[2.5rem] bg-brand-yellow/10 p-8 sm:p-10 border border-foreground/5 shadow-xl">
+                <div className="mb-8 text-center">
+                    <h1 className="font-display text-4xl font-bold text-foreground">Join the Crew! 🚀</h1>
+                    <p className="mt-2 text-foreground/60 font-medium text-lg">Create an account to track your orders.</p>
+                </div>
+                
+                {error && (
+                    <div className="mb-6 rounded-2xl bg-brand-coral/10 p-4 text-center font-bold text-brand-coral border border-brand-coral/20">
+                        {error}
+                    </div>
+                )}
+                
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-bold text-foreground/80 pl-2">Full Name</label>
+                        <input
+                            type="text"
+                            placeholder="Commander Shepard"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full rounded-2xl border-2 border-foreground/10 bg-white dark:bg-zinc-900 px-5 py-4 text-foreground outline-none transition-all focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/20"
+                            required
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-bold text-foreground/80 pl-2">Email Address</label>
+                        <input
+                            type="email"
+                            placeholder="astronaut@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full rounded-2xl border-2 border-foreground/10 bg-white dark:bg-zinc-900 px-5 py-4 text-foreground outline-none transition-all focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/20"
+                            required
+                        />
+                    </div>
+                    
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-bold text-foreground/80 pl-2">Password</label>
+                        <input
+                            type="password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full rounded-2xl border-2 border-foreground/10 bg-white dark:bg-zinc-900 px-5 py-4 text-foreground outline-none transition-all focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/20"
+                            required
+                        />
+                    </div>
+                    
+                    <Button type="submit" size="lg" variant="primary" className="mt-4 shadow-lg w-full text-lg" disabled={loading}>
+                        {loading ? 'Creating account...' : 'Create Account ✨'}
+                    </Button>
+                </form>
+                
+                <div className="mt-8 text-center text-sm font-bold text-foreground/60">
+                    Already have an account?{' '}
+                    <Link href="/login" className="text-brand-purple hover:underline">
+                        Log in here
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }

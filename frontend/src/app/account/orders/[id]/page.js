@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import apiClient from '@/lib/api/client';
 import { ArrowLeft, MapPin, Package, CreditCard, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -82,10 +83,11 @@ export default function OrderDetailsPage({ params }) {
               {order.items.map((item, idx) => (
                 <li key={idx} className="flex flex-col sm:flex-row items-center gap-6 p-6">
                   <div className="relative h-24 w-24 flex-shrink-0 rounded-2xl bg-brand-yellow/10 border border-foreground/5 overflow-hidden">
-                    <img 
+                    <Image 
                       src={item.previewImage || item.image || '/placeholder.jpg'} 
                       alt={item.name} 
-                      className="h-full w-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                   <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between w-full">

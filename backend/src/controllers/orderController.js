@@ -156,11 +156,12 @@ const verifyPayment = async (req, res) => {
             order.paymentStatus = 'paid';
             order.orderStatus = 'processing';
 
-            // Decrement stock
+            // Decrement stock atomically, ensuring it doesn't go below 0 if somehow race condition happens
             for (const item of order.items) {
-                await Product.findByIdAndUpdate(item.product, {
-                    $inc: { stock: -item.quantity }
-                });
+                await Product.updateOne(
+                    { _id: item.product, stock: { $gte: item.quantity } },
+                    { $inc: { stock: -item.quantity } }
+                );
             }
 
             await order.save();
@@ -223,9 +224,83 @@ const getOrderById = async (req, res) => {
     }
 };
 
+// @desc    Get all orders (admin)
+// @route   GET /api/orders
+// @access  Private/Admin
+const getAllOrders = async (req, res) => {
+    try {
+        const pageSize = Number(req.query.limit) || 12;
+        const page = Number(req.query.page) || 1;
+
+        let query = {};
+        
+        if (req.query.keyword) {
+            query.orderNumber = {
+                $regex: req.query.keyword,
+                $options: 'i',
+            };
+        }
+
+        if (req.query.paymentStatus) {
+            query.paymentStatus = req.query.paymentStatus;
+        }
+
+        if (req.query.orderStatus) {
+            query.orderStatus = req.query.orderStatus;
+        }
+
+        const count = await Order.countDocuments(query);
+        const orders = await Order.find(query)
+            .populate('user', 'name email')
+            .sort({ createdAt: -1 })
+            .limit(pageSize)
+            .skip(pageSize * (page - 1));
+
+        res.json({
+            orders,
+            page,
+            pages: Math.ceil(count / pageSize),
+            total: count
+        });
+    } catch (error) {
+        console.error('Fetch all orders error:', error);
+        res.status(500).json({ message: 'Failed to fetch orders' });
+    }
+};
+
+// @desc    Update order status
+// @route   PUT /api/orders/:id/status
+// @access  Private/Admin
+const updateOrderStatus = async (req, res) => {
+    try {
+        const { orderStatus, paymentStatus, courier, trackingNumber, trackingUrl } = req.body;
+        
+        const order = await Order.findById(req.params.id);
+
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        if (orderStatus) order.orderStatus = orderStatus;
+        if (paymentStatus) order.paymentStatus = paymentStatus;
+        
+        if (courier !== undefined) order.shippingDetails = { ...order.shippingDetails, courier };
+        if (trackingNumber !== undefined) order.shippingDetails = { ...order.shippingDetails, trackingNumber };
+        if (trackingUrl !== undefined) order.shippingDetails = { ...order.shippingDetails, trackingUrl };
+
+        const updatedOrder = await order.save();
+        res.json(updatedOrder);
+    } catch (error) {
+        console.error('Update order status error:', error);
+        res.status(500).json({ message: 'Failed to update order status' });
+    }
+};
+
 module.exports = {
     createCheckoutOrder,
     verifyPayment,
     getMyOrders,
-    getOrderById
+    getOrderById,
+    getAllOrders,
+    updateOrderStatus
 };
