@@ -8,6 +8,7 @@ import { AnnouncementBar } from './AnnouncementBar';
 import { SearchModal } from '../search/SearchModal';
 import { CartDrawer } from '../cart/CartDrawer';
 import { useCartStore } from '@/store/cartStore';
+import useAuthStore from '@/store/authStore';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -16,6 +17,7 @@ export function Header() {
   const pathname = usePathname();
   const { isCartOpen, openCart, closeCart, getTotalItems } = useCartStore();
   const totalItems = getTotalItems();
+  const { user, logout } = useAuthStore();
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 0);
@@ -95,10 +97,17 @@ export function Header() {
               <Search className="h-5 w-5" />
             </button>
 
-            <Link href="/admin" className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple">
-              <span className="sr-only">Account</span>
-              <User className="h-5 w-5" />
-            </Link>
+            {user ? (
+              <Link href={user.role === 'admin' ? '/admin' : '/account/orders'} className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple">
+                <span className="sr-only">Account</span>
+                <User className="h-5 w-5 text-brand-purple" />
+              </Link>
+            ) : (
+              <Link href="/login" className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple">
+                <span className="sr-only">Account</span>
+                <User className="h-5 w-5" />
+              </Link>
+            )}
 
             <button
               className="group flex items-center text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple"
@@ -154,14 +163,35 @@ export function Header() {
                       </Link>
                     ))}
                   </div>
-                  <div className="py-6">
-                    <Link
-                      href="/admin"
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-bold text-foreground hover:bg-foreground/5 hover:text-brand-purple"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Log in
-                    </Link>
+                  <div className="py-6 space-y-2">
+                    {user ? (
+                      <>
+                        <Link
+                          href={user.role === 'admin' ? '/admin' : '/account/orders'}
+                          className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-bold text-foreground hover:bg-foreground/5 hover:text-brand-purple"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          My Account
+                        </Link>
+                        <button
+                          onClick={() => {
+                            logout();
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="-mx-3 block w-full text-left rounded-lg px-3 py-2.5 text-base font-bold text-brand-coral hover:bg-foreground/5"
+                        >
+                          Log out
+                        </button>
+                      </>
+                    ) : (
+                      <Link
+                        href="/login"
+                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-bold text-foreground hover:bg-foreground/5 hover:text-brand-purple"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Log in
+                      </Link>
+                    )}
                   </div>
                 </nav>
               </div>

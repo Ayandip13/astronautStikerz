@@ -6,10 +6,12 @@ import Link from 'next/link';
 import apiClient from '@/lib/api/client';
 import useAuthStore from '@/store/authStore';
 import { Button } from '@/components/ui/Button';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -22,7 +24,11 @@ export default function Login() {
         try {
             const user = await apiClient.post('/auth/login', { email, password });
             setUser(user);
-            router.push('/admin');
+            if (user.role === 'admin') {
+                router.push('/admin');
+            } else {
+                router.push('/account/orders');
+            }
         } catch (err) {
             setError(err.message || 'Login failed');
         } finally {
@@ -52,21 +58,30 @@ export default function Login() {
                             placeholder="astronaut@example.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full rounded-2xl border-2 border-foreground/10 bg-white dark:bg-zinc-900 px-5 py-4 text-foreground outline-none transition-all focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/20"
+                            className="w-full rounded-2xl border-2 border-foreground/10 bg-white px-5 py-4 text-foreground outline-none transition-all focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/20"
                             required
                         />
                     </div>
                     
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-bold text-foreground/80 pl-2">Password</label>
-                        <input
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full rounded-2xl border-2 border-foreground/10 bg-white dark:bg-zinc-900 px-5 py-4 text-foreground outline-none transition-all focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/20"
-                            required
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="••••••••"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full rounded-2xl border-2 border-foreground/10 bg-white px-5 py-4 pr-12 text-foreground outline-none transition-all focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/20"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/50 hover:text-brand-purple transition-colors"
+                            >
+                                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                            </button>
+                        </div>
                     </div>
                     
                     <Button type="submit" size="lg" variant="primary" className="mt-4 shadow-lg w-full text-lg" disabled={loading}>
