@@ -56,9 +56,9 @@ export function Header() {
 
           {/* Logo */}
           <div className="flex flex-1 justify-center md:flex-none md:justify-start">
-            <Link href="/" className="flex items-center gap-2 transition-transform hover:scale-105 active:scale-95">
+            <Link href="/" className="flex items-center gap-2 transition-transform hover:-translate-y-0.5 active:scale-95">
               <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-                Astronaut Stickerz ✨
+                Astronaut Stickerz ✦
               </span>
             </Link>
           </div>
@@ -121,7 +121,7 @@ export function Header() {
             <div className="fixed inset-y-0 left-0 z-50 w-full max-w-xs bg-background px-6 py-6 shadow-xl sm:max-w-sm sm:ring-1 sm:ring-foreground/10">
               <div className="flex items-center justify-between">
                 <Link href="/" className="font-display text-2xl font-bold tracking-tight text-foreground" onClick={() => setIsMobileMenuOpen(false)}>
-                  Astronaut Stickerz ✨
+                  Astronaut Stickerz ✦
                 </Link>
                 <button
                   type="button"

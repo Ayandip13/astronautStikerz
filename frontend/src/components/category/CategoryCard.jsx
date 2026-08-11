@@ -4,24 +4,25 @@ export function CategoryCard({ category }) {
   const { name, slug, image } = category;
   
   return (
-    <Link href={`/category/${slug}`} className="group relative flex aspect-[4/5] flex-col overflow-hidden rounded-3xl bg-white border border-foreground/5 shadow-sm transition-shadow hover:shadow-lg">
-      <div className="absolute inset-0 bg-zinc-50 z-0">
-        {image && image.url && (
+    <Link href={`/category/${slug}`} className="group flex flex-col gap-4 w-full">
+      <div className="relative aspect-[16/9] sm:aspect-[2/1] overflow-hidden rounded-2xl border-2 border-[#713747] bg-bg-sand shadow-sm transition-transform duration-500 group-hover:-translate-y-1 group-hover:shadow-md">
+        {image && image.url ? (
           <img
             src={image.url}
             alt={name}
             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-brand-peach/20">
+            <span className="text-4xl text-brand-purple opacity-50">✨</span>
+          </div>
         )}
       </div>
       
-      {/* Subtle overlay only at the very top or bottom if needed, but we'll use a badge approach instead */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full p-6">
-        <div className="mt-auto bg-white/90 backdrop-blur-md px-6 py-3 rounded-full border border-white/50 shadow-sm flex items-center justify-center transition-transform group-hover:-translate-y-2 group-hover:bg-brand-coral group-hover:text-white">
-           <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground group-hover:text-white transition-colors">
-             {name}
-           </h3>
-        </div>
+      <div className="flex items-center text-[#713747]">
+        <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight group-hover:text-brand-coral transition-colors">
+          {name} &rarr;
+        </h3>
       </div>
     </Link>
   );

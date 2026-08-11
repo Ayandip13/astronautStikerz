@@ -2,25 +2,34 @@
 
 :root {
   /* Warm editorial foundation */
-  --background: #FAF6EF; /* Warm Cream */
-  --foreground: #2D2424; /* Deep Brown/Near-Black */
+  --background: #FFF8F0; /* Warm ivory/cream */
+  --foreground: #321E25; /* Deep warm brown */
   
   /* Brand colors */
-  --brand-coral: #D94F3B; /* Warm Red/Terracotta */
-  --brand-yellow: #E6B941; /* Mustard Yellow */
-  --brand-mint: #86A88B; /* Dusty Green */
-  --brand-purple: #743C4D; /* Deep Burgundy / Wine */
-  --brand-blue: #64869E; /* Dusty Blue */
+  --brand-purple: #713747; /* Burgundy / Primary Accent */
+  --brand-coral: #C96B4B; /* Warm Terracotta */
+  --brand-yellow: #E4B84A; /* Warm Mustard */
+  --brand-mint: #B8B99A; /* Muted Sage */
+  --brand-peach: #F2C7A9; /* Soft Peach */
+  
+  /* Additional section backgrounds */
+  --bg-cream: #F8EFE4;
+  --bg-sand: #F4E5D4;
+  --bg-warm: #FFF1DF;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand-purple: var(--brand-purple);
   --color-brand-coral: var(--brand-coral);
   --color-brand-yellow: var(--brand-yellow);
   --color-brand-mint: var(--brand-mint);
-  --color-brand-purple: var(--brand-purple);
-  --color-brand-blue: var(--brand-blue);
+  --color-brand-peach: var(--brand-peach);
+  
+  --color-bg-cream: var(--bg-cream);
+  --color-bg-sand: var(--bg-sand);
+  --color-bg-warm: var(--bg-warm);
   
   --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
