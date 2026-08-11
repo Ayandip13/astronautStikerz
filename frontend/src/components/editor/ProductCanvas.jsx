@@ -275,9 +275,7 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
       const formData = new FormData();
       formData.append('image', file);
 
-      const res = await apiClient.post('/designs', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const res = await apiClient.post('/designs', formData);
       
       const imageUrl = res.imageUrl;
       

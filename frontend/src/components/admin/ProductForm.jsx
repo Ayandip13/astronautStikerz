@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useCreateProduct, useUpdateProduct, useAdminCategories } from '@/lib/api/hooks/useAdmin';
 import apiClient from '@/lib/api/client';
 import { Button } from '@/components/ui/Button';
-import { Upload, X, Save, ArrowLeft, Info } from 'lucide-react';
+import { Upload, X, Save, ArrowLeft, Info, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 
 export function ProductForm({ initialData = null }) {
@@ -64,6 +64,7 @@ export function ProductForm({ initialData = null }) {
 
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState('');
+    const [isFeatureModalOpen, setIsFeatureModalOpen] = useState(false);
     const fileInputRef = useRef(null);
     const previewCanvasRef = useRef(null);
 
@@ -153,9 +154,7 @@ export function ProductForm({ initialData = null }) {
                 formData.append('image', file);
                 formData.append('folder', 'products');
 
-                const res = await apiClient.post('/upload', formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                });
+                const res = await apiClient.post('/upload', formData);
                 
                 return res;
             });
@@ -163,8 +162,9 @@ export function ProductForm({ initialData = null }) {
             const uploadedImages = await Promise.all(uploadPromises);
             setImages(prev => [...prev, ...uploadedImages]);
         } catch (err) {
-            console.error('Upload error:', err);
-            setError('Failed to upload one or more images');
+            console.error('Upload error details:', err);
+            const errorMessage = err?.response?.data?.message || err?.message || JSON.stringify(err) || 'Failed to upload image';
+            setError(`Upload failed: ${errorMessage}`);
         } finally {
             setUploading(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
@@ -176,11 +176,17 @@ export function ProductForm({ initialData = null }) {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
         setError('');
 
         if (images.length === 0) {
             setError('At least one product image is required');
+            return;
+        }
+
+        // If not featured and user hasn't explicitly confirmed this yet
+        if (!formData.featured && e !== 'confirmed') {
+            setIsFeatureModalOpen(true);
             return;
         }
 
@@ -420,6 +426,48 @@ export function ProductForm({ initialData = null }) {
                     </div>
                 </div>
             </div>
+
+            {/* Feature Confirmation Modal */}
+            {isFeatureModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center">
+                    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsFeatureModalOpen(false)} />
+                    <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-6 shadow-xl border border-zinc-100">
+                        <div className="mb-6 flex flex-col items-center text-center">
+                            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+                                <AlertTriangle className="h-6 w-6" />
+                            </div>
+                            <h3 className="font-display text-xl font-bold text-zinc-900">Not Featured on Homescreen</h3>
+                            <p className="mt-2 text-sm text-zinc-500">
+                                You are about to save this product without featuring it on the homescreen. 
+                                It will still be available in the main shop, but won't appear in the hero or featured sections. 
+                                Is this what you intended?
+                            </p>
+                        </div>
+                        <div className="flex gap-3">
+                            <button 
+                                type="button"
+                                onClick={() => {
+                                    setIsFeatureModalOpen(false);
+                                    // User wants to go back and check the box
+                                }}
+                                className="flex-1 rounded-xl border border-zinc-200 bg-white py-2.5 text-sm font-bold text-zinc-700 transition-colors hover:bg-zinc-50"
+                            >
+                                Let me change it
+                            </button>
+                            <button 
+                                type="button"
+                                onClick={() => {
+                                    setIsFeatureModalOpen(false);
+                                    handleSubmit('confirmed');
+                                }}
+                                className="flex-1 rounded-xl bg-amber-500 py-2.5 text-sm font-bold text-white transition-colors hover:bg-amber-600 shadow-sm"
+                            >
+                                Yes, Save Anyway
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </form>
     );
 }

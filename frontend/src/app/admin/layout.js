@@ -30,6 +30,7 @@ export default function AdminLayout({ children }) {
     const pathname = usePathname();
     const [loading, setLoading] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -103,7 +104,7 @@ export default function AdminLayout({ children }) {
                 </nav>
                 <div className="border-t border-zinc-200 p-4">
                     <button
-                        onClick={handleLogout}
+                        onClick={() => setIsLogoutModalOpen(true)}
                         className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
                     >
                         <LogOut className="h-5 w-5 text-red-500" />
@@ -145,7 +146,7 @@ export default function AdminLayout({ children }) {
                         </nav>
                         <div className="p-4 border-t border-zinc-200">
                             <button
-                                onClick={handleLogout}
+                                onClick={() => setIsLogoutModalOpen(true)}
                                 className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-base font-medium text-red-600 hover:bg-red-50"
                             >
                                 <LogOut className="h-5 w-5" />
@@ -183,6 +184,39 @@ export default function AdminLayout({ children }) {
                     {children}
                 </main>
             </div>
+
+            {/* Logout Confirmation Modal */}
+            {isLogoutModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center">
+                    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsLogoutModalOpen(false)} />
+                    <div className="relative z-10 w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl border border-zinc-100">
+                        <div className="mb-6 flex flex-col items-center text-center">
+                            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+                                <LogOut className="h-6 w-6" />
+                            </div>
+                            <h3 className="font-display text-xl font-bold text-zinc-900">Sign Out</h3>
+                            <p className="mt-2 text-sm text-zinc-500">Are you sure you want to sign out of the admin portal?</p>
+                        </div>
+                        <div className="flex gap-3">
+                            <button 
+                                onClick={() => setIsLogoutModalOpen(false)}
+                                className="flex-1 rounded-xl border border-zinc-200 bg-white py-2.5 text-sm font-bold text-zinc-700 transition-colors hover:bg-zinc-50"
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                onClick={() => {
+                                    setIsLogoutModalOpen(false);
+                                    handleLogout();
+                                }}
+                                className="flex-1 rounded-xl bg-red-600 py-2.5 text-sm font-bold text-white transition-colors hover:bg-red-700 shadow-sm"
+                            >
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
