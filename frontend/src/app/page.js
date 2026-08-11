@@ -29,7 +29,7 @@ export default function Home() {
     <div className="flex flex-col w-full bg-background selection:bg-brand-peach/30">
 
       {/* 1. Exact Reference Hero Section */}
-      <section className="relative flex flex-col pt-2 md:pt-4 pb-8 md:pb-12 px-6 lg:px-16 mx-auto w-full overflow-hidden bg-[#FAF1E7]">
+      <section className="relative flex flex-col pt-1 md:pt-2 pb-6 md:pb-8 px-6 lg:px-16 mx-auto w-full overflow-hidden bg-[#FAF1E7]">
 
         {/* Soft Background Layers (Studio Lighting / Glow) */}
         <div className="absolute top-0 right-0 w-[60%] h-[100%] bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white/60 via-[#FFF5EC]/40 to-transparent pointer-events-none z-0"></div>
@@ -61,37 +61,37 @@ export default function Home() {
           {/* Left Side: Typography (40-45% width) */}
           <div className="w-full md:w-[45%] flex flex-col items-start z-20">
             {/* Eyebrow */}
-            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold tracking-widest text-[#C96B4B] uppercase mb-6 bg-[#C96B4B]/10 px-4 py-1.5 rounded-full">
+            <div className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-widest text-[#C96B4B] uppercase mb-4 bg-[#C96B4B]/10 px-3 py-1 rounded-full">
               ASTRONAUT STICKERZ ✦
             </div>
 
             {/* Headline */}
-            <h1 className="font-display text-[48px] md:text-[60px] lg:text-[60px] font-extrabold tracking-tight text-[#321E25] leading-[1.05] mb-6 max-w-[500px]">
+            <h1 className="font-display text-[36px] md:text-[48px] lg:text-[50px] font-extrabold tracking-tight text-[#321E25] leading-[1.1] mb-4 max-w-[500px]">
               Little things that <br />
               make your everyday <br />
               <span className="text-[#713747] relative inline-block">
                 more fun.
                 {/* Organic Underline */}
-                <svg className="absolute -bottom-2 left-0 w-full text-[#E4B84A] z-[-1]" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                <svg className="absolute -bottom-1 left-0 w-full text-[#E4B84A] z-[-1]" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
                   <path d="M5 8 Q 100 0, 195 8" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
                 </svg>
               </span>
             </h1>
 
             {/* Description */}
-            <p className="text-[17px] text-[#321E25]/80 font-medium leading-[1.6] max-w-[440px] mb-10">
+            <p className="text-[15px] text-[#321E25]/80 font-medium leading-[1.5] max-w-[400px] mb-6">
               Beautiful stickers, aesthetic notebooks, and premium desk goodies designed to add personality to your workspace.
             </p>
 
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <Link href="/products" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full bg-[#713747] text-white hover:bg-[#5a2a37] font-bold rounded-xl px-8 py-6 text-base shadow-lg shadow-[#713747]/20 transition-all hover:-translate-y-1">
+                <Button size="lg" className="w-full bg-[#713747] text-white hover:bg-[#5a2a37] font-bold rounded-xl px-6 py-4 text-[15px] shadow-lg shadow-[#713747]/20 transition-all hover:-translate-y-1">
                   Shop the collection &rarr;
                 </Button>
               </Link>
               <Link href="/customize" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full bg-white/50 backdrop-blur-sm border-2 border-[#321E25]/10 text-[#321E25] hover:border-[#713747] hover:bg-white font-bold rounded-xl px-8 py-6 text-base transition-all hover:-translate-y-1">
+                <Button size="lg" variant="outline" className="w-full bg-white/50 backdrop-blur-sm border-2 border-[#321E25]/10 text-[#321E25] hover:border-[#713747] hover:bg-white font-bold rounded-xl px-6 py-4 text-[15px] transition-all hover:-translate-y-1">
                   Customize yours ✨
                 </Button>
               </Link>
@@ -99,25 +99,25 @@ export default function Home() {
           </div>
 
           {/* Right Side: Product Collage (55% width) */}
-          <div className="w-full md:w-[55%] relative flex items-center justify-center min-h-[400px] md:min-h-[500px] z-10 mt-10 md:mt-0">
+          <div className="w-full md:w-[55%] relative flex items-center justify-center min-h-[300px] md:min-h-[400px] z-10 mt-6 md:mt-0">
             {/* Organic Soft Shape behind Image */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-[#F2C7A9]/40 rounded-full blur-[60px] -z-10"></div>
-            <div className="absolute top-[40%] left-[60%] -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-[#C96B4B]/20 rounded-full blur-[50px] -z-10"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-[#F2C7A9]/40 rounded-full blur-[50px] -z-10"></div>
+            <div className="absolute top-[40%] left-[60%] -translate-x-1/2 -translate-y-1/2 w-[50%] h-[50%] bg-[#C96B4B]/20 rounded-full blur-[40px] -z-10"></div>
 
             {/* Main Product Image (Collage) */}
             <img
               src="/aiHeroSection.png"
               alt="Astronaut Stickerz Products"
-              className="relative z-20 w-[110%] max-w-none h-auto object-contain drop-shadow-2xl md:-mr-12 xl:-mr-20"
+              className="relative z-20 w-[95%] max-w-none h-auto object-contain drop-shadow-2xl md:-mr-8 xl:-mr-12"
               style={{ filter: 'contrast(1.05) saturate(1.05)' }}
             />
 
             {/* Hand-drawn Arrow & Caption */}
-            <div className="absolute -bottom-8 md:-bottom-12 left-0 md:left-10 z-30 flex gap-2 items-start opacity-90">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#C96B4B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-2 hidden sm:block">
+            <div className="absolute -bottom-4 md:-bottom-6 left-0 md:left-6 z-30 flex gap-2 items-start opacity-90">
+              <svg width="30" height="30" viewBox="0 0 40 40" fill="none" stroke="#C96B4B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-1 hidden sm:block">
                 <path d="M35 5 Q 10 10, 5 35 M5 35 L 5 25 M5 35 L 15 35" />
               </svg>
-              <div className="text-[#713747] font-serif italic text-lg leading-snug transform -rotate-2">
+              <div className="text-[#713747] font-serif italic text-base leading-snug transform -rotate-2">
                 Made for dreamers, creators<br />
                 and everyday explorers.
               </div>
@@ -206,8 +206,16 @@ export default function Home() {
       {/* 2. Collection / Categories Section */}
       <section className="bg-white py-24 border-y border-foreground/5 relative overflow-hidden">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8 relative z-10">
-          <div className="mb-12">
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-[#713747] tracking-tight">Browse by categories</h2>
+          <div className="mb-12 relative inline-block">
+            <h2 className="font-display text-3xl md:text-5xl font-bold text-[#713747] tracking-tight relative z-10">Browse by categories</h2>
+            {/* Doodle Squiggle Underline */}
+            <svg className="absolute -bottom-3 -right-6 w-[80%] text-[#E4B84A] z-0 opacity-80" viewBox="0 0 200 20" fill="none" preserveAspectRatio="none">
+              <path d="M5 10 Q 30 -5, 60 15 T 120 5 T 195 15" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {/* Doodle Sparkle */}
+            <svg className="absolute -top-6 -left-8 w-10 h-10 text-[#C96B4B] opacity-60 transform -rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" />
+            </svg>
           </div>
 
           {categoriesLoading ? (
@@ -235,9 +243,14 @@ export default function Home() {
       <section className="relative py-20 bg-white">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-foreground/5 pb-6">
-            <div>
-              <h2 className="font-display text-4xl font-extrabold text-foreground tracking-tight">Fresh from the desk ✨</h2>
+            <div className="relative inline-block">
+              <h2 className="font-display text-4xl font-extrabold text-foreground tracking-tight relative z-10">Fresh from the desk ✨</h2>
               <p className="mt-2 text-lg text-foreground/70 font-medium">Things you'll want on your desk right now.</p>
+              
+              {/* Doodle Arrow pointing right */}
+              <svg className="absolute top-0 -right-16 w-12 h-12 text-[#C96B4B] opacity-70 transform rotate-12 hidden md:block" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 20 Q 20 5, 35 20 M35 20 L 25 10 M35 20 L 25 30" />
+              </svg>
             </div>
             <Link href="/products" className="hidden md:inline-flex items-center justify-center font-bold text-brand-purple hover:text-brand-coral transition-colors underline underline-offset-4 decoration-2">
               Explore all &rarr;
@@ -274,10 +287,21 @@ export default function Home() {
           <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#8A4050] rounded-full blur-3xl opacity-50 pointer-events-none"></div>
 
           <div className="lg:w-1/2 space-y-6 relative z-10">
-            <p className="text-brand-peach font-bold tracking-widest uppercase text-sm">Design Studio ✦</p>
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05]">
+            <p className="text-brand-peach font-bold tracking-widest uppercase text-sm inline-flex items-center gap-2">
+              Design Studio 
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" />
+              </svg>
+            </p>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] relative inline-block">
               Made by you. <br />
-              <span className="text-[#E4B84A]">For you. ✨</span>
+              <span className="text-[#E4B84A] relative z-10">
+                For you. ✨
+                {/* Loopy doodle circle around "For you" */}
+                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[150%] text-[#C96B4B] z-[-1] opacity-70 scale-125" viewBox="0 0 100 40" fill="none" preserveAspectRatio="none">
+                  <path d="M5 20 C 5 5, 95 5, 95 20 C 95 35, 5 35, 5 20" stroke="currentColor" strokeWidth="2" strokeDasharray="6 4" strokeLinecap="round" />
+                </svg>
+              </span>
             </h2>
             <p className="text-lg md:text-xl font-medium text-white/80 leading-relaxed max-w-md pt-2">
               Got a design in your head? Put it on something you'll actually use. Upload your artwork and preview it on our premium products instantly.
@@ -323,10 +347,18 @@ export default function Home() {
       </section>
 
       {/* 5. Editorial Storytelling Section */}
-      <section className="bg-bg-warm py-24 lg:py-32 border-t border-foreground/5 overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
-          <div className="lg:w-1/2">
-            <div className="aspect-[4/3] w-full rounded-[3rem] bg-white shadow-xl overflow-hidden relative rotate-[-2deg]">
+      <section className="bg-bg-warm py-24 lg:py-32 border-t border-foreground/5 overflow-hidden relative">
+        {/* Background Funky Doodles */}
+        <svg className="absolute top-10 left-10 w-24 h-24 text-[#C96B4B] opacity-20" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="5 5">
+          <circle cx="50" cy="50" r="40" />
+        </svg>
+        <svg className="absolute bottom-20 right-10 w-32 h-32 text-[#E4B84A] opacity-20 transform rotate-45" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="20" y="20" width="60" height="60" rx="10" />
+        </svg>
+
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16 relative z-10">
+          <div className="lg:w-1/2 relative">
+            <div className="aspect-[4/3] w-full rounded-[3rem] bg-white shadow-xl overflow-hidden relative rotate-[-2deg] z-10">
               {/* Use a real product image if available as a lifestyle placeholder */}
               {heroProducts.length > 1 && heroProducts[1].images?.[0] ? (
                 <img src={getImageUrl(heroProducts[1].images[0])} alt="Lifestyle" className="w-full h-full object-cover" />
@@ -336,9 +368,19 @@ export default function Home() {
                 </div>
               )}
             </div>
+            {/* Doodle arrow pointing to image */}
+            <svg className="absolute -top-10 -right-10 w-20 h-20 text-[#713747] opacity-60 transform -rotate-[100deg] z-20 hidden lg:block" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 30 Q 20 -10, 35 25 M35 25 L 25 20 M35 25 L 35 15" />
+            </svg>
           </div>
-          <div className="lg:w-1/2 max-w-xl">
-            <h2 className="font-display text-4xl md:text-5xl font-extrabold text-foreground mb-6">Your desk deserves better. ✦</h2>
+          <div className="lg:w-1/2 max-w-xl relative">
+            <h2 className="font-display text-4xl md:text-5xl font-extrabold text-foreground mb-6 relative inline-block">
+              Your desk deserves better. ✦
+              {/* Squiggle underline */}
+              <svg className="absolute -bottom-4 left-0 w-full text-[#E4B84A] z-[-1] opacity-70" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none">
+                  <path d="M5 8 Q 50 0, 100 8 T 195 8" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+              </svg>
+            </h2>
             <p className="text-lg text-foreground/70 font-medium leading-relaxed mb-8">
               We believe that the things you use every day shouldn't be boring. Whether you're taking notes, scrolling through the web, or just decorating your laptop, our premium goods are designed to bring a little smile to your face.
             </p>
@@ -350,10 +392,33 @@ export default function Home() {
       </section>
 
       {/* 6. Newsletter / Join the club */}
-      <section className="py-24 px-6 relative bg-white border-t border-foreground/5">
-        <div className="mx-auto max-w-3xl text-center bg-bg-cream rounded-[3rem] p-12 md:p-20 shadow-sm border border-foreground/5">
-          <h2 className="font-display text-3xl md:text-4xl font-extrabold text-foreground mb-4">Come hang out with us ✦</h2>
-          <p className="text-foreground/70 font-medium text-lg mb-8 max-w-lg mx-auto">
+      <section className="py-24 px-6 relative bg-white border-t border-foreground/5 overflow-hidden">
+        
+        {/* Floating background squiggles */}
+        <svg className="absolute top-10 right-20 w-32 h-32 text-[#713747] opacity-10 animate-spin-slow" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M50 10 Q 70 30, 90 50 T 50 90 T 10 50 T 50 10" />
+        </svg>
+        <svg className="absolute bottom-10 left-20 w-24 h-24 text-[#C96B4B] opacity-10" viewBox="0 0 50 50" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <path d="M10 10 L 40 40 M40 10 L 10 40" />
+        </svg>
+
+        <div className="mx-auto max-w-3xl text-center bg-bg-cream rounded-[3rem] p-12 md:p-20 shadow-sm border border-foreground/5 relative z-10">
+          {/* Card doodles */}
+          <svg className="absolute -top-8 -left-8 w-16 h-16 text-[#E4B84A] opacity-80" viewBox="0 0 40 40" fill="currentColor">
+            <path d="M20 0 L 25 15 L 40 20 L 25 25 L 20 40 L 15 25 L 0 20 L 15 15 Z" />
+          </svg>
+          <svg className="absolute -bottom-6 -right-6 w-12 h-12 text-[#C96B4B] opacity-80 transform rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" />
+          </svg>
+
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold text-foreground mb-4 relative inline-block">
+            Come hang out with us ✦
+            {/* Scribble behind heading */}
+            <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[150%] text-[#F2C7A9] z-[-1] opacity-50" viewBox="0 0 200 40" fill="none" preserveAspectRatio="none">
+              <path d="M10 20 Q 50 5, 100 20 T 190 20" stroke="currentColor" strokeWidth="15" strokeLinecap="round" />
+            </svg>
+          </h2>
+          <p className="text-foreground/70 font-medium text-lg mb-8 max-w-lg mx-auto relative z-10">
             New drops, cool designs, and occasional desk inspiration. No spam, we promise.
           </p>
           <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>

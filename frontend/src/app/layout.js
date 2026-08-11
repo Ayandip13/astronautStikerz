@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${fontOutfit.variable} ${fontNunito.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground font-sans selection:bg-pink-200 dark:selection:bg-pink-900">
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-background text-foreground font-sans selection:bg-pink-200 dark:selection:bg-pink-900">
         <QueryProvider>
           <Header />
           <main className="flex-1 flex flex-col">
