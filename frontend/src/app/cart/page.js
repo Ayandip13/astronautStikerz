@@ -56,14 +56,12 @@ export default function CartPage() {
         <div className="lg:w-2/3">
           <ul className="space-y-6">
             {items.map((item, idx) => (
-              <li key={idx} className="flex flex-col sm:flex-row gap-6 rounded-[2rem] bg-background border-2 border-foreground/5 p-6 shadow-sm hover:border-brand-yellow/30 transition-colors">
-                <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-2xl bg-brand-yellow/10">
-                  <Image
-                    src={item.previewImage || (item.product.images?.[0]?.url) || '/placeholder.jpg'}
+              <li key={idx} className="flex flex-col sm:flex-row gap-6 rounded-[2rem] bg-white border border-foreground/5 p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-2xl bg-zinc-50 border border-foreground/5">
+                  <img
+                    src={item.previewImage || (typeof item.product.images?.[0] === 'string' ? item.product.images[0] : item.product.images?.[0]?.url) || '/placeholder.jpg'}
                     alt={item.product.name}
-                    fill
-                    className="object-cover"
-                    sizes="128px"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 

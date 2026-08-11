@@ -4,24 +4,17 @@ const designSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true, // As decided in plan, login required for custom designs
+        // Making user optional allows guest users to upload designs.
+        // We can enforce authentication at checkout if needed.
+        required: false, 
     },
-    product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+    imageUrl: {
+        type: String, // Cloudinary URL of the uploaded base artwork
         required: true,
     },
-    designState: {
-        type: mongoose.Schema.Types.Mixed, // Stores the complex Fabric.js JSON object
-        required: true,
-    },
-    previewImage: {
-        type: String, // Cloudinary URL
-        required: true,
-    },
-    assets: [{
-        type: String, // Cloudinary URLs of uploaded images used in design
-    }],
+    name: {
+        type: String, // Optional name, e.g. original filename
+    }
 }, {
     timestamps: true
 });

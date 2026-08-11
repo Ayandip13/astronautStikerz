@@ -1,15 +1,15 @@
+const dotenv = require('dotenv');
+// Load env vars
+dotenv.config();
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./src/config/db');
 const routes = require('./src/routes');
 const { notFound, errorHandler } = require('./src/middleware/errorMiddleware');
-
-// Load env vars
-dotenv.config();
 
 // Connect to Database
 connectDB();
@@ -17,7 +17,9 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true,
@@ -26,9 +28,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+const path = require('path');
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+// Serve uploaded files statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api', routes);

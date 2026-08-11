@@ -66,113 +66,107 @@ function ShopContent() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-[96rem] px-4 py-12 sm:px-6 lg:px-12 bg-background min-h-screen">
       <SectionHeading 
         title={keywordParam ? `Search: "${keywordParam}"` : "All Products"} 
-        subtitle="Browse our complete collection."
-        className="mb-8 items-start text-left"
+        subtitle="Browse our complete collection of beautiful desk essentials."
+        className="mb-8 items-center text-center sm:items-start sm:text-left"
       />
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col mb-12 border-b border-foreground/10 pb-6 gap-6 sm:flex-row sm:items-center sm:justify-between">
         
-        {/* Filters Sidebar */}
-        <aside className="w-full lg:w-64 flex-shrink-0 space-y-8">
-          <div>
-            <h3 className="text-sm font-semibold tracking-wider text-zinc-900 dark:text-white uppercase mb-4">
-              Categories
-            </h3>
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => { setCategory(''); setPage(1); }}
-                className={`text-left text-sm ${!category ? 'font-bold text-black dark:text-white' : 'text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white'}`}
-              >
-                All Categories
-              </button>
-              {categories.map((cat) => (
-                <button
-                  key={cat._id}
-                  onClick={() => { setCategory(cat._id); setPage(1); }}
-                  className={`text-left text-sm ${category === cat._id ? 'font-bold text-black dark:text-white' : 'text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white'}`}
-                >
-                  {cat.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold tracking-wider text-zinc-900 dark:text-white uppercase mb-4">
-              Sort By
-            </h3>
-            <select
-              value={sort}
-              onChange={(e) => { setSort(e.target.value); setPage(1); }}
-              className="w-full rounded-md border-zinc-200 bg-white py-2 px-3 text-sm text-zinc-900 dark:border-zinc-800 dark:bg-black dark:text-white outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+        {/* Horizontal Category Tabs */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4 overflow-x-auto pb-2 sm:pb-0 hide-scrollbar">
+          <button
+            onClick={() => { setCategory(''); setPage(1); }}
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm transition-colors ${!category ? 'bg-foreground text-white font-bold shadow-sm' : 'bg-white border border-foreground/10 text-foreground/70 hover:border-brand-coral hover:text-brand-coral font-medium'}`}
+          >
+            All Products
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat._id}
+              onClick={() => { setCategory(cat._id); setPage(1); }}
+              className={`whitespace-nowrap px-4 py-2 rounded-full text-sm transition-colors ${category === cat._id ? 'bg-foreground text-white font-bold shadow-sm' : 'bg-white border border-foreground/10 text-foreground/70 hover:border-brand-coral hover:text-brand-coral font-medium'}`}
             >
-              <option value="newest">Newest First</option>
-              <option value="price_asc">Price: Low to High</option>
-              <option value="price_desc">Price: High to Low</option>
-            </select>
-          </div>
-        </aside>
-
-        {/* Product Grid */}
-        <div className="flex-1">
-          {isLoading ? (
-            <ProductGridSkeleton count={12} />
-          ) : isError ? (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-8 text-center text-red-600 dark:border-red-900 dark:bg-red-900/20">
-              Failed to load products. Please try again later.
-            </div>
-          ) : products.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-200 py-24 text-center dark:border-zinc-800">
-              <p className="text-lg font-medium text-zinc-900 dark:text-white">No products found</p>
-              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                Try adjusting your filters or search terms.
-              </p>
-              {(category || keywordParam) && (
-                <Button 
-                  className="mt-6" 
-                  variant="outline" 
-                  onClick={() => { setCategory(''); router.push('/products'); }}
-                >
-                  Clear Filters
-                </Button>
-              )}
-            </div>
-          ) : (
-            <>
-              <ProductGrid>
-                {products.map(product => (
-                  <ProductCard key={product._id} product={product} />
-                ))}
-              </ProductGrid>
-              
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="mt-16 flex items-center justify-center gap-2">
-                  <Button
-                    variant="outline"
-                    disabled={page === 1}
-                    onClick={() => handlePageChange(page - 1)}
-                  >
-                    Previous
-                  </Button>
-                  <span className="text-sm font-medium text-zinc-500 mx-4">
-                    Page {page} of {totalPages}
-                  </span>
-                  <Button
-                    variant="outline"
-                    disabled={page === totalPages}
-                    onClick={() => handlePageChange(page + 1)}
-                  >
-                    Next
-                  </Button>
-                </div>
-              )}
-            </>
-          )}
+              {cat.name}
+            </button>
+          ))}
         </div>
+
+        {/* Sort Dropdown */}
+        <div className="flex-shrink-0 flex items-center gap-3">
+          <span className="text-sm font-bold text-foreground/60 uppercase tracking-wider">Sort by</span>
+          <select
+            value={sort}
+            onChange={(e) => { setSort(e.target.value); setPage(1); }}
+            className="rounded-full border border-foreground/10 bg-white py-2 pl-4 pr-10 text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-brand-purple focus:border-brand-purple shadow-sm appearance-none cursor-pointer"
+          >
+            <option value="newest">Newest First</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Product Grid Area */}
+      <div className="w-full">
+        {isLoading ? (
+          <ProductGridSkeleton count={12} />
+        ) : isError ? (
+          <div className="rounded-3xl border border-brand-coral/20 bg-brand-coral/5 p-12 text-center text-brand-coral">
+            Failed to load products. Please try again later.
+          </div>
+        ) : products.length === 0 ? (
+          <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-foreground/10 py-32 text-center bg-white/50">
+            <span className="text-4xl mb-4">🔍</span>
+            <p className="text-xl font-display font-bold text-foreground">No products found</p>
+            <p className="mt-2 text-base text-foreground/60 max-w-md">
+              We couldn't find any products matching your current filters or search terms.
+            </p>
+            {(category || keywordParam) && (
+              <Button 
+                className="mt-8 bg-foreground text-white rounded-full px-6" 
+                onClick={() => { setCategory(''); router.push('/products'); }}
+              >
+                Clear all filters
+              </Button>
+            )}
+          </div>
+        ) : (
+          <>
+            <ProductGrid>
+              {products.map(product => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </ProductGrid>
+            
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-20 flex items-center justify-center gap-4">
+                <Button
+                  variant="outline"
+                  className="rounded-full border-foreground/10 hover:border-foreground hover:bg-foreground hover:text-white transition-all"
+                  disabled={page === 1}
+                  onClick={() => handlePageChange(page - 1)}
+                >
+                  Previous
+                </Button>
+                <span className="text-sm font-bold text-foreground/50 mx-2">
+                  Page {page} of {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  className="rounded-full border-foreground/10 hover:border-foreground hover:bg-foreground hover:text-white transition-all"
+                  disabled={page === totalPages}
+                  onClick={() => handlePageChange(page + 1)}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

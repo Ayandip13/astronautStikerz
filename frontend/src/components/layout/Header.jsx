@@ -24,6 +24,7 @@ export function Header() {
 
   const navigation = [
     { name: 'Home', href: '/' },
+    { name: 'Customization ✨', href: '/customize' },
     { name: 'Shop All', href: '/products' },
     { name: 'Notebooks', href: '/category/notebooks' },
     { name: 'Mousepads', href: '/category/mousepads' },
@@ -45,7 +46,7 @@ export function Header() {
           <div className="flex flex-1 items-center md:hidden">
             <button
               type="button"
-              className="rounded-md p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+              className="rounded-md p-2 text-foreground/50 hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <span className="sr-only">Open menu</span>
@@ -117,14 +118,14 @@ export function Header() {
             />
             
             {/* Panel */}
-            <div className="fixed inset-y-0 left-0 z-50 w-full max-w-xs bg-white px-6 py-6 shadow-xl dark:bg-zinc-900 sm:max-w-sm sm:ring-1 sm:ring-zinc-900/10">
+            <div className="fixed inset-y-0 left-0 z-50 w-full max-w-xs bg-background px-6 py-6 shadow-xl sm:max-w-sm sm:ring-1 sm:ring-foreground/10">
               <div className="flex items-center justify-between">
                 <Link href="/" className="font-display text-2xl font-bold tracking-tight text-foreground" onClick={() => setIsMobileMenuOpen(false)}>
                   Astronaut Stickerz ✨
                 </Link>
                 <button
                   type="button"
-                  className="-m-2 rounded-md p-2 text-zinc-400 hover:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
+                  className="-m-2 rounded-md p-2 text-foreground/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <span className="sr-only">Close menu</span>
@@ -133,7 +134,7 @@ export function Header() {
               </div>
               
               <div className="mt-8 flow-root">
-                <nav className="-my-6 divide-y divide-zinc-200 dark:divide-zinc-800">
+                <nav className="-my-6 divide-y divide-foreground/10">
                   <div className="space-y-2 py-6">
                     {navigation.map((item) => (
                       <Link

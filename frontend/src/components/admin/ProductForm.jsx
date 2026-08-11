@@ -154,9 +154,7 @@ export function ProductForm({ initialData = null }) {
                 formData.append('folder', 'products');
 
                 const res = await apiClient.post('/upload', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
+                    headers: { 'Content-Type': 'multipart/form-data' }
                 });
                 
                 return res;
@@ -188,7 +186,7 @@ export function ProductForm({ initialData = null }) {
 
         const submitData = {
             ...formData,
-            images,
+            images: images.map(img => img.url),
             price: Number(formData.price),
             stock: Number(formData.stock),
             compareAtPrice: formData.compareAtPrice ? Number(formData.compareAtPrice) : undefined,
@@ -402,7 +400,7 @@ export function ProductForm({ initialData = null }) {
                             <div className="grid grid-cols-2 gap-3">
                                 {images.map((img, idx) => (
                                     <div key={idx} className="relative aspect-square rounded-lg border border-zinc-200 overflow-hidden group">
-                                        <Image src={img.url} alt={`Product ${idx}`} fill className="object-cover" />
+                                        <img src={img.url} alt={`Product ${idx}`} className="w-full h-full object-cover" />
                                         <button
                                             type="button"
                                             onClick={() => removeImage(idx)}

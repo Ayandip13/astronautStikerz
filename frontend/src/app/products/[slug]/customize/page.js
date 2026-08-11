@@ -8,9 +8,11 @@ import { useProductBySlug } from '@/lib/api/hooks/useProducts';
 import { ProductCanvas } from '@/components/editor/ProductCanvas';
 import { useCartStore } from '@/store/cartStore';
 
-export default function CustomizePage({ params }) {
+export default function CustomizePage({ params, searchParams }) {
   const unwrappedParams = use(params);
   const slug = unwrappedParams.slug;
+  const unwrappedSearchParams = use(searchParams);
+  const initialDesignId = unwrappedSearchParams?.designId;
   const router = useRouter();
 
   const { data: product, isLoading, isError } = useProductBySlug(slug);
@@ -48,7 +50,7 @@ export default function CustomizePage({ params }) {
   if (!product.customizable) return null;
 
   return (
-    <div className="flex h-screen w-full flex-col bg-zinc-50 dark:bg-zinc-900 overflow-hidden">
+    <div className="flex h-screen w-full flex-col bg-background overflow-hidden">
       {/* Editor Header */}
       <header className="flex h-16 flex-shrink-0 items-center justify-between border-b border-foreground/10 bg-background px-4 sm:px-6 shadow-sm z-10">
         <div className="flex items-center gap-4">
@@ -80,6 +82,7 @@ export default function CustomizePage({ params }) {
       <main className="flex-1 overflow-hidden relative">
         <ProductCanvas 
           product={product} 
+          initialDesignId={initialDesignId}
           onSave={async (designId, previewImage) => {
              // Add to cart logic
              addItem(product, 1, {

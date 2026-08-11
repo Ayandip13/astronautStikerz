@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { ShoppingCart, Loader2 } from 'lucide-react';
 import apiClient from '@/lib/api/client';
 
-export function ProductCanvas({ product, onSave }) {
+export function ProductCanvas({ product, initialDesignId, onSave }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [fabricCanvas, setFabricCanvas] = useState(null);
@@ -17,6 +17,9 @@ export function ProductCanvas({ product, onSave }) {
   
   const [selectedObject, setSelectedObject] = useState(null);
   const [saving, setSaving] = useState(false);
+  
+  // Track the primary design ID associated with this session
+  const [currentDesignId, setCurrentDesignId] = useState(initialDesignId || null);
   const [dpiWarning, setDpiWarning] = useState(null);
 
   // Initialize Canvas
@@ -25,6 +28,8 @@ export function ProductCanvas({ product, onSave }) {
 
     const { canvasWidth, canvasHeight, printableArea } = product.customizationConfig;
     
+    let isDisposed = false;
+
     // Create Fabric instance
     const canvas = new fabric.Canvas(canvasRef.current, {
       width: canvasWidth || 800,
@@ -36,6 +41,7 @@ export function ProductCanvas({ product, onSave }) {
     // Set background product image
     const mainImage = product.images?.[0]?.url || product.images?.[0] || '/placeholder.jpg';
     fabric.Image.fromURL(mainImage, (img) => {
+      if (isDisposed) return;
       // Scale to fit canvas
       const scale = Math.min(
         (canvasWidth || 800) / img.width,
@@ -98,6 +104,7 @@ export function ProductCanvas({ product, onSave }) {
     setHistoryIndex(0);
 
     return () => {
+      isDisposed = true;
       canvas.dispose();
     };
   }, [product]);
@@ -196,6 +203,46 @@ export function ProductCanvas({ product, onSave }) {
     fabricCanvas.renderAll();
   };
 
+  // Load initial design if provided
+  useEffect(() => {
+    if (fabricCanvas && initialDesignId) {
+      const loadInitialDesign = async () => {
+        try {
+          const res = await apiClient.get(`/designs/${initialDesignId}`);
+          if (res.imageUrl) {
+            fabric.Image.fromURL(res.imageUrl, (img) => {
+              const { canvasWidth, canvasHeight, printableArea } = product.customizationConfig;
+              const x = printableArea ? printableArea.x + printableArea.width / 2 : (canvasWidth || 800) / 2;
+              const y = printableArea ? printableArea.y + printableArea.height / 2 : (canvasHeight || 800) / 2;
+              
+              let scale = 1;
+              if (printableArea && (img.width > printableArea.width || img.height > printableArea.height)) {
+                scale = Math.min(printableArea.width / img.width, printableArea.height / img.height) * 0.8;
+              }
+
+              img.set({
+                left: x,
+                top: y,
+                originX: 'center',
+                originY: 'center',
+                scaleX: scale,
+                scaleY: scale,
+                assetUrl: res.imageUrl
+              });
+
+              fabricCanvas.add(img);
+              fabricCanvas.setActiveObject(img);
+              fabricCanvas.renderAll();
+            }, { crossOrigin: 'anonymous' });
+          }
+        } catch (error) {
+          console.error('Failed to load initial design:', error);
+        }
+      };
+      loadInitialDesign();
+    }
+  }, [fabricCanvas, initialDesignId, product.customizationConfig]);
+
   const uploadImage = async (file) => {
     if (!fabricCanvas) return;
     
@@ -206,15 +253,20 @@ export function ProductCanvas({ product, onSave }) {
     }
 
     try {
-      // 1. Upload to Cloudinary via backend
+      // 1. Upload to Cloudinary via backend. We use the main POST /designs to create a Design asset.
       const formData = new FormData();
       formData.append('image', file);
-      
-      const res = await apiClient.post('/designs/upload', formData, {
+
+      const res = await apiClient.post('/designs', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
-      const imageUrl = res.url;
+      const imageUrl = res.imageUrl;
+      
+      // If no design ID is tracked yet, track this one
+      if (!currentDesignId) {
+        setCurrentDesignId(res._id);
+      }
       
       // 2. Add to Canvas
       fabric.Image.fromURL(imageUrl, (img) => {
@@ -329,25 +381,15 @@ export function ProductCanvas({ product, onSave }) {
         multiplier: 1 / zoom, // Export at original resolution
       });
       
-      // We must exclude the printable area border from the final JSON
-      // We already set `excludeFromExport: true` on it.
-      const designState = fabricCanvas.toJSON(['id', 'excludeFromExport', 'assetUrl']);
-      
-      // Extract assets
-      const assets = designState.objects
-        .filter(obj => obj.assetUrl)
-        .map(obj => obj.assetUrl);
-
-      // Save to Backend
-      const res = await apiClient.post('/designs', {
-        product: product._id,
-        designState,
-        previewImageBase64,
-        assets
+      // We don't save designState to backend anymore. We just upload the preview.
+      const previewRes = await apiClient.post('/designs/preview', {
+        previewImageBase64
       });
 
-      // Pass ID and preview URL back to parent (which adds to cart)
-      onSave(res._id, res.previewImage);
+      // Pass ID and preview URL back to parent
+      // If the user didn't upload any images (just added text), they won't have a currentDesignId.
+      // In a strict flow, they should have one. If null, we could pass a fallback string.
+      onSave(currentDesignId || 'custom-text-only', previewRes.previewUrl);
       
     } catch (err) {
       console.error(err);
@@ -378,10 +420,10 @@ export function ProductCanvas({ product, onSave }) {
       {/* Canvas Area */}
       <div 
         ref={containerRef} 
-        className="relative flex-1 bg-zinc-100 dark:bg-zinc-800/50 flex items-center justify-center p-4 overflow-hidden"
+        className="relative flex-1 bg-background flex items-center justify-center p-4 overflow-hidden"
       >
         {dpiWarning && (
-          <div className="absolute top-4 right-4 z-40 rounded-lg bg-yellow-100 px-4 py-2 text-sm font-bold text-yellow-800 shadow-md">
+          <div className="absolute top-4 right-4 z-40 rounded-lg bg-brand-yellow/20 px-4 py-2 text-sm font-bold text-foreground shadow-sm border border-brand-yellow/50">
             {dpiWarning}
           </div>
         )}
@@ -394,7 +436,7 @@ export function ProductCanvas({ product, onSave }) {
         />
 
         {/* The wrapper div helps centering the zoomed canvas */}
-        <div className="relative shadow-xl ring-1 ring-foreground/5 bg-white">
+        <div className="relative shadow-xl ring-2 ring-foreground/10 bg-white rounded-md overflow-hidden">
           <canvas ref={canvasRef} />
         </div>
       </div>

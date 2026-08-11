@@ -10,7 +10,8 @@ import {
     ShoppingCart, 
     LogOut,
     Menu,
-    X
+    X,
+    MessageSquare
 } from 'lucide-react';
 import apiClient from '@/lib/api/client';
 import useAuthStore from '@/store/authStore';
@@ -20,6 +21,7 @@ const navigation = [
     { name: 'Orders', href: '/admin/orders', icon: ShoppingCart },
     { name: 'Products', href: '/admin/products', icon: Package },
     { name: 'Categories', href: '/admin/categories', icon: Tags },
+    { name: 'Design Requests', href: '/admin/design-requests', icon: MessageSquare },
 ];
 
 export default function AdminLayout({ children }) {

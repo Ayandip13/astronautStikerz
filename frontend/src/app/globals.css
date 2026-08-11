@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FFFCF8; /* Warm off-white */
-  --foreground: #1A1A1A; /* Soft black */
+  /* Warm editorial foundation */
+  --background: #FAF6EF; /* Warm Cream */
+  --foreground: #2D2424; /* Deep Brown/Near-Black */
   
   /* Brand colors */
-  --brand-coral: #FF6B6B;
-  --brand-yellow: #FFD93D;
-  --brand-mint: #6BCB77;
-  --brand-purple: #9D4EDD;
-  --brand-blue: #4D96FF;
+  --brand-coral: #D94F3B; /* Warm Red/Terracotta */
+  --brand-yellow: #E6B941; /* Mustard Yellow */
+  --brand-mint: #86A88B; /* Dusty Green */
+  --brand-purple: #743C4D; /* Deep Burgundy / Wine */
+  --brand-blue: #64869E; /* Dusty Blue */
 }
 
 @theme inline {
@@ -23,20 +24,6 @@
   
   --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1C1C1E; /* Soft deep grey */
-    --foreground: #F5F5F7; /* Warm light grey */
-    
-    /* Slightly muted brand colors for dark mode */
-    --brand-coral: #FF8585;
-    --brand-yellow: #FFE366;
-    --brand-mint: #82D78C;
-    --brand-purple: #B273E8;
-    --brand-blue: #6FA9FF;
-  }
 }
 
 body {

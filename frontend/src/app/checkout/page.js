@@ -136,7 +136,7 @@ export default function CheckoutPage() {
       
     } catch (err) {
       console.error(err);
-      setError(err.message || 'An error occurred during checkout');
+      setError(err.response?.data?.message || err.message || 'An error occurred during checkout');
       setIsLoading(false);
     }
   };
@@ -161,17 +161,17 @@ export default function CheckoutPage() {
                 <div className="sm:col-span-2">
                   <label htmlFor="name" className="block text-sm font-bold text-foreground">Full Name</label>
                   <input type="text" id="name" name="name" required value={formData.name} onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-xl border-foreground/10 bg-background py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm" />
+                    className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-transparent py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple outline-none transition-colors sm:text-sm" />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-bold text-foreground">Email</label>
                   <input type="email" id="email" name="email" required value={formData.email} onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-xl border-foreground/10 bg-background py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm" />
+                    className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-transparent py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple outline-none transition-colors sm:text-sm" />
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-bold text-foreground">Phone</label>
                   <input type="tel" id="phone" name="phone" required value={formData.phone} onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-xl border-foreground/10 bg-background py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm" />
+                    className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-transparent py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple outline-none transition-colors sm:text-sm" />
                 </div>
               </div>
             </div>
@@ -185,27 +185,27 @@ export default function CheckoutPage() {
                 <div className="sm:col-span-2">
                   <label htmlFor="street" className="block text-sm font-bold text-foreground">Street Address</label>
                   <input type="text" id="street" name="street" required value={formData.street} onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-xl border-foreground/10 bg-background py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm" />
+                    className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-transparent py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple outline-none transition-colors sm:text-sm" />
                 </div>
                 <div>
                   <label htmlFor="city" className="block text-sm font-bold text-foreground">City</label>
                   <input type="text" id="city" name="city" required value={formData.city} onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-xl border-foreground/10 bg-background py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm" />
+                    className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-transparent py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple outline-none transition-colors sm:text-sm" />
                 </div>
                 <div>
                   <label htmlFor="state" className="block text-sm font-bold text-foreground">State</label>
                   <input type="text" id="state" name="state" required value={formData.state} onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-xl border-foreground/10 bg-background py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm" />
+                    className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-transparent py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple outline-none transition-colors sm:text-sm" />
                 </div>
                 <div>
                   <label htmlFor="zip" className="block text-sm font-bold text-foreground">PIN / ZIP Code</label>
                   <input type="text" id="zip" name="zip" required value={formData.zip} onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-xl border-foreground/10 bg-background py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm" />
+                    className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-transparent py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple outline-none transition-colors sm:text-sm" />
                 </div>
                 <div>
                   <label htmlFor="country" className="block text-sm font-bold text-foreground">Country</label>
                   <input type="text" id="country" name="country" required value={formData.country} readOnly
-                    className="mt-1 block w-full rounded-xl border-foreground/10 bg-zinc-100 dark:bg-zinc-800 py-3 px-4 shadow-sm text-foreground/50 sm:text-sm" />
+                    className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800/50 py-3 px-4 shadow-sm text-foreground/50 outline-none sm:text-sm" />
                 </div>
               </div>
             </div>

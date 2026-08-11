@@ -24,6 +24,10 @@ const getProducts = async (req, res, next) => {
             query.category = req.query.category;
         }
 
+        if (req.query.customizable !== undefined) {
+            query.customizable = req.query.customizable === 'true';
+        }
+
         if (req.query.featured !== undefined) {
             query.featured = req.query.featured === 'true';
         }

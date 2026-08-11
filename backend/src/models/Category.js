@@ -26,7 +26,15 @@ const categorySchema = new mongoose.Schema({
         default: 0,
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+        transform: function (doc, ret) {
+            if (ret.image && typeof ret.image === 'string') {
+                ret.image = { url: ret.image };
+            }
+            return ret;
+        }
+    }
 });
 
 module.exports = mongoose.model('Category', categorySchema);

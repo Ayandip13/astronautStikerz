@@ -57,13 +57,11 @@ export function CartDrawer({ isOpen, onClose }) {
             <ul className="space-y-6">
               {items.map((item, idx) => (
                 <li key={idx} className="flex gap-4">
-                  <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-brand-yellow/10 border border-foreground/5">
-                    <Image
-                      src={item.previewImage || (item.product.images?.[0]?.url) || '/placeholder.jpg'}
+                  <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-zinc-50 border border-foreground/5">
+                    <img
+                      src={item.previewImage || (typeof item.product.images?.[0] === 'string' ? item.product.images[0] : item.product.images?.[0]?.url) || '/placeholder.jpg'}
                       alt={item.product.name}
-                      fill
-                      className="object-cover"
-                      sizes="96px"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   

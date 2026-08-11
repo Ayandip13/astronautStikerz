@@ -38,4 +38,17 @@ const admin = (req, res, next) => {
     }
 };
 
-module.exports = { protect, admin };
+const optionalAuth = async (req, res, next) => {
+    let token = req.cookies.jwt;
+    if (token) {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = await User.findById(decoded.userId).select('-passwordHash');
+        } catch (error) {
+            console.error('Optional auth failed:', error);
+        }
+    }
+    next();
+};
+
+module.exports = { protect, admin, optionalAuth };

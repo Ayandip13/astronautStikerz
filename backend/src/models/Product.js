@@ -75,7 +75,15 @@ const productSchema = new mongoose.Schema({
     },
     customizationConfig: customizationConfigSchema,
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+        transform: function (doc, ret) {
+            if (ret.images && Array.isArray(ret.images)) {
+                ret.images = ret.images.map(img => typeof img === 'string' ? { url: img } : img);
+            }
+            return ret;
+        }
+    }
 });
 
 productSchema.index({ category: 1 });

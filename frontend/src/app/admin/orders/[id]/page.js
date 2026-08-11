@@ -8,7 +8,7 @@ import { useAdminOrderDetails, useUpdateOrderStatus, useAdminDesignDetails } fro
 import { ArrowLeft, Save, Truck, ExternalLink, Download } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
-function DesignViewer({ designId }) {
+function DesignViewer({ designId, previewImage }) {
     const { data: design, isLoading, isError } = useAdminDesignDetails(designId);
 
     if (isLoading) return <div className="p-4 text-sm text-zinc-500 bg-zinc-50 rounded-lg">Loading design...</div>;
@@ -18,9 +18,9 @@ function DesignViewer({ designId }) {
         <div className="mt-4 border border-brand-purple/20 bg-brand-purple/5 rounded-xl p-4 space-y-4">
             <div className="flex items-center justify-between">
                 <h4 className="font-bold text-brand-purple">Custom Design Details</h4>
-                {design.assets?.length > 0 && (
+                {design.imageUrl && (
                     <a 
-                        href={design.assets[0].url} 
+                        href={design.imageUrl} 
                         target="_blank" 
                         rel="noreferrer"
                         className="flex items-center gap-2 text-sm font-bold bg-white text-brand-purple border border-brand-purple px-3 py-1.5 rounded-lg hover:bg-brand-purple hover:text-white transition-colors"
@@ -32,17 +32,19 @@ function DesignViewer({ designId }) {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <p className="text-xs font-bold text-zinc-500 mb-2 uppercase tracking-wider">Final Preview</p>
-                    <div className="relative aspect-square rounded-lg overflow-hidden border border-zinc-200 bg-white">
-                        <Image src={design.previewImage} alt="Design Preview" fill className="object-contain" />
+                {previewImage && (
+                    <div>
+                        <p className="text-xs font-bold text-zinc-500 mb-2 uppercase tracking-wider">Final Preview</p>
+                        <div className="relative aspect-square rounded-lg overflow-hidden border border-zinc-200 bg-white">
+                            <Image src={previewImage} alt="Design Preview" fill className="object-contain" />
+                        </div>
                     </div>
-                </div>
-                {design.assets?.length > 0 && (
+                )}
+                {design.imageUrl && (
                     <div>
                         <p className="text-xs font-bold text-zinc-500 mb-2 uppercase tracking-wider">Uploaded Asset</p>
                         <div className="relative aspect-square rounded-lg overflow-hidden border border-zinc-200 bg-white">
-                            <Image src={design.assets[0].url} alt="Uploaded Artwork" fill className="object-contain" />
+                            <Image src={design.imageUrl} alt="Uploaded Artwork" fill className="object-contain" />
                         </div>
                     </div>
                 )}
@@ -147,7 +149,7 @@ export default function AdminOrderDetails() {
                                     
                                     {/* Design Viewer for Customized Items */}
                                     {item.isCustomized && item.designId && (
-                                        <DesignViewer designId={item.designId} />
+                                        <DesignViewer designId={item.designId} previewImage={item.previewImage} />
                                     )}
                                 </li>
                             ))}

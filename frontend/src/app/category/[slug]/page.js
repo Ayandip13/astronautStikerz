@@ -46,24 +46,27 @@ export default function CategoryPage({ params }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-[96rem] px-4 py-12 sm:px-6 lg:px-12 bg-background min-h-screen">
       {/* Category Header */}
-      <div className="mb-12 rounded-3xl bg-zinc-100 dark:bg-zinc-900 px-6 py-12 text-center sm:px-12 sm:py-16 overflow-hidden relative">
+      <div className="mb-16 rounded-[3rem] bg-[#F4EBE1] px-6 py-16 text-center sm:px-12 sm:py-24 overflow-hidden relative border border-foreground/5 shadow-sm">
         {category.image?.url && (
           <>
             <div 
-              className="absolute inset-0 bg-cover bg-center opacity-30" 
+              className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-multiply" 
               style={{ backgroundImage: `url(${category.image.url})` }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-100 via-zinc-100/80 to-transparent dark:from-zinc-900 dark:via-zinc-900/80" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#F4EBE1] via-[#F4EBE1]/80 to-transparent" />
           </>
         )}
-        <div className="relative z-10">
-          <h1 className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white sm:text-5xl">
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <p className="text-sm font-bold tracking-widest text-brand-coral uppercase mb-4">
+            Category
+          </p>
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
             {category.name}
           </h1>
           {category.description && (
-            <p className="mx-auto mt-4 max-w-2xl text-base text-zinc-600 dark:text-zinc-400">
+            <p className="mx-auto mt-6 text-lg sm:text-xl font-medium text-foreground/80 leading-relaxed">
               {category.description}
             </p>
           )}
@@ -74,9 +77,10 @@ export default function CategoryPage({ params }) {
       {isProductsLoading ? (
         <ProductGridSkeleton count={8} />
       ) : products.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-200 py-24 text-center dark:border-zinc-800">
-          <p className="text-lg font-medium text-zinc-900 dark:text-white">No products found</p>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-foreground/10 py-32 text-center bg-white/50">
+          <span className="text-4xl mb-4">🔍</span>
+          <p className="text-xl font-display font-bold text-foreground">No products found</p>
+          <p className="mt-2 text-base text-foreground/60 max-w-md">
             There are currently no products available in this category.
           </p>
         </div>

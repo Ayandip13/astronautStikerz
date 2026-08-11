@@ -11,7 +11,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-brand-yellow/20 mt-auto border-t border-brand-yellow/30">
+    <footer className="bg-background mt-auto border-t border-foreground/10">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           
@@ -95,7 +95,7 @@ export function Footer() {
           
         </div>
         
-        <div className="mt-12 border-t border-brand-yellow/30 pt-8 flex flex-col md:flex-row items-center justify-between">
+        <div className="mt-12 border-t border-foreground/10 pt-8 flex flex-col md:flex-row items-center justify-between">
           <p className="text-sm font-medium text-foreground/60">
             &copy; {new Date().getFullYear()} Astronaut Stickerz. All rights reserved.
           </p>

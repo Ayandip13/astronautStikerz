@@ -47,8 +47,13 @@ export default function ProductDetailPage({ params }) {
     );
   }
 
-  const images = product.images?.length > 0 ? product.images : [{ url: '/placeholder.jpg' }];
-  const mainImage = images[mainImageIndex]?.url;
+  const getImageUrl = (img) => {
+    if (!img) return '/placeholder.jpg';
+    return typeof img === 'string' ? img : img.url || '/placeholder.jpg';
+  };
+
+  const images = product.images?.length > 0 ? product.images.map(getImageUrl) : ['/placeholder.jpg'];
+  const mainImage = images[mainImageIndex];
   const isSale = product.compareAtPrice > product.price;
   const isOutOfStock = product.stock <= 0;
 
@@ -65,62 +70,57 @@ export default function ProductDetailPage({ params }) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-[96rem] px-4 py-8 sm:px-6 lg:px-12 bg-background min-h-screen">
       
-      {/* Breadcrumbs could go here */}
-      <nav className="mb-8 text-sm font-bold text-foreground/50">
-        <Link href="/" className="hover:text-brand-purple">Home</Link>
-        <span className="mx-2">/</span>
-        <Link href="/products" className="hover:text-brand-purple">Products</Link>
-        <span className="mx-2">/</span>
+      {/* Breadcrumbs */}
+      <nav className="mb-10 text-sm font-bold text-foreground/50 tracking-wide uppercase">
+        <Link href="/" className="hover:text-brand-coral transition-colors">Home</Link>
+        <span className="mx-3">/</span>
+        <Link href="/products" className="hover:text-brand-coral transition-colors">Products</Link>
+        <span className="mx-3">/</span>
         <span className="text-foreground">{product.name}</span>
       </nav>
 
-      <div className="flex flex-col lg:flex-row gap-12">
+      <div className="flex flex-col lg:flex-row gap-16 items-start">
         {/* Image Gallery */}
-        <div className="lg:w-1/2 flex flex-col gap-4">
-          <div className="relative aspect-square w-full overflow-hidden rounded-[2.5rem] bg-brand-yellow/10 border-2 border-transparent hover:border-brand-yellow/30 transition-colors">
-            <Image
+        <div className="lg:w-1/2 flex flex-col gap-6 w-full">
+          <div className="relative aspect-[4/5] sm:aspect-square w-full overflow-hidden rounded-[3rem] bg-zinc-50 border border-foreground/5 shadow-sm">
+            <img
               src={mainImage}
               alt={product.name}
-              fill
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover object-center"
+              className="w-full h-full object-cover object-center"
             />
             {/* Badges */}
             <div className="absolute left-6 top-6 flex flex-col gap-3">
               {isSale && (
-                <span className="rounded-full bg-brand-coral px-4 py-2 text-sm font-bold tracking-wide text-white shadow-md">
-                  SALE
+                <span className="rounded-full bg-brand-coral px-4 py-2 text-xs uppercase tracking-widest font-bold text-white shadow-md">
+                  Sale
                 </span>
               )}
               {product.customizable && (
-                <span className="rounded-full bg-brand-purple px-4 py-2 text-sm font-bold tracking-wide text-white shadow-md">
-                  CUSTOMIZABLE ✨
+                <span className="rounded-full bg-brand-purple px-4 py-2 text-xs uppercase tracking-widest font-bold text-white shadow-md">
+                  Customizable ✨
                 </span>
               )}
             </div>
           </div>
           
           {images.length > 1 && (
-            <div className="grid grid-cols-4 gap-4">
+            <div className="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
               {images.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setMainImageIndex(index)}
-                  className={`relative aspect-square overflow-hidden rounded-2xl border-2 transition-all ${
+                  className={`relative shrink-0 w-24 aspect-square overflow-hidden rounded-2xl border-2 transition-all ${
                     mainImageIndex === index 
                       ? 'border-brand-purple ring-2 ring-brand-purple/20' 
-                      : 'border-transparent hover:border-brand-yellow/50'
+                      : 'border-transparent hover:border-foreground/20'
                   }`}
                 >
-                  <Image
-                    src={image.url}
+                  <img
+                    src={image}
                     alt={`${product.name} thumbnail ${index + 1}`}
-                    fill
-                    sizes="25vw"
-                    className="object-cover object-center"
+                    className="w-full h-full object-cover object-center"
                   />
                 </button>
               ))}
