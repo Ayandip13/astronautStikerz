@@ -40,7 +40,7 @@ export function Header() {
     <>
       <header className="sticky top-0 z-50 w-full border-b border-foreground/10 bg-background/90 backdrop-blur-md">
         <AnnouncementBar />
-        
+
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Mobile menu button */}
           <div className="flex flex-1 items-center md:hidden">
@@ -56,9 +56,17 @@ export function Header() {
 
           {/* Logo */}
           <div className="flex flex-1 justify-center md:flex-none md:justify-start">
-            <Link href="/" className="flex items-center gap-2 transition-transform hover:-translate-y-0.5 active:scale-95">
-              <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-                Astronaut Stickerz ✦
+            <Link href="/" className="flex flex-col items-start justify-center leading-none transition-transform hover:-translate-y-0.5 active:scale-95 py-1">
+              <span 
+                className="font-black text-[28px] md:text-[32px] uppercase text-[#E4B84A] italic" 
+                style={{ 
+                  fontFamily: '"Impact", "Arial Black", sans-serif',
+                  WebkitTextStroke: '1.5px #321E25',
+                  textShadow: '3px 3px 0px #321E25',
+                  letterSpacing: '0.02em'
+                }}
+              >
+                ASTRONAUT
               </span>
             </Link>
           </div>
@@ -69,9 +77,8 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-bold transition-all hover:-translate-y-0.5 hover:text-brand-purple ${
-                  isActive(item.href) ? 'text-brand-purple' : 'text-foreground/70'
-                }`}
+                className={`text-sm font-bold transition-all hover:-translate-y-0.5 hover:text-brand-purple ${isActive(item.href) ? 'text-brand-purple' : 'text-foreground/70'
+                  }`}
               >
                 {item.name}
               </Link>
@@ -80,20 +87,20 @@ export function Header() {
 
           {/* Right side icons */}
           <div className="flex flex-1 items-center justify-end gap-5">
-            <button 
+            <button
               className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple"
               onClick={() => setIsSearchOpen(true)}
             >
               <span className="sr-only">Search</span>
               <Search className="h-5 w-5" />
             </button>
-            
+
             <Link href="/admin" className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple">
               <span className="sr-only">Account</span>
               <User className="h-5 w-5" />
             </Link>
-            
-            <button 
+
+            <button
               className="group flex items-center text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple"
               onClick={openCart}
             >
@@ -112,11 +119,11 @@ export function Header() {
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-50 lg:hidden">
             {/* Backdrop */}
-            <div 
+            <div
               className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
               onClick={() => setIsMobileMenuOpen(false)}
             />
-            
+
             {/* Panel */}
             <div className="fixed inset-y-0 left-0 z-50 w-full max-w-xs bg-background px-6 py-6 shadow-xl sm:max-w-sm sm:ring-1 sm:ring-foreground/10">
               <div className="flex items-center justify-between">
@@ -132,7 +139,7 @@ export function Header() {
                   <X className="h-6 w-6" aria-hidden="true" />
                 </button>
               </div>
-              
+
               <div className="mt-8 flow-root">
                 <nav className="-my-6 divide-y divide-foreground/10">
                   <div className="space-y-2 py-6">

@@ -180,13 +180,25 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
     return () => window.removeEventListener('resize', resizeCanvas);
   }, [fabricCanvas, product.customizationConfig]);
 
+  const getSafeCenter = (printableArea, canvasW, canvasH) => {
+    let targetX = printableArea ? printableArea.x + printableArea.width / 2 : canvasW / 2;
+    let targetY = printableArea ? printableArea.y + printableArea.height / 2 : canvasH / 2;
+    
+    // Sanity check to ensure it's visible on the canvas
+    if (targetX < 0 || targetX > canvasW) targetX = canvasW / 2;
+    if (targetY < 0 || targetY > canvasH) targetY = canvasH / 2;
+    
+    return { x: targetX, y: targetY };
+  };
+
   // Tools
   const addText = () => {
     if (!fabricCanvas) return;
     const { printableArea, canvasWidth, canvasHeight } = product.customizationConfig;
+    const w = canvasWidth || 800;
+    const h = canvasHeight || 800;
     
-    const x = printableArea ? printableArea.x + printableArea.width / 2 : (canvasWidth || 800) / 2;
-    const y = printableArea ? printableArea.y + printableArea.height / 2 : (canvasHeight || 800) / 2;
+    const { x, y } = getSafeCenter(printableArea, w, h);
 
     const text = new fabric.IText('Hello', {
       left: x,
@@ -211,13 +223,19 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
           const res = await apiClient.get(`/designs/${initialDesignId}`);
           if (res.imageUrl) {
             fabric.Image.fromURL(res.imageUrl, (img) => {
+              if (!img) return;
               const { canvasWidth, canvasHeight, printableArea } = product.customizationConfig;
-              const x = printableArea ? printableArea.x + printableArea.width / 2 : (canvasWidth || 800) / 2;
-              const y = printableArea ? printableArea.y + printableArea.height / 2 : (canvasHeight || 800) / 2;
+              const w = canvasWidth || 800;
+              const h = canvasHeight || 800;
+              
+              const { x, y } = getSafeCenter(printableArea, w, h);
               
               let scale = 1;
-              if (printableArea && (img.width > printableArea.width || img.height > printableArea.height)) {
-                scale = Math.min(printableArea.width / img.width, printableArea.height / img.height) * 0.8;
+              const maxWidth = printableArea ? printableArea.width : w;
+              const maxHeight = printableArea ? printableArea.height : h;
+              
+              if (img.width > maxWidth || img.height > maxHeight) {
+                scale = Math.min(maxWidth / img.width, maxHeight / img.height) * 0.8;
               }
 
               img.set({
@@ -270,6 +288,11 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
       
       // 2. Add to Canvas
       fabric.Image.fromURL(imageUrl, (img) => {
+        if (!img) {
+          alert(`Failed to load the uploaded image from ${imageUrl}.`);
+          return;
+        }
+
         // DPI / Quality check approximation
         // If image is very small relative to printable area
         const { printableArea } = product.customizationConfig;
@@ -279,13 +302,18 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
         }
 
         const { canvasWidth, canvasHeight } = product.customizationConfig;
-        const x = printableArea ? printableArea.x + printableArea.width / 2 : (canvasWidth || 800) / 2;
-        const y = printableArea ? printableArea.y + printableArea.height / 2 : (canvasHeight || 800) / 2;
+        const w = canvasWidth || 800;
+        const h = canvasHeight || 800;
+        
+        const { x, y } = getSafeCenter(printableArea, w, h);
         
         // Scale down if too big
         let scale = 1;
-        if (printableArea && (img.width > printableArea.width || img.height > printableArea.height)) {
-          scale = Math.min(printableArea.width / img.width, printableArea.height / img.height) * 0.8;
+        const maxWidth = printableArea ? printableArea.width : w;
+        const maxHeight = printableArea ? printableArea.height : h;
+        
+        if (img.width > maxWidth || img.height > maxHeight) {
+          scale = Math.min(maxWidth / img.width, maxHeight / img.height) * 0.8;
         }
 
         img.set({
