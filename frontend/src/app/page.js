@@ -217,8 +217,8 @@ export default function Home() {
               ))}
             </div>
           ) : categories.length > 0 ? (
-            <div 
-              className="grid gap-6 md:gap-8" 
+            <div
+              className="grid gap-6 md:gap-8"
               style={{ gridTemplateColumns: `repeat(${categories.length}, minmax(0, 1fr))` }}
             >
               {categories.map(category => (
