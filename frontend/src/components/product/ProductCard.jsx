@@ -6,7 +6,12 @@ export function ProductCard({ product }) {
   // Handle both string arrays and object arrays for backward compatibility
   const getImageUrl = (img) => {
     if (!img) return '/placeholder.jpg';
-    return typeof img === 'string' ? img : img.url;
+    const url = typeof img === 'string' ? img : img.url;
+    if (url && url.startsWith('/uploads')) {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+        return `${baseUrl}${url}`;
+    }
+    return url || '/placeholder.jpg';
   };
   
   const mainImage = images && images.length > 0 ? getImageUrl(images[0]) : '/placeholder.jpg';

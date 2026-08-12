@@ -16,6 +16,16 @@ export default function AdminDashboard() {
         return <div className="flex h-64 items-center justify-center text-red-500">Failed to load dashboard statistics.</div>;
     }
 
+    const getImageUrl = (image) => {
+        if (!image) return '/placeholder.jpg';
+        const url = typeof image === 'string' ? image : image.url;
+        if (url && url.startsWith('/uploads')) {
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+            return `${baseUrl}${url}`;
+        }
+        return url || '/placeholder.jpg';
+    };
+
     const statCards = [
         {
             title: 'Total Revenue',
@@ -127,7 +137,7 @@ export default function AdminDashboard() {
                                     <li key={product._id} className="flex items-center gap-4 p-4 hover:bg-zinc-50">
                                         <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-100 border border-zinc-200">
                                             <Image 
-                                                src={product.images?.[0]?.url || product.images?.[0] || '/placeholder.jpg'} 
+                                                src={getImageUrl(product.images?.[0])} 
                                                 alt={product.name} 
                                                 fill 
                                                 className="object-cover" 

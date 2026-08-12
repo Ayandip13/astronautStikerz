@@ -12,6 +12,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'astronautstikerz.onrender.com',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'res.cloudinary.com',
       },
     ],

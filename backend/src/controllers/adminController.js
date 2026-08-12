@@ -25,7 +25,7 @@ const getDashboardStats = async (req, res) => {
             
         // Low stock products (less than 10)
         const lowStockProducts = await Product.find({ stock: { $lt: 10 } })
-            .select('name stock price image')
+            .select('name stock price images')
             .limit(5);
 
         res.json({
