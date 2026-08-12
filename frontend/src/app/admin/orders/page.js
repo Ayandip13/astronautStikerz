@@ -61,7 +61,9 @@ export default function AdminOrders() {
                         <option value="">All Statuses</option>
                         <option value="pending">Pending</option>
                         <option value="processing">Processing</option>
+                        <option value="packed">Packed</option>
                         <option value="shipped">Shipped</option>
+                        <option value="out_for_delivery">Out for Delivery</option>
                         <option value="delivered">Delivered</option>
                         <option value="cancelled">Cancelled</option>
                     </select>
@@ -103,7 +105,8 @@ export default function AdminOrders() {
                                             {new Date(order.createdAt).toLocaleDateString()}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <p className="font-medium">{order.user ? order.user.name : order.guestContact?.email}</p>
+                                            <p className="font-medium">{order.user ? order.user.name : (order.guestContact?.name || order.guestContact?.email || 'Guest')}</p>
+                                            {!order.user && <p className="text-xs text-zinc-400">Guest Order</p>}
                                         </td>
                                         <td className="px-6 py-4 font-bold text-zinc-900">₹{order.totalAmount.toFixed(2)}</td>
                                         <td className="px-6 py-4">
@@ -119,11 +122,14 @@ export default function AdminOrders() {
                                             <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold ${
                                                 order.orderStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                                                 order.orderStatus === 'processing' ? 'bg-blue-100 text-blue-800' :
+                                                order.orderStatus === 'packed' ? 'bg-indigo-100 text-indigo-800' :
                                                 order.orderStatus === 'shipped' ? 'bg-purple-100 text-purple-800' :
+                                                order.orderStatus === 'out_for_delivery' ? 'bg-orange-100 text-orange-800' :
                                                 order.orderStatus === 'delivered' ? 'bg-green-100 text-green-800' :
+                                                order.orderStatus === 'cancelled' ? 'bg-red-100 text-red-800' :
                                                 'bg-zinc-100 text-zinc-800'
                                             }`}>
-                                                {order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}
+                                                {order.orderStatus.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-right">

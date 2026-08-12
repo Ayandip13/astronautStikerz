@@ -189,7 +189,9 @@ export default function AdminOrderDetails() {
                                 <select name="orderStatus" value={statusData.orderStatus} onChange={handleStatusChange} className="w-full px-3 py-2 border border-zinc-200 rounded-lg focus:ring-2 focus:ring-brand-purple text-sm">
                                     <option value="pending">Pending</option>
                                     <option value="processing">Processing</option>
+                                    <option value="packed">Packed</option>
                                     <option value="shipped">Shipped</option>
+                                    <option value="out_for_delivery">Out for Delivery</option>
                                     <option value="delivered">Delivered</option>
                                     <option value="cancelled">Cancelled</option>
                                 </select>
@@ -231,9 +233,10 @@ export default function AdminOrderDetails() {
                     <div className="bg-white rounded-xl shadow-sm border border-zinc-100 p-6 space-y-4 text-sm">
                         <h2 className="text-lg font-bold text-zinc-900 border-b border-zinc-100 pb-2">Customer Info</h2>
                         <div className="space-y-1">
-                            <p className="font-bold text-zinc-900">{order.user?.name || order.shippingAddress.name}</p>
+                            <p className="font-bold text-zinc-900">{order.user?.name || order.guestContact?.name || order.shippingAddress?.name || 'Guest'}</p>
                             <p className="text-zinc-600">{order.user?.email || order.guestContact?.email}</p>
-                            <p className="text-zinc-600">{order.shippingAddress.phone}</p>
+                            <p className="text-zinc-600">{order.user?.phone || order.guestContact?.phone || order.shippingAddress?.phone}</p>
+                            {!order.user && <div className="mt-2 inline-flex rounded-full bg-zinc-100 px-2 py-1 text-xs font-bold text-zinc-600">GUEST ORDER</div>}
                         </div>
                     </div>
 

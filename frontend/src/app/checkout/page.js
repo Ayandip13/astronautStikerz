@@ -85,7 +85,7 @@ export default function CheckoutPage() {
 
       const checkoutRes = await apiClient.post('/orders/checkout', orderPayload);
       
-      const { orderId, razorpayOrderId, amount, currency } = checkoutRes;
+      const { orderId, razorpayOrderId, amount, currency, trackingToken } = checkoutRes;
 
       // 2. Open Razorpay Checkout
       const options = {
@@ -107,7 +107,7 @@ export default function CheckoutPage() {
 
             if (verifyRes.message === 'Payment verified successfully' || verifyRes.message === 'Payment already verified') {
               clearCart();
-              router.push(`/order-success/${orderId}`);
+              router.push(`/order-success/${orderId}?token=${trackingToken}`);
             }
           } catch (err) {
             console.error('Payment verification failed', err);
@@ -147,6 +147,12 @@ export default function CheckoutPage() {
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
       <h1 className="font-display text-4xl font-bold text-foreground mb-8">Checkout 🚀</h1>
+
+      <div className="mb-8 rounded-2xl bg-brand-purple/5 p-4 text-center border border-brand-purple/10">
+        <p className="text-foreground/80 font-medium">
+          Have an account? <Link href="/login" className="text-brand-purple font-bold hover:underline">Log in</Link> to track your order easily.
+        </p>
+      </div>
 
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Checkout Form */}

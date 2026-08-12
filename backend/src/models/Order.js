@@ -27,7 +27,8 @@ const shippingAddressSchema = new mongoose.Schema({
 const shippingDetailsSchema = new mongoose.Schema({
     courier: { type: String },
     trackingNumber: { type: String },
-    trackingUrl: { type: String }
+    trackingUrl: { type: String },
+    shippedDate: { type: Date }
 }, { _id: false });
 
 const orderSchema = new mongoose.Schema({
@@ -65,9 +66,14 @@ const orderSchema = new mongoose.Schema({
     },
     orderStatus: {
         type: String,
-        enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
+        enum: ['pending', 'processing', 'packed', 'shipped', 'out_for_delivery', 'delivered', 'cancelled'],
         default: 'pending'
-    }
+    },
+    statusHistory: [{
+        status: { type: String, required: true },
+        timestamp: { type: Date, default: Date.now }
+    }],
+    trackingToken: { type: String }
 }, {
     timestamps: true
 });

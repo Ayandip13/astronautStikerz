@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Package, Truck, ArrowRight, CheckCircle2, Loader2, RefreshCcw } from 'lucide-react';
 import apiClient from '@/lib/api/client';
-import { Package, ArrowRight, Loader2, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function MyOrdersPage() {
@@ -29,6 +29,29 @@ export default function MyOrdersPage() {
     const timer = setTimeout(() => fetchOrders(), 0);
     return () => clearTimeout(timer);
   }, []);
+
+  const getImageUrl = (image) => {
+    if (!image) return '/placeholder.jpg';
+    const url = typeof image === 'string' ? image : image.url;
+    if (url && url.startsWith('/uploads')) {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+      return `${baseUrl}${url}`;
+    }
+    return url || '/placeholder.jpg';
+  };
+
+  const getStatusDisplay = (status) => {
+    const statusMap = {
+      pending: { label: 'Pending', color: 'bg-zinc-100 text-zinc-700' },
+      processing: { label: 'Processing', color: 'bg-blue-100 text-blue-700' },
+      packed: { label: 'Packed', color: 'bg-indigo-100 text-indigo-700' },
+      shipped: { label: 'Shipped', color: 'bg-amber-100 text-amber-700' },
+      out_for_delivery: { label: 'Out for Delivery', color: 'bg-orange-100 text-orange-700' },
+      delivered: { label: 'Delivered', color: 'bg-green-100 text-green-700' },
+      cancelled: { label: 'Cancelled', color: 'bg-red-100 text-red-700' }
+    };
+    return statusMap[status] || { label: status, color: 'bg-zinc-100 text-zinc-700' };
+  };
 
   if (loading) {
     return (
@@ -57,10 +80,13 @@ export default function MyOrdersPage() {
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="font-display text-4xl font-bold text-foreground">My Orders</h1>
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h1 className="font-display text-4xl font-bold text-foreground flex items-center gap-3">
+          <Package className="h-8 w-8 text-brand-purple" />
+          My Orders
+        </h1>
         <Link href="/products">
-          <Button variant="secondary" className="hidden sm:flex">Continue Shopping</Button>
+          <Button variant="secondary" className="w-full sm:w-auto">Continue Shopping</Button>
         </Link>
       </div>
 
@@ -77,65 +103,72 @@ export default function MyOrdersPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {orders.map((order) => (
-            <div key={order._id} className="rounded-3xl border border-foreground/10 bg-background overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="bg-foreground/5 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-foreground/10">
-                <div className="flex gap-8">
-                  <div>
-                    <p className="text-xs font-bold text-foreground/50 uppercase tracking-wider mb-1">Order Placed</p>
-                    <p className="text-sm font-bold text-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
+          {orders.map((order) => {
+            const statusInfo = getStatusDisplay(order.orderStatus);
+            
+            return (
+              <div key={order._id} className="rounded-3xl bg-background border-2 border-foreground/5 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div className="bg-brand-purple/5 p-4 sm:p-6 border-b border-foreground/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex flex-col sm:flex-row sm:gap-8">
+                    <div>
+                      <p className="text-xs font-bold text-foreground/50 uppercase tracking-wider mb-1">Order Number</p>
+                      <p className="font-bold text-foreground">#{order.orderNumber}</p>
+                    </div>
+                    <div className="mt-2 sm:mt-0">
+                      <p className="text-xs font-bold text-foreground/50 uppercase tracking-wider mb-1">Date Placed</p>
+                      <p className="font-bold text-foreground">{new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                    </div>
+                    <div className="mt-2 sm:mt-0">
+                      <p className="text-xs font-bold text-foreground/50 uppercase tracking-wider mb-1">Total Amount</p>
+                      <p className="font-bold text-brand-purple">₹{order.totalAmount.toFixed(2)}</p>
+                    </div>
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-foreground/50 uppercase tracking-wider mb-1">Total</p>
-                    <p className="text-sm font-bold text-foreground">₹{order.totalAmount.toFixed(2)}</p>
+                    <Link href={`/account/orders/${order._id}`}>
+                      <Button variant="secondary" className="w-full sm:w-auto shadow-sm flex items-center justify-center gap-2">
+                        Track Order <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </Link>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-sm font-bold">
-                    <span className="text-foreground/50 mr-2">Status:</span>
-                    <span className={`px-2 py-1 rounded-full text-xs uppercase tracking-wider ${
-                      order.orderStatus === 'delivered' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                      order.orderStatus === 'cancelled' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
-                      'bg-brand-purple/10 text-brand-purple'
-                    }`}>
-                      {order.orderStatus}
-                    </span>
+
+                <div className="p-4 sm:p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                  <div className="flex flex-wrap gap-4 overflow-hidden py-2">
+                    {order.items.slice(0, 4).map((item, idx) => (
+                      <div key={idx} className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-xl border border-zinc-200 bg-zinc-100 overflow-hidden shadow-sm flex-shrink-0 group">
+                        <Image 
+                          src={getImageUrl(item.previewImage || item.image)} 
+                          alt={item.name} 
+                          fill 
+                          className="object-cover group-hover:scale-105 transition-transform" 
+                        />
+                        {item.isCustomized && (
+                          <div className="absolute top-1 left-1 bg-brand-purple text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">
+                            ✨ Custom
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    {order.items.length > 4 && (
+                      <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-xl border-2 border-dashed border-foreground/20 bg-foreground/5 flex items-center justify-center text-foreground/50 font-bold text-sm">
+                        +{order.items.length - 4}
+                      </div>
+                    )}
                   </div>
-                  <Link href={`/account/orders/${order._id}`}>
-                    <Button variant="secondary" size="sm" className="hidden sm:flex items-center gap-1 shadow-sm">
-                      Details <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
+                  
+                  <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto">
+                    <div className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${statusInfo.color} flex items-center gap-1.5`}>
+                      {order.orderStatus === 'delivered' ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Truck className="h-3.5 w-3.5" />}
+                      {statusInfo.label}
+                    </div>
+                    <p className="text-sm font-medium text-foreground/60">
+                      Payment: <span className="font-bold text-foreground capitalize">{order.paymentStatus}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
-              
-              <div className="px-6 py-6 flex flex-col sm:flex-row items-center gap-6">
-                <div className="flex-1 flex gap-4 overflow-x-auto pb-2">
-                  {order.items.slice(0, 4).map((item, idx) => (
-                    <div key={idx} className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-zinc-200 sm:h-24 sm:w-24">
-                      <Image 
-                        src={item.previewImage || item.image || '/placeholder.jpg'} 
-                        alt={item.name} 
-                        width={96}
-                        height={96}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                  ))}
-                  {order.items.length > 4 && (
-                    <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-xl bg-foreground/5 border border-foreground/10 text-foreground/50 font-bold">
-                      +{order.items.length - 4}
-                    </div>
-                  )}
-                </div>
-                <div className="sm:hidden w-full">
-                  <Link href={`/account/orders/${order._id}`} className="w-full">
-                    <Button variant="secondary" className="w-full justify-center">View Details</Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

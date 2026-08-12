@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState, use, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle2, Package, ShoppingBag, ArrowRight } from 'lucide-react';
 import apiClient from '@/lib/api/client';
@@ -13,11 +14,13 @@ export default function OrderSuccessPage({ params }) {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const data = await apiClient.get(`/orders/${orderId}`);
+        const data = await apiClient.get(`/orders/${orderId}${token ? `?token=${token}` : ''}`);
         setOrder(data);
       } catch (err) {
         setError('Could not fetch order details.');
@@ -105,8 +108,24 @@ export default function OrderSuccessPage({ params }) {
               </Link>
             )}
           </div>
+
+          {!order.user && (
+            <div className="mt-8 rounded-2xl bg-brand-purple/5 p-6 border border-brand-purple/10 text-center">
+              <p className="text-foreground/80 font-medium">
+                Want to track this order anytime? <Link href="/register" className="text-brand-purple font-bold hover:underline">Create an account</Link> using the same email.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OrderSuccessPageWrapper({ params }) {
+  return (
+    <Suspense fallback={<div className="flex min-h-[60vh] items-center justify-center"><span className="text-foreground/50 font-bold">Loading...</span></div>}>
+      <OrderSuccessPage params={params} />
+    </Suspense>
   );
 }

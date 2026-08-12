@@ -75,6 +75,8 @@ const createCheckoutOrder = async (req, res) => {
         // Generate unique order number
         const orderNumber = 'ORD-' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 1000);
 
+        const trackingToken = crypto.randomBytes(16).toString('hex');
+
         // Create initial pending order in DB
         const order = new Order({
             orderNumber,
@@ -86,7 +88,9 @@ const createCheckoutOrder = async (req, res) => {
             shippingAmount,
             totalAmount,
             paymentStatus: 'pending',
-            orderStatus: 'pending'
+            orderStatus: 'pending',
+            trackingToken,
+            statusHistory: [{ status: 'pending', timestamp: new Date() }]
         });
 
         await order.save();
@@ -110,6 +114,7 @@ const createCheckoutOrder = async (req, res) => {
             razorpayOrderId: rzpOrder.id,
             amount: rzpOrder.amount,
             currency: rzpOrder.currency,
+            trackingToken: order.trackingToken,
         });
 
     } catch (error) {
@@ -155,6 +160,7 @@ const verifyPayment = async (req, res) => {
             order.razorpaySignature = razorpay_signature;
             order.paymentStatus = 'paid';
             order.orderStatus = 'processing';
+            order.statusHistory.push({ status: 'processing', timestamp: new Date() });
 
             // Decrement stock atomically, ensuring it doesn't go below 0 if somehow race condition happens
             for (const item of order.items) {
@@ -204,19 +210,15 @@ const getOrderById = async (req, res) => {
         }
 
         const user = await getOptionalUser(req);
+        const { token } = req.query;
 
-        // Security check: if order belongs to a user, only that user or admin can view it
-        if (order.user) {
-            const isOwner = user && user._id.toString() === order.user._id.toString();
-            const isAdmin = user && user.role === 'admin';
-            
-            if (!isOwner && !isAdmin) {
-                return res.status(401).json({ message: 'Not authorized to view this order' });
-            }
+        const isAdmin = user && user.role === 'admin';
+        const isOwner = user && order.user && user._id.toString() === order.user._id.toString();
+        const hasValidToken = token && order.trackingToken && token === order.trackingToken;
+
+        if (!isAdmin && !isOwner && !hasValidToken) {
+            return res.status(401).json({ message: 'Not authorized to view this order. Please log in or use the secure tracking link.' });
         }
-        
-        // If it's a guest order, anyone with the ID can view it (for the success page).
-        // For production, maybe require an email match or token. We'll allow it for now.
 
         res.status(200).json(order);
     } catch (error) {
@@ -281,7 +283,16 @@ const updateOrderStatus = async (req, res) => {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        if (orderStatus) order.orderStatus = orderStatus;
+        if (orderStatus && orderStatus !== order.orderStatus) {
+            // Very basic validation could go here, but for now we trust admin panel
+            order.orderStatus = orderStatus;
+            order.statusHistory.push({ status: orderStatus, timestamp: new Date() });
+            
+            if (orderStatus === 'shipped' && !order.shippingDetails?.shippedDate) {
+                order.shippingDetails = { ...order.shippingDetails, shippedDate: new Date() };
+            }
+        }
+
         if (paymentStatus) order.paymentStatus = paymentStatus;
         
         if (courier !== undefined) order.shippingDetails = { ...order.shippingDetails, courier };
