@@ -11,6 +11,20 @@ import { Button } from '@/components/ui/Button';
 function DesignViewer({ designId, previewImage }) {
     const { data: design, isLoading, isError } = useAdminDesignDetails(designId);
 
+    const getImageUrl = (image) => {
+        if (!image) return '/placeholder.jpg';
+        let url = typeof image === 'string' ? image : image.url;
+        if (!url) return '/placeholder.jpg';
+        
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+        if (url.startsWith('http://localhost:5000/uploads')) {
+            url = url.replace('http://localhost:5000', baseUrl);
+        } else if (url.startsWith('/uploads')) {
+            url = `${baseUrl}${url}`;
+        }
+        return url;
+    };
+
     if (isLoading) return <div className="p-4 text-sm text-zinc-500 bg-zinc-50 rounded-lg">Loading design...</div>;
     if (isError || !design) return <div className="p-4 text-sm text-red-500 bg-red-50 rounded-lg">Failed to load custom design.</div>;
 
@@ -20,7 +34,7 @@ function DesignViewer({ designId, previewImage }) {
                 <h4 className="font-bold text-brand-purple">Custom Design Details</h4>
                 {design.imageUrl && (
                     <a 
-                        href={design.imageUrl} 
+                        href={getImageUrl(design.imageUrl)} 
                         target="_blank" 
                         rel="noreferrer"
                         className="flex items-center gap-2 text-sm font-bold bg-white text-brand-purple border border-brand-purple px-3 py-1.5 rounded-lg hover:bg-brand-purple hover:text-white transition-colors"
@@ -36,7 +50,7 @@ function DesignViewer({ designId, previewImage }) {
                     <div>
                         <p className="text-xs font-bold text-zinc-500 mb-2 uppercase tracking-wider">Final Preview</p>
                         <div className="relative aspect-square rounded-lg overflow-hidden border border-zinc-200 bg-white">
-                            <Image src={previewImage} alt="Design Preview" fill className="object-contain" />
+                            <Image src={getImageUrl(previewImage)} alt="Design Preview" fill className="object-contain" />
                         </div>
                     </div>
                 )}
@@ -44,7 +58,7 @@ function DesignViewer({ designId, previewImage }) {
                     <div>
                         <p className="text-xs font-bold text-zinc-500 mb-2 uppercase tracking-wider">Uploaded Asset</p>
                         <div className="relative aspect-square rounded-lg overflow-hidden border border-zinc-200 bg-white">
-                            <Image src={design.imageUrl} alt="Uploaded Artwork" fill className="object-contain" />
+                            <Image src={getImageUrl(design.imageUrl)} alt="Uploaded Artwork" fill className="object-contain" />
                         </div>
                     </div>
                 )}

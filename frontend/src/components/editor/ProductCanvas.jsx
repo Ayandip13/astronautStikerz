@@ -236,7 +236,7 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
         try {
           const res = await apiClient.get(`/designs/${initialDesignId}`);
           if (res.imageUrl) {
-            fabric.Image.fromURL(res.imageUrl, (img) => {
+            fabric.Image.fromURL(getImageUrl(res.imageUrl), (img) => {
               if (!img) return;
               const { canvasWidth, canvasHeight, printableArea } = product.customizationConfig;
               const w = canvasWidth || 800;
@@ -299,7 +299,7 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
       }
       
       // 2. Add to Canvas
-      fabric.Image.fromURL(imageUrl, (img) => {
+      fabric.Image.fromURL(getImageUrl(imageUrl), (img) => {
         if (!img) {
           alert(`Failed to load the uploaded image from ${imageUrl}.`);
           return;

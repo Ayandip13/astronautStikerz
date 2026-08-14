@@ -142,7 +142,7 @@ export default function CustomizeLandingPage() {
                                 <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-zinc-50 border border-foreground/5 flex items-center justify-center p-4">
                                     {/* Using regular img for external Cloudinary URL to avoid next/image domain config issues if not configured */}
                                     <img 
-                                        src={uploadedDesign.imageUrl} 
+                                        src={getImageUrl(uploadedDesign.imageUrl)} 
                                         alt="Your uploaded design" 
                                         className="max-w-full max-h-full object-contain drop-shadow-md"
                                     />
@@ -232,7 +232,7 @@ export default function CustomizeLandingPage() {
                                                         }}
                                                     >
                                                         <img 
-                                                            src={uploadedDesign.imageUrl} 
+                                                            src={getImageUrl(uploadedDesign.imageUrl)} 
                                                             alt="Artwork applied" 
                                                             className="max-w-full max-h-full object-contain"
                                                         />
