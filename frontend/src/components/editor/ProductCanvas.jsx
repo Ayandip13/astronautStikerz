@@ -22,6 +22,20 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
   const [currentDesignId, setCurrentDesignId] = useState(initialDesignId || null);
   const [dpiWarning, setDpiWarning] = useState(null);
 
+  const getImageUrl = (image) => {
+    if (!image) return '/placeholder.jpg';
+    let url = typeof image === 'string' ? image : image.url;
+    if (!url) return '/placeholder.jpg';
+    
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+    if (url.startsWith('http://localhost:5000/uploads')) {
+        url = url.replace('http://localhost:5000', baseUrl);
+    } else if (url.startsWith('/uploads')) {
+        url = `${baseUrl}${url}`;
+    }
+    return url;
+  };
+
   // Initialize Canvas
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current || !product.customizationConfig) return;
@@ -39,7 +53,7 @@ export function ProductCanvas({ product, initialDesignId, onSave }) {
     });
 
     // Set background product image
-    const mainImage = product.images?.[0]?.url || product.images?.[0] || '/placeholder.jpg';
+    const mainImage = getImageUrl(product.images?.[0]);
     fabric.Image.fromURL(mainImage, (img) => {
       if (isDisposed) return;
       // Scale to fit canvas

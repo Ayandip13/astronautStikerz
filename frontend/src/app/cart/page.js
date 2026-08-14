@@ -11,6 +11,20 @@ export default function CartPage() {
   const [mounted, setMounted] = useState(false);
   const { items, updateQuantity, removeItem, getSubtotal } = useCartStore();
 
+  const getImageUrl = (image) => {
+    if (!image) return '/placeholder.jpg';
+    let url = typeof image === 'string' ? image : image.url;
+    if (!url) return '/placeholder.jpg';
+    
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+    if (url.startsWith('http://localhost:5000/uploads')) {
+        url = url.replace('http://localhost:5000', baseUrl);
+    } else if (url.startsWith('/uploads')) {
+        url = `${baseUrl}${url}`;
+    }
+    return url;
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 0);
     return () => clearTimeout(timer);
@@ -59,7 +73,7 @@ export default function CartPage() {
               <li key={idx} className="flex flex-col sm:flex-row gap-6 rounded-[2rem] bg-white border border-foreground/5 p-6 shadow-sm hover:shadow-md transition-shadow">
                 <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-2xl bg-zinc-50 border border-foreground/5">
                   <img
-                    src={item.previewImage || (typeof item.product.images?.[0] === 'string' ? item.product.images[0] : item.product.images?.[0]?.url) || '/placeholder.jpg'}
+                    src={getImageUrl(item.previewImage || item.product.images?.[0])}
                     alt={item.product.name}
                     className="w-full h-full object-cover"
                   />

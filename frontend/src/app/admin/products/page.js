@@ -17,6 +17,20 @@ export default function AdminProducts() {
     const updateProduct = useUpdateProduct();
     const deleteProduct = useDeleteProduct();
 
+    const getImageUrl = (image) => {
+        if (!image) return '/placeholder.jpg';
+        let url = typeof image === 'string' ? image : image.url;
+        if (!url) return '/placeholder.jpg';
+        
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+        if (url.startsWith('http://localhost:5000/uploads')) {
+            url = url.replace('http://localhost:5000', baseUrl);
+        } else if (url.startsWith('/uploads')) {
+            url = `${baseUrl}${url}`;
+        }
+        return url;
+    };
+
     const handleSearch = (e) => {
         e.preventDefault();
         setKeyword(searchInput);
@@ -95,7 +109,7 @@ export default function AdminProducts() {
                                             <div className="flex items-center gap-3">
                                                 <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-100 border border-zinc-200">
                                                     <Image
-                                                        src={product.images?.[0]?.url || product.images?.[0] || '/placeholder.jpg'}
+                                                        src={getImageUrl(product.images?.[0])}
                                                         alt={product.name}
                                                         fill
                                                         className="object-cover"

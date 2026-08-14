@@ -7,7 +7,7 @@ import { CheckCircle2, Package, ShoppingBag, ArrowRight } from 'lucide-react';
 import apiClient from '@/lib/api/client';
 import { Button } from '@/components/ui/Button';
 
-export default function OrderSuccessPage({ params }) {
+function OrderSuccessPage({ params }) {
   const unwrappedParams = use(params);
   const orderId = unwrappedParams.id;
   

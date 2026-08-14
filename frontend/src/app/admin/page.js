@@ -18,12 +18,16 @@ export default function AdminDashboard() {
 
     const getImageUrl = (image) => {
         if (!image) return '/placeholder.jpg';
-        const url = typeof image === 'string' ? image : image.url;
-        if (url && url.startsWith('/uploads')) {
-            const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
-            return `${baseUrl}${url}`;
+        let url = typeof image === 'string' ? image : image.url;
+        if (!url) return '/placeholder.jpg';
+        
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+        if (url.startsWith('http://localhost:5000/uploads')) {
+            url = url.replace('http://localhost:5000', baseUrl);
+        } else if (url.startsWith('/uploads')) {
+            url = `${baseUrl}${url}`;
         }
-        return url || '/placeholder.jpg';
+        return url;
     };
 
     const statCards = [

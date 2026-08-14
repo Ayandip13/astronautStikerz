@@ -49,7 +49,12 @@ export default function ProductDetailPage({ params }) {
 
   const getImageUrl = (img) => {
     if (!img) return '/placeholder.jpg';
-    return typeof img === 'string' ? img : img.url || '/placeholder.jpg';
+    const url = typeof img === 'string' ? img : img.url;
+    if (url && url.startsWith('/uploads')) {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+        return `${baseUrl}${url}`;
+    }
+    return url || '/placeholder.jpg';
   };
 
   const images = product.images?.length > 0 ? product.images.map(getImageUrl) : ['/placeholder.jpg'];

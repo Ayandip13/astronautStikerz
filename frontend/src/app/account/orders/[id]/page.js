@@ -31,12 +31,16 @@ export default function OrderDetailsPage({ params }) {
 
   const getImageUrl = (image) => {
     if (!image) return '/placeholder.jpg';
-    const url = typeof image === 'string' ? image : image.url;
-    if (url && url.startsWith('/uploads')) {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
-      return `${baseUrl}${url}`;
+    let url = typeof image === 'string' ? image : image.url;
+    if (!url) return '/placeholder.jpg';
+    
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+    if (url.startsWith('http://localhost:5000/uploads')) {
+        url = url.replace('http://localhost:5000', baseUrl);
+    } else if (url.startsWith('/uploads')) {
+        url = `${baseUrl}${url}`;
     }
-    return url || '/placeholder.jpg';
+    return url;
   };
 
   if (loading) {
@@ -64,7 +68,7 @@ export default function OrderDetailsPage({ params }) {
   const timelineSteps = [
     { id: 'pending', label: 'Order Placed' },
     { id: 'paid', label: 'Payment Confirmed' },
-    { id: 'processing', label: 'We\\'re preparing your order' },
+    { id: 'processing', label: "We're preparing your order" },
     { id: 'packed', label: 'Your order is packed' },
     { id: 'shipped', label: 'Your order is on the way' },
     { id: 'out_for_delivery', label: 'Out for delivery' },

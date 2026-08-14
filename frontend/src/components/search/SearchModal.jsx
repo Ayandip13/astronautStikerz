@@ -46,6 +46,16 @@ export function SearchModal({ isOpen, onClose }) {
     }
   };
 
+  const getImageUrl = (image) => {
+    if (!image) return '/placeholder.jpg';
+    const url = typeof image === 'string' ? image : image.url;
+    if (url && url.startsWith('/uploads')) {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+      return `${baseUrl}${url}`;
+    }
+    return url || '/placeholder.jpg';
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -92,7 +102,7 @@ export function SearchModal({ isOpen, onClose }) {
                       >
                         <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-zinc-100 dark:bg-zinc-800">
                            <Image 
-                             src={product.images?.[0]?.url || '/placeholder.jpg'} 
+                             src={getImageUrl(product.images?.[0])} 
                              alt={product.name}
                              fill
                              sizes="48px"

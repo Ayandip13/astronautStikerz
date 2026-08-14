@@ -17,9 +17,8 @@ const uploadImageToCloudinary = async (fileBuffer, folder = 'astronaut-store') =
             // Write buffer to file
             fs.writeFileSync(filePath, fileBuffer);
 
-            // Construct URL
-            const baseUrl = process.env.API_URL || 'http://localhost:5000';
-            const secure_url = `${baseUrl}/uploads/${folder}/${filename}`;
+            // Construct relative URL
+            const secure_url = `/uploads/${folder}/${filename}`;
 
             resolve({
                 secure_url,
