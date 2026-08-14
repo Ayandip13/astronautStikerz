@@ -9,6 +9,7 @@ import { SearchModal } from '../search/SearchModal';
 import { CartDrawer } from '../cart/CartDrawer';
 import { useCartStore } from '@/store/cartStore';
 import useAuthStore from '@/store/authStore';
+import { useCategories } from '@/lib/api/hooks/useCategories';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,19 +19,27 @@ export function Header() {
   const { isCartOpen, openCart, closeCart, getTotalItems } = useCartStore();
   const totalItems = getTotalItems();
   const { user, logout } = useAuthStore();
+  const { data: categoriesData } = useCategories();
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 0);
     return () => clearTimeout(timer);
   }, []);
 
-  const navigation = [
+  const categories = categoriesData || [];
+
+  const baseNavigation = [
     { name: 'Home', href: '/' },
     { name: 'Customization ✨', href: '/customize' },
     { name: 'Shop All', href: '/products' },
-    { name: 'Notebooks', href: '/category/notebooks' },
-    { name: 'Mousepads', href: '/category/mousepads' },
   ];
+
+  const categoryNavigation = categories.map(cat => ({
+    name: cat.name,
+    href: `/category/${cat.slug}`,
+  }));
+
+  const navigation = [...baseNavigation, ...categoryNavigation];
 
   const isActive = (path) => pathname === path;
 
