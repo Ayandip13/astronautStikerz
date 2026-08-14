@@ -51,6 +51,20 @@ export default function DesignRequestsAdminPage() {
         }
     };
 
+    const getImageUrl = (image) => {
+        if (!image) return '/placeholder.jpg';
+        let url = typeof image === 'string' ? image : image.url;
+        if (!url) return '/placeholder.jpg';
+        
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+        if (url.startsWith('http://localhost:5000/uploads')) {
+            url = url.replace('http://localhost:5000', baseUrl);
+        } else if (url.startsWith('/uploads')) {
+            url = `${baseUrl}${url}`;
+        }
+        return url;
+    };
+
     const filteredRequests = requests.filter(req => {
         const matchesSearch = 
             req.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -137,13 +151,13 @@ export default function DesignRequestsAdminPage() {
                                         <td className="px-6 py-4 align-top">
                                             {req.designId ? (
                                                 <a 
-                                                    href={req.designId.imageUrl} 
+                                                    href={getImageUrl(req.designId.imageUrl)} 
                                                     target="_blank" 
                                                     rel="noopener noreferrer"
                                                     className="group relative block w-24 h-24 rounded-lg border border-zinc-200 overflow-hidden bg-zinc-100"
                                                 >
                                                     <img 
-                                                        src={req.designId.imageUrl} 
+                                                        src={getImageUrl(req.designId.imageUrl)} 
                                                         alt="User Design" 
                                                         className="w-full h-full object-contain"
                                                     />
