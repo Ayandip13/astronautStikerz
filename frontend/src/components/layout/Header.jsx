@@ -83,12 +83,12 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex md:flex-1 md:items-center md:justify-center md:gap-8">
+          <nav className="hidden md:flex items-center justify-center gap-5 lg:gap-8 mx-auto px-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-bold transition-all hover:-translate-y-0.5 hover:text-brand-purple ${isActive(item.href) ? 'text-brand-purple' : 'text-foreground/70'
+                className={`text-sm font-bold whitespace-nowrap transition-all hover:-translate-y-0.5 hover:text-brand-purple ${isActive(item.href) ? 'text-brand-purple' : 'text-foreground/70'
                   }`}
               >
                 {item.name}
@@ -97,7 +97,7 @@ export function Header() {
           </nav>
 
           {/* Right side icons */}
-          <div className="flex flex-1 items-center justify-end gap-5">
+          <div className="flex flex-1 items-center justify-end gap-5 md:flex-none">
             <button
               className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple"
               onClick={() => setIsSearchOpen(true)}
