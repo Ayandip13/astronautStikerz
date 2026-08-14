@@ -13,6 +13,8 @@ const generateToken = (res, userId) => {
         sameSite: isProd ? 'none' : 'lax',
         maxAge: 30 * 24 * 60 * 60 * 1000,
     });
+
+    return token;
 };
 
 const registerUser = async (req, res, next) => {
@@ -35,12 +37,13 @@ const registerUser = async (req, res, next) => {
         });
 
         if (user) {
-            generateToken(res, user._id);
+            const token = generateToken(res, user._id);
             res.status(201).json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                token,
             });
         } else {
             res.status(400);
@@ -63,13 +66,14 @@ const loginUser = async (req, res, next) => {
                 throw new Error('User account is deactivated');
             }
 
-            generateToken(res, user._id);
+            const token = generateToken(res, user._id);
 
             res.json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                token,
             });
         } else {
             res.status(401);

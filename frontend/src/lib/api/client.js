@@ -7,11 +7,12 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
     (config) => {
-        // Retrieve token from local storage if needed later
-        // const token = localStorage.getItem('token');
-        // if (token) {
-        //     config.headers.Authorization = `Bearer ${token}`;
-        // }
+        if (typeof window !== 'undefined') {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+        }
         return config;
     },
     (error) => {

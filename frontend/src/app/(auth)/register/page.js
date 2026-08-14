@@ -24,6 +24,9 @@ export default function Register() {
         setError('');
         try {
             const user = await apiClient.post('/auth/register', { name, email, password });
+            if (user.token) {
+                localStorage.setItem('token', user.token);
+            }
             setUser(user);
             if (user.role === 'admin') {
                 router.push('/admin');
