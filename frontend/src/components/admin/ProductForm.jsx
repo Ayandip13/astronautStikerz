@@ -68,6 +68,20 @@ export function ProductForm({ initialData = null }) {
     const fileInputRef = useRef(null);
     const previewCanvasRef = useRef(null);
 
+    const getImageUrl = (image) => {
+        if (!image) return '/placeholder.jpg';
+        let url = typeof image === 'string' ? image : image.url;
+        if (!url) return '/placeholder.jpg';
+        
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000';
+        if (url.startsWith('http://localhost:5000/uploads')) {
+            url = url.replace('http://localhost:5000', baseUrl);
+        } else if (url.startsWith('/uploads')) {
+            url = `${baseUrl}${url}`;
+        }
+        return url;
+    };
+
     // Visual Preview for Printable Area
     useEffect(() => {
         if (formData.customizable && previewCanvasRef.current && images.length > 0) {
@@ -82,7 +96,7 @@ export function ProductForm({ initialData = null }) {
 
             // Draw product image
             const img = new window.Image();
-            img.src = images[0].url;
+            img.src = getImageUrl(images[0]);
             img.onload = () => {
                 // Scale calculations
                 const scaleX = canvas.width / cw;
@@ -406,7 +420,7 @@ export function ProductForm({ initialData = null }) {
                             <div className="grid grid-cols-2 gap-3">
                                 {images.map((img, idx) => (
                                     <div key={idx} className="relative aspect-square rounded-lg border border-zinc-200 overflow-hidden group">
-                                        <img src={img.url} alt={`Product ${idx}`} className="w-full h-full object-cover" />
+                                        <img src={getImageUrl(img)} alt={`Product ${idx}`} className="w-full h-full object-cover" />
                                         <button
                                             type="button"
                                             onClick={() => removeImage(idx)}
@@ -439,7 +453,7 @@ export function ProductForm({ initialData = null }) {
                             <h3 className="font-display text-xl font-bold text-zinc-900">Not Featured on Homescreen</h3>
                             <p className="mt-2 text-sm text-zinc-500">
                                 You are about to save this product without featuring it on the homescreen. 
-                                It will still be available in the main shop, but won't appear in the hero or featured sections. 
+                                It will still be available in the main shop, but won&apos;t appear in the hero or featured sections. 
                                 Is this what you intended?
                             </p>
                         </div>
