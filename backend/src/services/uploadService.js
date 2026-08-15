@@ -1,32 +1,21 @@
-const fs = require('fs');
-const path = require('path');
+const cloudinary = require('../config/cloudinary');
 
 const uploadImageToCloudinary = async (fileBuffer, folder = 'astronaut-store') => {
     return new Promise((resolve, reject) => {
-        try {
-            // Create uploads directory if it doesn't exist
-            const uploadDir = path.join(__dirname, '../../uploads', folder);
-            if (!fs.existsSync(uploadDir)) {
-                fs.mkdirSync(uploadDir, { recursive: true });
+        const uploadStream = cloudinary.uploader.upload_stream(
+            { folder },
+            (error, result) => {
+                if (error) {
+                    console.error('Cloudinary upload stream error:', error);
+                    return reject(error);
+                }
+                resolve({
+                    secure_url: result.secure_url,
+                    public_id: result.public_id
+                });
             }
-
-            // Generate a unique filename
-            const filename = `${Date.now()}-${Math.round(Math.random() * 1E9)}.jpg`;
-            const filePath = path.join(uploadDir, filename);
-
-            // Write buffer to file
-            fs.writeFileSync(filePath, fileBuffer);
-
-            // Construct relative URL
-            const secure_url = `/uploads/${folder}/${filename}`;
-
-            resolve({
-                secure_url,
-                public_id: `${folder}/${filename}`
-            });
-        } catch (error) {
-            reject(error);
-        }
+        );
+        uploadStream.end(fileBuffer);
     });
 };
 
