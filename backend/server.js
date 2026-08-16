@@ -2,6 +2,21 @@ const dotenv = require('dotenv');
 // Load env vars
 dotenv.config();
 
+// Validate required environment variables
+const requiredEnvVars = [
+    'MONGO_URI',
+    'JWT_SECRET',
+    'CLOUDINARY_CLOUD_NAME',
+    'CLOUDINARY_API_KEY',
+    'CLOUDINARY_API_SECRET'
+];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+if (missingEnvVars.length > 0) {
+    console.error(`CRITICAL CONFIGURATION ERROR: The following required environment variables are missing: ${missingEnvVars.join(', ')}`);
+    console.error('Please configure them in your environment/.env file before starting the application.');
+    process.exit(1);
+}
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -9,6 +24,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./src/config/db');
 const routes = require('./src/routes');
+const dbCheck = require('./src/middleware/dbCheck');
 const { notFound, errorHandler } = require('./src/middleware/errorMiddleware');
 
 // Connect to Database
@@ -42,7 +58,7 @@ app.use('/uploads', (req, res, next) => {
 }, express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-app.use('/api', routes);
+app.use('/api', dbCheck, routes);
 
 // Error Handling
 app.use(notFound);

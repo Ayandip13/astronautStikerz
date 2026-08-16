@@ -19,6 +19,20 @@ const uploadImageToCloudinary = async (fileBuffer, folder = 'astronaut-store') =
     });
 };
 
+const deleteImageFromCloudinary = async (publicId) => {
+    if (!publicId) return null;
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.destroy(publicId, (error, result) => {
+            if (error) {
+                console.error('Cloudinary image deletion error:', error);
+                return reject(error);
+            }
+            resolve(result);
+        });
+    });
+};
+
 module.exports = {
-    uploadImageToCloudinary
+    uploadImageToCloudinary,
+    deleteImageFromCloudinary
 };

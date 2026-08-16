@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../middleware/uploadMiddleware');
-const { uploadImageToCloudinary } = require('../services/uploadService');
+const { uploadImageToCloudinary, deleteImageFromCloudinary } = require('../services/uploadService');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 router.post('/', protect, admin, upload.single('image'), async (req, res, next) => {
@@ -16,6 +16,24 @@ router.post('/', protect, admin, upload.single('image'), async (req, res, next) 
         res.status(200).json({
             url: result.secure_url,
             public_id: result.public_id
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.delete('/', protect, admin, async (req, res, next) => {
+    try {
+        const { public_id } = req.body;
+        if (!public_id) {
+            res.status(400);
+            throw new Error('No public_id provided');
+        }
+
+        const result = await deleteImageFromCloudinary(public_id);
+        res.status(200).json({
+            message: 'Image deleted successfully',
+            result
         });
     } catch (error) {
         next(error);

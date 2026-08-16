@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const { deleteImageFromCloudinary } = require('../services/uploadService');
 
 const getProducts = async (req, res, next) => {
     try {
@@ -137,6 +138,8 @@ const updateProduct = async (req, res, next) => {
                 }
             }
 
+            const oldImages = product.images || [];
+
             product.name = name || product.name;
             product.slug = slug || product.slug;
             product.description = description || product.description;
@@ -152,6 +155,22 @@ const updateProduct = async (req, res, next) => {
             product.customizationConfig = customizationConfig || product.customizationConfig;
 
             const updatedProduct = await product.save();
+
+            // Clean up removed images in Cloudinary
+            if (images) {
+                const newPublicIds = new Set(images.map(img => img.publicId || img.public_id).filter(Boolean));
+                const imagesToClean = oldImages.filter(img => (img.publicId || img.public_id) && !newPublicIds.has(img.publicId || img.public_id));
+                
+                for (const img of imagesToClean) {
+                    const pubId = img.publicId || img.public_id;
+                    try {
+                        await deleteImageFromCloudinary(pubId);
+                    } catch (err) {
+                        console.error(`Failed to delete replaced Cloudinary asset ${pubId}:`, err);
+                    }
+                }
+            }
+
             res.json(updatedProduct);
         } else {
             res.status(404);
@@ -166,7 +185,21 @@ const deleteProduct = async (req, res, next) => {
     try {
         const product = await Product.findById(req.params.id);
         if (product) {
+            const imagesToDelete = product.images || [];
             await Product.deleteOne({ _id: product._id });
+
+            // Clean up Cloudinary assets
+            for (const img of imagesToDelete) {
+                const publicId = img.publicId || img.public_id;
+                if (publicId) {
+                    try {
+                        await deleteImageFromCloudinary(publicId);
+                    } catch (err) {
+                        console.error(`Failed to delete Cloudinary asset ${publicId} on product deletion:`, err);
+                    }
+                }
+            }
+
             res.json({ message: 'Product removed' });
         } else {
             res.status(404);

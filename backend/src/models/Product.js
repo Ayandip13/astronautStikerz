@@ -53,7 +53,9 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     images: [{
-        type: String, // Cloudinary URLs
+        url: { type: String, required: true },
+        publicId: { type: String },
+        alt: { type: String }
     }],
     stock: {
         type: Number,

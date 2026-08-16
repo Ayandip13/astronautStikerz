@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/Button';
 
 export default function Home() {
   const { data: categoriesData, isLoading: categoriesLoading } = useCategories();
-  const { data: productsData, isLoading: productsLoading } = useProducts({ limit: 8, featured: true });
+  const { data: productsData, isLoading: productsLoading, isError: productsError } = useProducts({ limit: 8, featured: true });
 
   const categories = categoriesData || [];
   const featuredProducts = productsData?.products || [];
@@ -264,6 +264,11 @@ export default function Home() {
 
           {productsLoading ? (
             <ProductGridSkeleton count={4} />
+          ) : productsError ? (
+            <div className="py-16 text-center bg-red-50 border border-red-100 rounded-[2rem] text-red-700">
+              <p className="font-bold text-lg">Failed to load products</p>
+              <p className="mt-2 text-sm text-red-600/70">Our store catalog is temporarily unavailable. Please try again later.</p>
+            </div>
           ) : featuredProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
               {featuredProducts.slice(0, 4).map(product => (

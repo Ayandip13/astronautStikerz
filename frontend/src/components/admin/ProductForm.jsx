@@ -185,8 +185,26 @@ export function ProductForm({ initialData = null }) {
         }
     };
 
-    const removeImage = (index) => {
+    const removeImage = async (index) => {
+        const imageToDelete = images[index];
         setImages(prev => prev.filter((_, i) => i !== index));
+
+        const pubId = imageToDelete?.public_id || imageToDelete?.publicId;
+        if (pubId) {
+            // Check if this was one of the initial images loaded (to avoid deleting it until submit)
+            const isInitialImage = initialData?.images?.some(img => {
+                const id = typeof img === 'string' ? '' : (img.publicId || img.public_id);
+                return id === pubId;
+            });
+
+            if (!isInitialImage) {
+                try {
+                    await apiClient.delete('/upload', { data: { public_id: pubId } });
+                } catch (err) {
+                    console.error('Failed to clean up newly uploaded image:', err);
+                }
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -206,7 +224,10 @@ export function ProductForm({ initialData = null }) {
 
         const submitData = {
             ...formData,
-            images: images.map(img => img.url),
+            images: images.map(img => ({
+                url: typeof img === 'string' ? img : img.url,
+                publicId: img.publicId || img.public_id || ''
+            })),
             price: Number(formData.price),
             stock: Number(formData.stock),
             compareAtPrice: formData.compareAtPrice ? Number(formData.compareAtPrice) : undefined,
