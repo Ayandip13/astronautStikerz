@@ -13,7 +13,7 @@ import { TrustStrip } from '@/components/home/TrustStrip';
 
 export default function Home() {
   const { data: featuredData } = useProducts({ limit: 8, featured: true });
-  const { data: newArrivalsData } = useProducts({ limit: 4, sort: '-createdAt' });
+  const { data: newArrivalsData } = useProducts({ limit: 4, sort: 'newest' });
   const { data: categoriesData } = useCategories();
 
   const featuredProducts = featuredData?.products || [];
@@ -25,6 +25,9 @@ export default function Home() {
       
       {/* 1. HERO CAMPAIGN BANNER */}
       <HeroBanner />
+      
+      {/* 8. TRUST STRIP */}
+      <TrustStrip />
 
       {/* 2. SHOP BY CATEGORY */}
       <ShopByCategory categories={categories} />
@@ -43,10 +46,6 @@ export default function Home() {
 
       {/* 7. CULTURAL / ART STORY */}
       <CulturalStory />
-      
-      {/* 8. TRUST STRIP */}
-      <TrustStrip />
-
     </div>
   );
 }
