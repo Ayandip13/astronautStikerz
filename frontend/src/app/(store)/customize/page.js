@@ -168,6 +168,77 @@ export default function CustomizeLandingPage() {
                         </div>
 
                         <div className="md:w-2/3 lg:w-3/4">
+                            {/* Request Custom Product Section */}
+                            <div className="mb-12 bg-white rounded-3xl p-8 shadow-sm border border-brand-purple/20 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                                    <Sparkles className="w-32 h-32 text-brand-purple" />
+                                </div>
+                                <div className="relative z-10 max-w-xl">
+                                    <h3 className="text-2xl font-display font-bold text-foreground mb-2">
+                                        Can't find what you're looking for?
+                                    </h3>
+                                    <p className="text-foreground/70 mb-6 font-medium">
+                                        Send us your design and tell us what you want to make! Our team will review your request and get back to you with a custom quote.
+                                    </p>
+                                    
+                                    <form 
+                                        onSubmit={async (e) => {
+                                            e.preventDefault();
+                                            const formData = new FormData(e.target);
+                                            const data = {
+                                                name: formData.get('name'),
+                                                email: formData.get('email'),
+                                                phone: formData.get('phone'),
+                                                message: formData.get('message'),
+                                                designId: uploadedDesign.id
+                                            };
+                                            
+                                            try {
+                                                const btn = e.target.querySelector('button[type="submit"]');
+                                                btn.disabled = true;
+                                                btn.innerHTML = 'Sending...';
+                                                
+                                                await apiClient.post('/design-requests', data);
+                                                
+                                                alert('Your custom design request has been sent successfully! We will contact you soon.');
+                                                e.target.reset();
+                                                btn.innerHTML = 'Send Custom Request';
+                                                btn.disabled = false;
+                                            } catch (err) {
+                                                console.error(err);
+                                                alert('Failed to send request. Please try again.');
+                                                const btn = e.target.querySelector('button[type="submit"]');
+                                                btn.innerHTML = 'Send Custom Request';
+                                                btn.disabled = false;
+                                            }
+                                        }}
+                                        className="space-y-4"
+                                    >
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-sm font-bold text-foreground mb-1">Name *</label>
+                                                <input required type="text" name="name" className="w-full px-4 py-2 rounded-xl border border-foreground/10 focus:border-brand-purple outline-none" />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-bold text-foreground mb-1">Email *</label>
+                                                <input required type="email" name="email" className="w-full px-4 py-2 rounded-xl border border-foreground/10 focus:border-brand-purple outline-none" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-foreground mb-1">Phone (Optional)</label>
+                                            <input type="tel" name="phone" className="w-full px-4 py-2 rounded-xl border border-foreground/10 focus:border-brand-purple outline-none" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-foreground mb-1">What would you like to make? *</label>
+                                            <textarea required name="message" rows="3" placeholder="E.g., I would like a custom mousepad with this design..." className="w-full px-4 py-2 rounded-xl border border-foreground/10 focus:border-brand-purple outline-none resize-none"></textarea>
+                                        </div>
+                                        <Button type="submit" variant="primary" className="rounded-full px-8 font-bold shadow-md shadow-brand-purple/20">
+                                            Send Custom Request
+                                        </Button>
+                                    </form>
+                                </div>
+                            </div>
+
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 border-b border-foreground/10 pb-6">
                                 <h2 className="text-2xl font-display font-bold text-foreground">
                                     See your design on...
@@ -264,77 +335,6 @@ export default function CustomizeLandingPage() {
                                     <p className="text-foreground/50 font-bold text-lg mb-2">No customizable products found in this category.</p>
                                 </div>
                             )}
-
-                            {/* Request Custom Product Section */}
-                            <div className="mt-12 bg-white rounded-3xl p-8 shadow-sm border border-brand-purple/20 relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                                    <Sparkles className="w-32 h-32 text-brand-purple" />
-                                </div>
-                                <div className="relative z-10 max-w-xl">
-                                    <h3 className="text-2xl font-display font-bold text-foreground mb-2">
-                                        Can't find what you're looking for?
-                                    </h3>
-                                    <p className="text-foreground/70 mb-6 font-medium">
-                                        Send us your design and tell us what you want to make! Our team will review your request and get back to you with a custom quote.
-                                    </p>
-                                    
-                                    <form 
-                                        onSubmit={async (e) => {
-                                            e.preventDefault();
-                                            const formData = new FormData(e.target);
-                                            const data = {
-                                                name: formData.get('name'),
-                                                email: formData.get('email'),
-                                                phone: formData.get('phone'),
-                                                message: formData.get('message'),
-                                                designId: uploadedDesign.id
-                                            };
-                                            
-                                            try {
-                                                const btn = e.target.querySelector('button[type="submit"]');
-                                                btn.disabled = true;
-                                                btn.innerHTML = 'Sending...';
-                                                
-                                                await apiClient.post('/design-requests', data);
-                                                
-                                                alert('Your custom design request has been sent successfully! We will contact you soon.');
-                                                e.target.reset();
-                                                btn.innerHTML = 'Send Custom Request';
-                                                btn.disabled = false;
-                                            } catch (err) {
-                                                console.error(err);
-                                                alert('Failed to send request. Please try again.');
-                                                const btn = e.target.querySelector('button[type="submit"]');
-                                                btn.innerHTML = 'Send Custom Request';
-                                                btn.disabled = false;
-                                            }
-                                        }}
-                                        className="space-y-4"
-                                    >
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-sm font-bold text-foreground mb-1">Name *</label>
-                                                <input required type="text" name="name" className="w-full px-4 py-2 rounded-xl border border-foreground/10 focus:border-brand-purple outline-none" />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-bold text-foreground mb-1">Email *</label>
-                                                <input required type="email" name="email" className="w-full px-4 py-2 rounded-xl border border-foreground/10 focus:border-brand-purple outline-none" />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-bold text-foreground mb-1">Phone (Optional)</label>
-                                            <input type="tel" name="phone" className="w-full px-4 py-2 rounded-xl border border-foreground/10 focus:border-brand-purple outline-none" />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-bold text-foreground mb-1">What would you like to make? *</label>
-                                            <textarea required name="message" rows="3" placeholder="E.g., I would like a custom mousepad with this design..." className="w-full px-4 py-2 rounded-xl border border-foreground/10 focus:border-brand-purple outline-none resize-none"></textarea>
-                                        </div>
-                                        <Button type="submit" variant="primary" className="rounded-full px-8 font-bold shadow-md shadow-brand-purple/20">
-                                            Send Custom Request
-                                        </Button>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
