@@ -19,10 +19,10 @@ export function ShopByCategory({ categories }) {
   if (!categories || categories.length === 0) return null;
 
   return (
-    <section className="w-full py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="flex flex-col items-center mb-12">
-        <h2 className="font-display text-4xl font-bold text-foreground uppercase tracking-tight text-center">Shop By Category</h2>
-        <div className="h-px w-full max-w-2xl bg-foreground/10 mt-6 relative">
+    <section className="w-full py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="flex flex-col items-center mb-8 sm:mb-12">
+        <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground uppercase tracking-tight text-center">Shop By Category</h2>
+        <div className="h-px w-full max-w-2xl bg-foreground/10 mt-4 sm:mt-6 relative">
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-4">
               <div className="w-2 h-2 rounded-full bg-brand-purple"></div>
            </div>
