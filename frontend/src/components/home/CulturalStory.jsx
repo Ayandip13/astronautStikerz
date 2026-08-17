@@ -1,67 +1,46 @@
-import React from 'react';
 import Link from 'next/link';
-import { Doodle } from '@/components/ui/Doodle';
+import { Button } from '@/components/ui/Button';
 
 export function CulturalStory() {
   return (
-    <section className="relative w-full bg-[#1A1A1A] text-bg-cream py-24 lg:py-32 overflow-hidden">
-      {/* Halftone texture overlay */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-20 z-0 mix-blend-overlay" 
-        style={{ backgroundImage: 'url(/paper_texture.png)', backgroundSize: 'cover' }}
-      ></div>
-
-      <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+    <section className="w-full py-24 px-4 sm:px-6 lg:px-8 bg-foreground text-bg-cream overflow-hidden relative">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
         
-        {/* Artwork Side */}
-        <div className="lg:w-1/2 relative w-full flex justify-center">
-          <div className="relative w-[90%] max-w-[500px] aspect-[3/4] bg-bg-cream p-4 transform -rotate-2 border border-foreground/10 shadow-2xl">
-            <div className="w-full h-full border border-foreground/10 overflow-hidden relative bg-black">
-               {/* Halftone Illustration */}
-               <img src="/bengali_culture.png" alt="Cultural Illustration" className="w-full h-full object-cover grayscale contrast-125 mix-blend-screen opacity-90" />
-               <div className="absolute inset-0 bg-brand-coral/20 mix-blend-color pointer-events-none"></div>
+        {/* Visual Element */}
+        <div className="w-full lg:w-1/2 relative h-[400px] lg:h-[500px]">
+          <div className="absolute inset-0 bg-brand-purple/20 rounded-3xl transform rotate-3"></div>
+          <div className="absolute inset-0 bg-[#2a1b22] border border-white/10 rounded-3xl p-8 flex flex-col justify-between shadow-2xl">
+            <div className="w-16 h-16 rounded-full bg-brand-yellow flex items-center justify-center">
+              {/* Abstract icon instead of emoji */}
+              <div className="w-8 h-8 border-4 border-foreground rounded-full border-t-transparent"></div>
             </div>
             
-            {/* Caption tape */}
-            <div className="absolute -bottom-4 right-10 bg-bg-sand text-foreground text-[10px] font-bold uppercase tracking-widest px-4 py-2 border border-foreground transform rotate-3 shadow-sm">
-              Vol. 01 / Stories
+            <div>
+              <h3 className="font-display text-4xl font-bold mb-4 uppercase tracking-tight text-white">Original Art,<br/>No Excuses.</h3>
+              <p className="text-white/60 font-medium">Every piece is designed with intent.</p>
             </div>
           </div>
-
-          <Doodle name="star" className="absolute top-10 right-0 w-12 h-12 text-brand-yellow opacity-80" />
         </div>
 
-        {/* Text Side */}
-        <div className="lg:w-1/2 max-w-xl">
-          <p className="text-xs font-bold tracking-widest text-brand-coral uppercase mb-6 inline-flex items-center gap-2">
-            <Doodle name="dot" className="w-2 h-2" />
-            Our Roots
-          </p>
-          <h2 className="font-display text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter mb-8 leading-[0.9]">
-            Made for<br />
-            People who<br />
-            Collect<br />
-            <span className="text-brand-yellow relative inline-block">
-              Stories.
-              <Doodle name="underline" className="absolute -bottom-2 left-0 w-full text-brand-coral z-[-1]" />
-            </span>
+        {/* Text Content */}
+        <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-[1.1] uppercase tracking-tight text-white">
+            Made for People<br/>
+            <span className="text-brand-coral italic lowercase tracking-normal">who collect stories.</span>
           </h2>
-          <div className="space-y-6 text-bg-cream/80 font-medium text-lg border-l-2 border-brand-coral/50 pl-6">
+          
+          <div className="space-y-6 text-lg text-white/80 font-medium mb-10 max-w-lg">
             <p>
-              Astronaut Stickerz is born from the love of old comic books, crowded street corners, and the beautiful chaos of Indian print culture. 
-            </p>
-            <p>
-              We believe everyday objects should have character. They shouldn't just sit on your desk; they should spark an idea.
+              Astronaut Stickerz isn't just about covering your laptop. It's about taking the visual culture of Kolkata, the nostalgia of retro comics, and the warmth of Bengali literature, and giving it a place on your desk.
             </p>
           </div>
-          <div className="mt-12">
-             <Link href="/about" className="inline-flex items-center gap-2 font-bold text-xs tracking-widest uppercase text-bg-cream hover:text-brand-yellow transition-colors group border-b border-bg-cream pb-1 hover:border-brand-yellow">
-               Read The Manifesto
-               <Doodle name="arrow" className="w-5 h-5 text-brand-coral group-hover:translate-x-1 transition-transform" />
-             </Link>
-          </div>
+          
+          <Link href="/products">
+             <Button variant="primary" size="lg" className="bg-brand-coral text-white hover:bg-white hover:text-foreground font-bold tracking-widest text-sm uppercase transition-colors shadow-xl border-none">
+               Explore the Collection
+             </Button>
+          </Link>
         </div>
-
       </div>
     </section>
   );

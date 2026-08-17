@@ -15,7 +15,7 @@ const fontNunito = Nunito({
 });
 
 export const metadata = {
-  title: "Astronaut Stickerz ✨",
+  title: "Astronaut Stickerz",
   description: "Stuff that makes your desk happier. Fun stickers, notebooks, and desk goodies.",
 };
 

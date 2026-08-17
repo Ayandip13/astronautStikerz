@@ -72,7 +72,7 @@ export default function OrderDetailsPage({ params }) {
     { id: 'packed', label: 'Your order is packed' },
     { id: 'shipped', label: 'Your order is on the way' },
     { id: 'out_for_delivery', label: 'Out for delivery' },
-    { id: 'delivered', label: 'Delivered ✨' }
+    { id: 'delivered', label: 'Delivered' }
   ];
 
   const getStepTimestamp = (stepId) => {
@@ -206,7 +206,7 @@ export default function OrderDetailsPage({ params }) {
                         {item.name}
                       </Link>
                       {item.isCustomized && (
-                        <p className="text-xs font-bold text-brand-coral mt-1 uppercase tracking-wider flex items-center gap-1">✨ Customized Design</p>
+                        <p className="text-xs font-bold text-brand-coral mt-1 uppercase tracking-wider flex items-center gap-1">Customized Design</p>
                       )}
                       <p className="text-sm font-medium text-foreground/60 mt-1">Qty: {item.quantity}</p>
                     </div>
