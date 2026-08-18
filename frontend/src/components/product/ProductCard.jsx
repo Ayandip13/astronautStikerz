@@ -20,49 +20,54 @@ export function ProductCard({ product }) {
   const isOutOfStock = stock <= 0;
 
   return (
-    <Link href={`/products/${slug}`} className="group flex flex-col h-full bg-white border border-transparent hover:border-foreground/10 hover:shadow-sm transition-all duration-300">
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F8F0E6] flex items-center justify-center p-4">
+    <Link href={`/products/${slug}`} className="group flex flex-col h-full bg-transparent outline-none">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F7F1E8] border border-foreground/10 rounded-md flex items-center justify-center p-4 sm:p-5 lg:p-7 mb-3 transition-colors">
         <img
           src={mainImage}
           alt={name}
-          className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
+          className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
         />
         
         {/* Badges */}
-        <div className="absolute left-4 top-4 flex flex-col gap-2 z-10">
+        <div className="absolute left-3 top-3 lg:left-4 lg:top-4 flex flex-col gap-1.5 z-10">
           {isSale && (
-            <span className="bg-brand-coral px-2 py-1 text-[10px] uppercase font-bold tracking-wider text-white">
+            <span className="bg-brand-coral px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px]">
               Sale
             </span>
           )}
           {customizable && (
-            <span className="bg-brand-purple px-2 py-1 text-[10px] uppercase font-bold tracking-wider text-white">
-              Customizable
+            <span className="bg-brand-purple px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px]">
+              Custom
             </span>
           )}
           {isOutOfStock && (
-            <span className="bg-foreground px-2 py-1 text-[10px] uppercase font-bold tracking-wider text-white">
+            <span className="bg-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px]">
               Sold Out
             </span>
           )}
         </div>
+
+        {/* Hover Action */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10 w-[85%] sm:w-[75%] hidden sm:block">
+          <span className="flex w-full items-center justify-center bg-foreground text-white py-2.5 px-2 text-[10px] font-bold uppercase tracking-wider rounded shadow-sm group-hover:bg-brand-coral transition-colors">
+            {customizable ? 'Select Options' : 'Add to Cart'}
+          </span>
+        </div>
       </div>
       
-      <div className="p-4 flex flex-col flex-grow">
-        <h3 className="text-sm font-bold text-foreground line-clamp-2 group-hover:text-brand-coral transition-colors">
+      <div className="flex flex-col flex-grow px-1">
+        <h3 className="text-sm font-semibold text-foreground line-clamp-2 group-hover:text-brand-coral transition-colors">
           {name}
         </h3>
-        <div className="mt-2 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-base font-extrabold text-foreground">
-              ₹{price.toFixed(2)}
+        <div className="mt-1.5 flex items-center gap-2">
+          <span className="text-[15px] font-bold text-foreground">
+            ₹{price.toFixed(2)}
+          </span>
+          {isSale && (
+            <span className="text-[13px] font-medium text-foreground/40 line-through">
+              ₹{compareAtPrice.toFixed(2)}
             </span>
-            {isSale && (
-              <span className="text-xs font-medium text-foreground/50 line-through">
-                ₹{compareAtPrice.toFixed(2)}
-              </span>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </Link>

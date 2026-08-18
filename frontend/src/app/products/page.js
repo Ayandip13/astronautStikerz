@@ -8,6 +8,7 @@ import { ProductCard } from '@/components/product/ProductCard';
 import { ProductGrid, ProductGridSkeleton } from '@/components/product/ProductGrid';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Button } from '@/components/ui/Button';
+import { Search } from 'lucide-react';
 
 function ShopContent() {
   const router = useRouter();
@@ -119,7 +120,7 @@ function ShopContent() {
           </div>
         ) : products.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-foreground/10 py-32 text-center bg-white/50">
-            <span className="text-4xl mb-4">🔍</span>
+            <Search className="h-12 w-12 text-foreground/20 mb-4" />
             <p className="text-xl font-display font-bold text-foreground">No products found</p>
             <p className="mt-2 text-base text-foreground/60 max-w-md">
               We couldn't find any products matching your current filters or search terms.
