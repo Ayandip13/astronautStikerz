@@ -31,21 +31,21 @@ export function ProductCard({ product }) {
         {/* Badges */}
         <div className="absolute left-3 top-3 lg:left-4 lg:top-4 flex flex-col gap-1.5 z-10">
           {isSale && (
-            <span className="bg-brand-coral px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px]">
+            <span className="bg-brand-coral px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px] cursor-default">
               Sale
             </span>
           )}
           {customizable && (
-            <span className="bg-brand-purple px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px]">
+            <span className="bg-brand-purple px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px] cursor-default">
               Custom
             </span>
           )}
           {isOutOfStock ? (
-            <span className="bg-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px]">
+            <span className="bg-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px] cursor-default">
               Sold Out
             </span>
           ) : stock <= 10 ? (
-            <span className="bg-brand-yellow text-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider rounded-[2px]">
+            <span className="bg-brand-yellow text-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider rounded-[2px] cursor-default">
               {stock === 1 ? 'Only 1 left' : `Only ${stock} left`}
             </span>
           ) : null}

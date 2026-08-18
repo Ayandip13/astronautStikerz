@@ -10,7 +10,7 @@ export function Button({
   type = 'button',
   ...props 
 }) {
-  const baseStyles = 'inline-flex items-center justify-center rounded-full font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95';
+  const baseStyles = 'inline-flex items-center justify-center rounded-full font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 active:scale-95';
   
   const variants = {
     primary: 'bg-brand-purple text-white hover:brightness-110 shadow-sm hover:shadow-md dark:bg-brand-purple dark:text-white',
