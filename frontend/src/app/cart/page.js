@@ -75,7 +75,7 @@ export default function CartPage() {
                   <img
                     src={getImageUrl(item.previewImage || item.product.images?.[0])}
                     alt={item.product.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
                 

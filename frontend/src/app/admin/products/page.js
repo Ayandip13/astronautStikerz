@@ -112,7 +112,7 @@ export default function AdminProducts() {
                                                         src={getImageUrl(product.images?.[0])}
                                                         alt={product.name}
                                                         fill
-                                                        className="object-cover"
+                                                        className="object-contain"
                                                     />
                                                 </div>
                                                 <div>

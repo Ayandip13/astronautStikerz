@@ -89,11 +89,11 @@ export default function ProductDetailPage({ params }) {
       <div className="flex flex-col lg:flex-row gap-16 items-start">
         {/* Image Gallery */}
         <div className="lg:w-1/2 flex flex-col gap-6 w-full">
-          <div className="relative aspect-[4/5] sm:aspect-square w-full overflow-hidden rounded-[3rem] bg-zinc-50 border border-foreground/5 shadow-sm">
+          <div className="relative w-full overflow-hidden rounded-[3rem] bg-zinc-50 border border-foreground/5 shadow-sm">
             <img
               src={mainImage}
               alt={product.name}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-auto object-contain object-center"
             />
             {/* Badges */}
             <div className="absolute left-6 top-6 flex flex-col gap-3">
@@ -125,7 +125,7 @@ export default function ProductDetailPage({ params }) {
                   <img
                     src={image}
                     alt={`${product.name} thumbnail ${index + 1}`}
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-contain object-center"
                   />
                 </button>
               ))}

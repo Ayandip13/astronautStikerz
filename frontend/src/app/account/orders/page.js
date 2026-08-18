@@ -144,7 +144,7 @@ export default function MyOrdersPage() {
                           src={getImageUrl(item.previewImage || item.image)} 
                           alt={item.name} 
                           fill 
-                          className="object-cover group-hover:scale-105 transition-transform" 
+                          className="object-contain group-hover:scale-105 transition-transform" 
                         />
                         {item.isCustomized && (
                           <div className="absolute top-1 left-1 bg-brand-purple text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">

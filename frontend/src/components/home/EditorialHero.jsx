@@ -43,7 +43,7 @@ export function EditorialHero({ heroProducts }) {
           
           {/* Main Product Element - Floating/Cropped Notebook */}
           <div className="absolute top-[50%] left-[50%] -translate-x-[60%] sm:-translate-x-[70%] -translate-y-[45%] w-[220px] sm:w-[280px] md:w-[350px] aspect-[4/5] bg-white border border-foreground/20 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 z-20 p-2">
-            <img src={productImg1} alt="Product" className="w-full h-full object-cover" />
+            <img src={productImg1} alt="Product" className="w-full h-full object-contain" />
             <div className="absolute -bottom-4 -right-4 bg-brand-yellow border border-foreground text-xs uppercase tracking-widest font-bold px-3 py-1 -rotate-6">
               Bestseller
             </div>
@@ -52,7 +52,7 @@ export function EditorialHero({ heroProducts }) {
           {/* Secondary Product Element - Smaller item overlapping */}
           {productImg2 && (
             <div className="absolute top-[60%] left-[50%] translate-x-[10%] sm:translate-x-[20%] -translate-y-[20%] w-[160px] sm:w-[180px] md:w-[220px] aspect-square bg-white border border-foreground/20 shadow-xl -rotate-6 hover:-rotate-2 transition-transform duration-500 z-30 p-2">
-              <img src={productImg2} alt="Product" className="w-full h-full object-cover" />
+              <img src={productImg2} alt="Product" className="w-full h-full object-contain" />
             </div>
           )}
 

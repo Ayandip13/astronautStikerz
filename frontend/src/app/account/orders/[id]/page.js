@@ -197,7 +197,7 @@ export default function OrderDetailsPage({ params }) {
                       src={getImageUrl(item.previewImage || item.image)} 
                       alt={item.name} 
                       fill
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
                   <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between w-full">

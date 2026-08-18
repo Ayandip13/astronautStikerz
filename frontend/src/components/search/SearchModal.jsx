@@ -106,7 +106,7 @@ export function SearchModal({ isOpen, onClose }) {
                              alt={product.name}
                              fill
                              sizes="48px"
-                             className="object-cover"
+                             className="object-contain"
                            />
                         </div>
                         <div className="flex flex-col flex-1">
