@@ -13,7 +13,7 @@ export function CustomizationBanner() {
             Upload your design. Place it on a notebook, mousepad, or sticker. Make it completely unique.
           </p>
           <Link href="/customize">
-            <Button size="lg" className="bg-brand-yellow text-foreground hover:bg-white font-bold tracking-widest text-sm uppercase shadow-xl hover:shadow-2xl transition-all">
+            <Button size="lg" className="bg-brand-yellow text-foreground hover:text-black hover:bg-white font-bold tracking-widest text-sm uppercase shadow-xl hover:shadow-2xl transition-all">
               Start Customizing
             </Button>
           </Link>
