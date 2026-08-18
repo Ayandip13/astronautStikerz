@@ -21,11 +21,11 @@ export function ProductCard({ product }) {
 
   return (
     <Link href={`/products/${slug}`} className="group flex flex-col h-full bg-transparent outline-none">
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-white border border-foreground/15 rounded-xl flex items-center justify-center p-2 sm:p-3 lg:p-4 mb-3 transition-colors">
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-white border border-foreground/20 rounded-xl flex items-center justify-center p-0 mb-3 transition-colors">
         <img
           src={mainImage}
           alt={name}
-          className="w-full h-full object-contain drop-shadow-sm transition-transform duration-500 group-hover:scale-[1.02]"
+          className="w-full h-full object-contain p-1 drop-shadow-md transition-transform duration-500 group-hover:scale-[1.02]"
         />
         
         {/* Badges */}
@@ -55,17 +55,17 @@ export function ProductCard({ product }) {
         </div>
       </div>
       
-      <div className="flex flex-col flex-grow px-1">
-        <h3 className="text-sm font-semibold text-foreground line-clamp-2 group-hover:text-brand-coral transition-colors">
+      <div className="flex flex-col flex-grow px-1 mt-2">
+        <h3 className="text-[13px] sm:text-[14px] font-bold text-foreground line-clamp-2 group-hover:text-brand-coral transition-colors">
           {name}
         </h3>
-        <div className="mt-1.5 flex items-center gap-2">
-          <span className="text-[15px] font-bold text-foreground">
-            ₹{price.toFixed(2)}
+        <div className="mt-1 flex items-center gap-2">
+          <span className="text-[12px] sm:text-[13px] font-medium text-foreground/70">
+            Rs. {price.toFixed(2)} INR
           </span>
           {isSale && (
-            <span className="text-[13px] font-medium text-foreground/40 line-through">
-              ₹{compareAtPrice.toFixed(2)}
+            <span className="text-[12px] sm:text-[13px] font-medium text-foreground/40 line-through">
+              Rs. {compareAtPrice.toFixed(2)} INR
             </span>
           )}
         </div>
