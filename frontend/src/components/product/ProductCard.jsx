@@ -40,11 +40,15 @@ export function ProductCard({ product }) {
               Custom
             </span>
           )}
-          {isOutOfStock && (
+          {isOutOfStock ? (
             <span className="bg-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px]">
               Sold Out
             </span>
-          )}
+          ) : stock <= 10 ? (
+            <span className="bg-brand-yellow text-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider rounded-[2px]">
+              {stock === 1 ? 'Only 1 left' : `Only ${stock} left`}
+            </span>
+          ) : null}
         </div>
 
         {/* Hover Action */}

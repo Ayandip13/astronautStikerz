@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Script from 'next/script';
 import { useCartStore } from '@/store/cartStore';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/Button';
 import apiClient from '@/lib/api/client';
 import { ShoppingBag, Loader2 } from 'lucide-react';
@@ -13,6 +14,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const { items, getSubtotal, clearCart } = useCartStore();
+  const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -106,6 +108,7 @@ export default function CheckoutPage() {
             });
 
             if (verifyRes.message === 'Payment verified successfully' || verifyRes.message === 'Payment already verified') {
+              queryClient.invalidateQueries({ queryKey: ['products'] });
               clearCart();
               router.push(`/order-success/${orderId}?token=${trackingToken}`);
             }

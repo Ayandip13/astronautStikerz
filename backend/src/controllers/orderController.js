@@ -51,7 +51,7 @@ const createCheckoutOrder = async (req, res) => {
                 return res.status(400).json({ message: `Product ${item.productId} not found or inactive` });
             }
             if (product.stock < item.quantity) {
-                return res.status(400).json({ message: `Insufficient stock for ${product.name}` });
+                return res.status(400).json({ message: `Insufficient stock for ${product.name}. Only ${product.stock} left in stock.` });
             }
 
             subtotal += product.price * item.quantity;
@@ -163,11 +163,31 @@ const verifyPayment = async (req, res) => {
             order.statusHistory.push({ status: 'processing', timestamp: new Date() });
 
             // Decrement stock atomically, ensuring it doesn't go below 0 if somehow race condition happens
+            let stockUpdateFailed = false;
             for (const item of order.items) {
-                await Product.updateOne(
+                const result = await Product.updateOne(
                     { _id: item.product, stock: { $gte: item.quantity } },
                     { $inc: { stock: -item.quantity } }
                 );
+                
+                // If the document wasn't modified, it means stock was less than quantity
+                if (result.modifiedCount === 0) {
+                    stockUpdateFailed = true;
+                    // We should ideally revert the already decremented ones if it's a partial failure,
+                    // but doing this sequentially is a bit tricky without transactions.
+                    // For now, break so we don't process further and mark payment as failed/requires manual intervention.
+                    break;
+                }
+            }
+
+            if (stockUpdateFailed) {
+                // In a real production system, this means payment was captured but we couldn't fulfill it.
+                // We mark it as failed and require refund.
+                order.paymentStatus = 'failed';
+                order.orderStatus = 'cancelled';
+                order.statusHistory.push({ status: 'cancelled', timestamp: new Date(), note: 'Insufficient stock during payment verification' });
+                await order.save();
+                return res.status(400).json({ message: 'Insufficient stock for a product in your order. Payment captured but order cancelled. Please contact support for a refund.' });
             }
 
             await order.save();

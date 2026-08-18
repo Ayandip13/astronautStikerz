@@ -160,7 +160,7 @@ export default function ProductDetailPage({ params }) {
              ) : (
                <span className="flex items-center text-sm font-medium text-green-600 dark:text-green-400">
                  <span className="mr-2 h-2 w-2 rounded-full bg-green-600 dark:bg-green-400"></span>
-                 In stock and ready to ship
+                 {product.stock > 10 ? 'In stock' : product.stock === 1 ? 'Only 1 left in stock' : `Only ${product.stock} left in stock`}
                </span>
              )}
           </div>
