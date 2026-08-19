@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-export function ThemeDiscovery({ categories }) {
-  if (!categories || categories.length === 0) return null;
+export function ThemeDiscovery({ categories, isLoading }) {
+  if (!isLoading && (!categories || categories.length === 0)) return null;
 
   return (
     <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-bg-sand">
@@ -11,13 +11,19 @@ export function ThemeDiscovery({ categories }) {
       </div>
       
       <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-3 md:gap-4">
-        {categories.map((cat) => (
-          <Link key={cat._id} href={`/category/${cat.slug}`}>
-            <span className="inline-block px-6 py-3 bg-white border border-foreground/10 rounded-full font-bold text-foreground uppercase tracking-widest text-sm hover:border-brand-purple hover:text-brand-purple transition-colors shadow-sm hover:shadow-md">
-              {cat.name}
-            </span>
-          </Link>
-        ))}
+        {isLoading ? (
+          Array.from({ length: 6 }).map((_, i) => (
+            <span key={`skeleton-${i}`} className="inline-block px-12 py-5 bg-zinc-200 animate-pulse rounded-full" />
+          ))
+        ) : (
+          categories.map((cat) => (
+            <Link key={cat._id} href={`/category/${cat.slug}`}>
+              <span className="inline-block px-6 py-3 bg-white border border-foreground/10 rounded-full font-bold text-foreground uppercase tracking-widest text-sm hover:border-brand-purple hover:text-brand-purple transition-colors shadow-sm hover:shadow-md">
+                {cat.name}
+              </span>
+            </Link>
+          ))
+        )}
       </div>
     </section>
   );

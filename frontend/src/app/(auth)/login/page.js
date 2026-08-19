@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import apiClient from '@/lib/api/client';
-import useAuthStore from '@/store/authStore';
+import { useLogin } from '@/lib/api/hooks/useUser';
 import { Button } from '@/components/ui/Button';
 import { Eye, EyeOff } from 'lucide-react';
 
@@ -13,20 +12,15 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const setUser = useAuthStore(state => state.setUser);
+    const { mutateAsync: loginUser, isPending: loading } = useLogin();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         setError('');
         try {
-            const user = await apiClient.post('/auth/login', { email, password });
-            if (user.token) {
-                localStorage.setItem('token', user.token);
-            }
-            setUser(user);
+            const data = await loginUser({ email, password });
+            const user = data.user || data;
             if (user.role === 'admin') {
                 router.push('/admin');
             } else {
@@ -34,8 +28,6 @@ export default function Login() {
             }
         } catch (err) {
             setError(err.message || 'Login failed');
-        } finally {
-            setLoading(false);
         }
     };
 

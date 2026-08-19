@@ -23,7 +23,7 @@ export default function ProductDetailPage({ params }) {
     return (
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-12 animate-pulse">
-          <div className="lg:w-1/2 bg-zinc-200 dark:bg-zinc-800 aspect-square rounded-2xl"></div>
+          <div className="lg:w-1/2 bg-zinc-200 dark:bg-zinc-800 rounded-2xl w-full" style={{ paddingBottom: '100%' }}></div>
           <div className="lg:w-1/2 space-y-6 pt-6">
             <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4"></div>
             <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded w-1/4"></div>

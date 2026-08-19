@@ -4,32 +4,17 @@ import { useEffect, useState, use, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle2, Package, ShoppingBag, ArrowRight } from 'lucide-react';
-import apiClient from '@/lib/api/client';
+import { useOrderDetails } from '@/lib/api/hooks/useOrders';
 import { Button } from '@/components/ui/Button';
 
 function OrderSuccessPage({ params }) {
   const unwrappedParams = use(params);
   const orderId = unwrappedParams.id;
   
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const data = await apiClient.get(`/orders/${orderId}${token ? `?token=${token}` : ''}`);
-        setOrder(data);
-      } catch (err) {
-        setError('Could not fetch order details.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (orderId) fetchOrder();
-  }, [orderId]);
+  const { data: order, isLoading: loading, isError: error } = useOrderDetails(orderId, token);
 
   if (loading) {
     return (

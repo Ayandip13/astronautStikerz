@@ -8,7 +8,7 @@ import { AnnouncementBar } from './AnnouncementBar';
 import { SearchModal } from '../search/SearchModal';
 import { CartDrawer } from '../cart/CartDrawer';
 import { useCartStore } from '@/store/cartStore';
-import useAuthStore from '@/store/authStore';
+import { useUser, useLogout } from '@/lib/api/hooks/useUser';
 import { useCategories } from '@/lib/api/hooks/useCategories';
 
 export function Header() {
@@ -18,7 +18,8 @@ export function Header() {
   const pathname = usePathname();
   const { isCartOpen, openCart, closeCart, getTotalItems } = useCartStore();
   const totalItems = getTotalItems();
-  const { user, logout } = useAuthStore();
+  const { data: user } = useUser();
+  const { mutate: logout } = useLogout();
   const { data: categoriesData } = useCategories();
 
   useEffect(() => {

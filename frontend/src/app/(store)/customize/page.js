@@ -7,15 +7,18 @@ import { useRouter } from 'next/navigation';
 import { Upload, Loader2, Sparkles, Filter } from 'lucide-react';
 import { useProducts } from '@/lib/api/hooks/useProducts';
 import { useCategories } from '@/lib/api/hooks/useCategories';
-import apiClient from '@/lib/api/client';
+import { useUploadDesign, useSubmitDesignRequest } from '@/lib/api/hooks/useCustomization';
 import { Button } from '@/components/ui/Button';
 
 export default function CustomizeLandingPage() {
     const router = useRouter();
-    const [uploading, setUploading] = useState(false);
     const [uploadedDesign, setUploadedDesign] = useState(null); // { id, imageUrl }
     const [selectedCategory, setSelectedCategory] = useState('');
     const fileInputRef = useRef(null);
+
+    const { mutateAsync: uploadDesign, isPending: isUploading } = useUploadDesign();
+    const uploading = isUploading;
+    const { mutateAsync: submitDesignRequest } = useSubmitDesignRequest();
 
     const { data: productsData, isLoading: loadingProducts } = useProducts({
         customizable: 'true',
@@ -47,14 +50,11 @@ export default function CustomizeLandingPage() {
             return;
         }
 
-        setUploading(true);
         try {
             const formData = new FormData();
             formData.append('image', file);
 
-            const res = await apiClient.post('/designs', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+            const res = await uploadDesign(formData);
 
             setUploadedDesign({
                 id: res._id,
@@ -64,7 +64,6 @@ export default function CustomizeLandingPage() {
             console.error('Upload error:', error);
             alert("Failed to upload image. Please try again.");
         } finally {
-            setUploading(false);
             // Reset input
             if (fileInputRef.current) fileInputRef.current.value = '';
         }
@@ -198,7 +197,7 @@ export default function CustomizeLandingPage() {
                                                 btn.disabled = true;
                                                 btn.innerHTML = 'Sending...';
                                                 
-                                                await apiClient.post('/design-requests', data);
+                                                await submitDesignRequest(data);
                                                 
                                                 alert('Your custom design request has been sent successfully! We will contact you soon.');
                                                 e.target.reset();

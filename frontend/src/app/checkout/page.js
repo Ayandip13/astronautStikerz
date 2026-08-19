@@ -6,7 +6,7 @@ import Script from 'next/script';
 import { useCartStore } from '@/store/cartStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/Button';
-import apiClient from '@/lib/api/client';
+import { useCreateOrder, useVerifyPayment } from '@/lib/api/hooks/useCheckout';
 import { ShoppingBag, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -16,8 +16,12 @@ export default function CheckoutPage() {
   const { items, getSubtotal, clearCart } = useCartStore();
   const queryClient = useQueryClient();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const { mutateAsync: createOrder, isPending: isCreating } = useCreateOrder();
+  const { mutateAsync: verifyPayment, isPending: isVerifying } = useVerifyPayment();
+
+  const isLoading = isCreating || isVerifying;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -58,7 +62,6 @@ export default function CheckoutPage() {
 
   const handleCheckout = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError(null);
 
     try {
@@ -85,7 +88,7 @@ export default function CheckoutPage() {
         }
       };
 
-      const checkoutRes = await apiClient.post('/orders/checkout', orderPayload);
+      const checkoutRes = await createOrder(orderPayload);
       
       const { orderId, razorpayOrderId, amount, currency, trackingToken } = checkoutRes;
 
@@ -100,7 +103,7 @@ export default function CheckoutPage() {
         handler: async function (response) {
           try {
             // 3. Verify Payment on Backend
-            const verifyRes = await apiClient.post('/orders/verify', {
+            const verifyRes = await verifyPayment({
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature,
@@ -108,14 +111,12 @@ export default function CheckoutPage() {
             });
 
             if (verifyRes.message === 'Payment verified successfully' || verifyRes.message === 'Payment already verified') {
-              queryClient.invalidateQueries({ queryKey: ['products'] });
               clearCart();
               router.push(`/order-success/${orderId}?token=${trackingToken}`);
             }
           } catch (err) {
             console.error('Payment verification failed', err);
             setError('Payment verification failed. Please contact support.');
-            setIsLoading(false);
           }
         },
         prefill: {
@@ -132,7 +133,6 @@ export default function CheckoutPage() {
       
       rzp.on('payment.failed', function (response){
         setError(`Payment Failed: ${response.error.description}`);
-        setIsLoading(false);
       });
 
       rzp.open();
@@ -140,7 +140,6 @@ export default function CheckoutPage() {
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || err.message || 'An error occurred during checkout');
-      setIsLoading(false);
     }
   };
 

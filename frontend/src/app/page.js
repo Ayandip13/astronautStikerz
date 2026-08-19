@@ -12,9 +12,9 @@ import { CulturalStory } from '@/components/home/CulturalStory';
 import { TrustStrip } from '@/components/home/TrustStrip';
 
 export default function Home() {
-  const { data: featuredData } = useProducts({ limit: 8, featured: true });
-  const { data: newArrivalsData } = useProducts({ limit: 4, sort: 'newest' });
-  const { data: categoriesData } = useCategories();
+  const { data: featuredData, isLoading: loadingFeatured } = useProducts({ limit: 8, featured: true });
+  const { data: newArrivalsData, isLoading: loadingNewArrivals } = useProducts({ limit: 4, sort: 'newest' });
+  const { data: categoriesData, isLoading: loadingCategories } = useCategories();
 
   const featuredProducts = featuredData?.products || [];
   const newArrivals = newArrivalsData?.products || [];
@@ -30,19 +30,19 @@ export default function Home() {
       <TrustStrip />
 
       {/* 2. SHOP BY CATEGORY */}
-      <ShopByCategory categories={categories} />
+      <ShopByCategory categories={categories} isLoading={loadingCategories} />
 
       {/* 3. FEATURED PRODUCTS */}
-      <FeaturedProducts products={featuredProducts} />
+      <FeaturedProducts products={featuredProducts} isLoading={loadingFeatured} />
 
       {/* 4. CUSTOMIZATION BANNER */}
       <CustomizationBanner />
 
       {/* 5. NEW ARRIVALS */}
-      <NewArrivals products={newArrivals} />
+      <NewArrivals products={newArrivals} isLoading={loadingNewArrivals} />
 
       {/* 6. THEME DISCOVERY */}
-      <ThemeDiscovery categories={categories} />
+      <ThemeDiscovery categories={categories} isLoading={loadingCategories} />
 
       {/* 7. CULTURAL / ART STORY */}
       <CulturalStory />

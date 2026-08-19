@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import apiClient from '@/lib/api/client';
-import useAuthStore from '@/store/authStore';
+import { useRegister } from '@/lib/api/hooks/useUser';
 import { Button } from '@/components/ui/Button';
 import { Eye, EyeOff } from 'lucide-react';
 
@@ -14,20 +13,15 @@ export default function Register() {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const setUser = useAuthStore(state => state.setUser);
+    const { mutateAsync: registerUser, isPending: loading } = useRegister();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         setError('');
         try {
-            const user = await apiClient.post('/auth/register', { name, email, password });
-            if (user.token) {
-                localStorage.setItem('token', user.token);
-            }
-            setUser(user);
+            const data = await registerUser({ name, email, password });
+            const user = data.user || data;
             if (user.role === 'admin') {
                 router.push('/admin');
             } else {
@@ -35,8 +29,6 @@ export default function Register() {
             }
         } catch (err) {
             setError(err.message || 'Registration failed');
-        } finally {
-            setLoading(false);
         }
     };
 

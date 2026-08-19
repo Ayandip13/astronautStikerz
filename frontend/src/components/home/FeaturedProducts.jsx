@@ -2,8 +2,10 @@ import { ProductCard } from '@/components/product/ProductCard';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
-export function FeaturedProducts({ products }) {
-  if (!products || products.length === 0) return null;
+import { ProductGridSkeleton } from '@/components/product/ProductGrid';
+
+export function FeaturedProducts({ products, isLoading }) {
+  if (!isLoading && (!products || products.length === 0)) return null;
 
   return (
     <section className="w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-bg-sand/30">
@@ -17,11 +19,15 @@ export function FeaturedProducts({ products }) {
         </Link>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </div>
+      {isLoading ? (
+        <ProductGridSkeleton count={4} />
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
