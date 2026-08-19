@@ -21,31 +21,21 @@ export function ProductCard({ product }) {
 
   return (
     <Link href={`/products/${slug}`} className="group flex flex-col h-full bg-transparent outline-none">
-      <div className="relative w-full overflow-hidden bg-white border-[1.5px] border-foreground rounded-xl flex items-center justify-center mb-3 transition-colors shadow-sm">
+      <div className="relative w-full overflow-hidden bg-white border-2 border-foreground rounded-md flex items-center justify-center mb-3 transition-colors shadow-[2px_2px_0px_rgba(50,30,37,1)] group-hover:shadow-[4px_4px_0px_rgba(50,30,37,1)] duration-300">
         <img
           src={mainImage}
           alt={name}
-          className="w-full h-auto object-contain p-3 drop-shadow-md transition-transform duration-500 group-hover:scale-[1.02]"
+          className="w-full h-auto object-contain p-4 drop-shadow-md transition-transform duration-500 group-hover:scale-[1.02]"
         />
         
         {/* Badges */}
         <div className="absolute left-3 top-3 lg:left-4 lg:top-4 flex flex-col gap-1.5 z-10">
-          {isSale && (
-            <span className="bg-brand-coral px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px] cursor-default">
-              Sale
-            </span>
-          )}
-          {customizable && (
-            <span className="bg-brand-purple px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px] cursor-default">
-              Custom
-            </span>
-          )}
           {isOutOfStock ? (
-            <span className="bg-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-[2px] cursor-default">
+            <span className="bg-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider text-white rounded-sm cursor-default shadow-sm border border-foreground">
               Sold Out
             </span>
           ) : stock <= 10 ? (
-            <span className="bg-brand-yellow text-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider rounded-[2px] cursor-default">
+            <span className="bg-brand-yellow text-foreground px-2 py-1 text-[9px] lg:text-[10px] uppercase font-bold tracking-wider rounded-sm cursor-default shadow-sm border border-foreground">
               {stock === 1 ? 'Only 1 left' : `Only ${stock} left`}
             </span>
           ) : null}
