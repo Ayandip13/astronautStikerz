@@ -89,7 +89,7 @@ export default function CheckoutPage() {
       };
 
       const checkoutRes = await createOrder(orderPayload);
-      
+
       const { orderId, razorpayOrderId, amount, currency, trackingToken } = checkoutRes;
 
       // 2. Open Razorpay Checkout
@@ -130,13 +130,13 @@ export default function CheckoutPage() {
       };
 
       const rzp = new window.Razorpay(options);
-      
-      rzp.on('payment.failed', function (response){
+
+      rzp.on('payment.failed', function (response) {
         setError(`Payment Failed: ${response.error.description}`);
       });
 
       rzp.open();
-      
+
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || err.message || 'An error occurred during checkout');
@@ -178,7 +178,7 @@ export default function CheckoutPage() {
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-bold text-foreground">Phone</label>
-                  <input type="tel" id="phone" name="phone" required value={formData.phone} onChange={handleInputChange}
+                  <input type="tel" id="phone" name="phone" minLength={10} maxLength={10} required value={formData.phone} onChange={handleInputChange}
                     className="mt-1 block w-full rounded-xl border-2 border-zinc-200 dark:border-zinc-800 bg-transparent py-3 px-4 shadow-sm focus:border-brand-purple focus:ring-brand-purple outline-none transition-colors sm:text-sm" />
                 </div>
               </div>
@@ -226,7 +226,7 @@ export default function CheckoutPage() {
             <h2 className="font-display text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
               <ShoppingBag className="h-6 w-6" /> Summary
             </h2>
-            
+
             <ul className="mb-6 space-y-4 max-h-64 overflow-y-auto pr-2">
               {items.map((item, idx) => (
                 <li key={idx} className="flex justify-between items-center text-sm">
@@ -267,11 +267,11 @@ export default function CheckoutPage() {
             )}
 
             <div className="mt-8">
-              <Button 
-                type="submit" 
-                form="checkout-form" 
-                size="lg" 
-                variant="primary" 
+              <Button
+                type="submit"
+                form="checkout-form"
+                size="lg"
+                variant="primary"
                 className="w-full shadow-lg flex items-center justify-center gap-2"
                 disabled={isLoading}
               >

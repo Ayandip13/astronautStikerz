@@ -46,7 +46,31 @@ const createCheckoutOrder = async (req, res) => {
 
         // Validate products and calculate authoritative total
         for (const item of items) {
-            const product = await Product.findById(item.productId);
+            let product;
+            
+            // Check for fixed custom templates that only exist on the frontend
+            if (item.productId === '000000000000000000000001') {
+                product = {
+                    _id: '000000000000000000000001',
+                    name: 'Custom Notebook',
+                    price: 499,
+                    active: true,
+                    stock: 9999,
+                    images: [{ url: '/notebook-mockup.png' }]
+                };
+            } else if (item.productId === '000000000000000000000002') {
+                product = {
+                    _id: '000000000000000000000002',
+                    name: 'Custom Mousepad',
+                    price: 299,
+                    active: true,
+                    stock: 9999,
+                    images: [{ url: '/mousepad-mockup.png' }]
+                };
+            } else {
+                product = await Product.findById(item.productId);
+            }
+
             if (!product || !product.active) {
                 return res.status(400).json({ message: `Product ${item.productId} not found or inactive` });
             }
@@ -56,15 +80,22 @@ const createCheckoutOrder = async (req, res) => {
 
             subtotal += product.price * item.quantity;
 
+            // Handle image string correctly depending on if it's an object or string
+            let imageUrl = null;
+            if (product.images && product.images.length > 0) {
+                imageUrl = product.images[0].url ? product.images[0].url : product.images[0];
+            }
+
             orderItems.push({
                 product: product._id,
                 name: product.name,
-                image: product.images && product.images.length > 0 ? product.images[0] : null,
+                image: imageUrl,
                 price: product.price,
                 quantity: item.quantity,
                 isCustomized: item.isCustomized || false,
                 designId: item.designId || null,
-                previewImage: item.previewImage || null
+                previewImage: item.previewImage || null,
+                customization: item.customization || null
             });
         }
 
@@ -165,6 +196,11 @@ const verifyPayment = async (req, res) => {
             // Decrement stock atomically, ensuring it doesn't go below 0 if somehow race condition happens
             let stockUpdateFailed = false;
             for (const item of order.items) {
+                if (item.product.toString() === '000000000000000000000001' || item.product.toString() === '000000000000000000000002') {
+                    // Custom templates have infinite stock, don't decrement in DB
+                    continue;
+                }
+                
                 const result = await Product.updateOne(
                     { _id: item.product, stock: { $gte: item.quantity } },
                     { $inc: { stock: -item.quantity } }

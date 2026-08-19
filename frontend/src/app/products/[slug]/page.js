@@ -200,17 +200,9 @@ export default function ProductDetailPage({ params }) {
 
             {/* CTAs */}
             <div className="mt-2 flex flex-col sm:flex-row gap-4">
-              {product.customizable ? (
-                <Link href={`/products/${slug}/customize`} className="w-full sm:w-auto">
-                  <Button size="lg" className="w-full shadow-lg" disabled={isOutOfStock}>
-                    Customize Yours ✨
-                  </Button>
-                </Link>
-              ) : (
-                <Button size="lg" onClick={handleAddToCart} className="w-full sm:w-auto shadow-lg" disabled={isOutOfStock}>
-                  Add to Cart 🛒
-                </Button>
-              )}
+              <Button size="lg" onClick={handleAddToCart} className="w-full sm:w-auto shadow-lg" disabled={isOutOfStock}>
+                Add to Cart 🛒
+              </Button>
             </div>
             
             <p className="text-sm font-medium text-foreground/60 text-center sm:text-left mt-2">

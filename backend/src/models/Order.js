@@ -13,7 +13,21 @@ const orderItemSchema = new mongoose.Schema({
     // Prepared for Phase 5
     isCustomized: { type: Boolean, default: false },
     designId: { type: String },
-    previewImage: { type: String }
+    previewImage: { type: String },
+    customization: {
+        options: { type: Map, of: String },
+        sides: [{
+            side: { type: String }, // 'front' or 'back'
+            designId: { type: String },
+            previewUrl: { type: String },
+            canvasWidth: { type: Number },
+            canvasHeight: { type: Number },
+            designPosition: { x: Number, y: Number },
+            designScale: { x: Number, y: Number },
+            designRotation: { type: Number },
+            fitMode: { type: String, enum: ['FIT', 'FILL', 'FREE'] }
+        }]
+    }
 });
 
 const shippingAddressSchema = new mongoose.Schema({
@@ -50,7 +64,6 @@ const orderSchema = new mongoose.Schema({
     items: [orderItemSchema],
     shippingAddress: shippingAddressSchema,
     shippingDetails: shippingDetailsSchema,
-    
     subtotal: { type: Number, required: true },
     shippingAmount: { type: Number, required: true, default: 0 },
     totalAmount: { type: Number, required: true },

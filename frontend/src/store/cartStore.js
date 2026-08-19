@@ -27,16 +27,17 @@ export const useCartStore = create(
             const newItems = [...state.items];
             const newQuantity = newItems[existingItemIndex].quantity + quantity;
             // Cap at available stock
-            newItems[existingItemIndex].quantity = Math.min(newQuantity, product.stock);
+            newItems[existingItemIndex].quantity = Math.min(newQuantity, product.stock ?? 999);
             return { items: newItems };
           } else {
             // Add new item
             const newItem = {
               product,
-              quantity: Math.min(quantity, product.stock),
+              quantity: Math.min(quantity, product.stock ?? 999),
               isCustomized,
               designId,
-              previewImage
+              previewImage,
+              customization: options.customization
             };
             return { items: [...state.items, newItem] };
           }
@@ -57,7 +58,7 @@ export const useCartStore = create(
         set((state) => ({
           items: state.items.map(item => {
             if (item.product._id === productId && item.designId === designId) {
-              return { ...item, quantity: Math.min(quantity, item.product.stock) };
+              return { ...item, quantity: Math.min(quantity, item.product.stock ?? 999) };
             }
             return item;
           })
@@ -73,6 +74,15 @@ export const useCartStore = create(
     {
       name: 'astronaut-cart-storage',
       partialize: (state) => ({ items: state.items }), // Only persist items, not UI state
+      onRehydrateStorage: () => (state) => {
+        // Sanitize any NaN quantities that might have snuck in due to missing stock
+        if (state && state.items) {
+          state.items = state.items.map(item => ({
+            ...item,
+            quantity: isNaN(item.quantity) || item.quantity === null ? 1 : item.quantity
+          }));
+        }
+      }
     }
   )
 );

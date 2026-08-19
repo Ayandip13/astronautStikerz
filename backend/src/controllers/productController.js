@@ -29,6 +29,13 @@ const getProducts = async (req, res, next) => {
             query.customizable = req.query.customizable === 'true';
         }
 
+        if (req.query.isTemplate !== undefined) {
+            query.isTemplate = req.query.isTemplate === 'true';
+        } else {
+            // Default: do not show templates in regular product listings
+            query.isTemplate = false;
+        }
+
         if (req.query.featured !== undefined) {
             query.featured = req.query.featured === 'true';
         }

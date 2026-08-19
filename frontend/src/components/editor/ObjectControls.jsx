@@ -6,7 +6,9 @@ export function ObjectControls({
   selectedObject,
   onUpdateObject,
   onBringForward,
-  onSendBackward
+  onSendBackward,
+  onFit,
+  onFill
 }) {
   const [showColorPicker, setShowColorPicker] = useState(false);
 
@@ -96,6 +98,26 @@ export function ObjectControls({
       >
         <SendToBack className="h-4 w-4" />
       </button>
+
+      {!isText && (
+        <>
+          <div className="w-px h-6 bg-foreground/10 mx-1"></div>
+          <button 
+            onClick={onFit}
+            className="flex h-8 px-2 text-xs font-bold items-center justify-center rounded-lg hover:bg-foreground/5 transition-colors text-foreground/70"
+            title="Fit to Print Area"
+          >
+            FIT
+          </button>
+          <button 
+            onClick={onFill}
+            className="flex h-8 px-2 text-xs font-bold items-center justify-center rounded-lg hover:bg-foreground/5 transition-colors text-foreground/70"
+            title="Fill Print Area"
+          >
+            FILL
+          </button>
+        </>
+      )}
 
     </div>
   );

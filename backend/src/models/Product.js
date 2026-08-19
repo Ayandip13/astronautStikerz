@@ -75,6 +75,10 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    isTemplate: {
+        type: Boolean,
+        default: false,
+    },
     customizationConfig: customizationConfigSchema,
 }, {
     timestamps: true,
