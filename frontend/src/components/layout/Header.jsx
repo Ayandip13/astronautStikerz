@@ -70,7 +70,7 @@ export function Header() {
           <div className="flex flex-1 justify-center md:flex-none md:justify-start">
             <Link href="/" className="flex flex-col items-start justify-center leading-none transition-transform hover:-translate-y-0.5 active:scale-95 py-1">
               <span 
-                className="font-black text-[28px] md:text-[32px] uppercase text-[#E4B84A] italic" 
+                className="font-black text-[22px] sm:text-[28px] md:text-[32px] uppercase text-[#E4B84A] italic" 
                 style={{ 
                   fontFamily: '"Impact", "Arial Black", sans-serif',
                   WebkitTextStroke: '1.5px #321E25',
@@ -98,7 +98,7 @@ export function Header() {
           </nav>
 
           {/* Right side icons */}
-          <div className="flex flex-1 items-center justify-end gap-5 md:flex-none">
+          <div className="flex flex-1 items-center justify-end gap-3 sm:gap-5 md:flex-none">
             <button
               className="text-foreground/70 transition-transform hover:scale-110 hover:text-brand-purple"
               onClick={() => setIsSearchOpen(true)}

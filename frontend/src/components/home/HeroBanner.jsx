@@ -23,7 +23,7 @@ export function HeroBanner() {
 
   return (
     <section className="w-full bg-bg-cream border-b border-foreground/10 overflow-hidden relative group">
-      <div className="relative w-full aspect-[4/5] sm:aspect-[21/9] lg:aspect-[24/9] bg-bg-sand overflow-hidden">
+      <div className="relative w-full min-h-[85vh] sm:min-h-0 sm:aspect-[21/9] lg:aspect-[24/9] bg-bg-sand overflow-hidden">
         {/* The Campaign Artwork Carousel */}
         {IMAGES.map((src, idx) => (
           <Image 
