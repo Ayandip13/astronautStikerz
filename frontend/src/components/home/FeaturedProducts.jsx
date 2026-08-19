@@ -22,9 +22,9 @@ export function FeaturedProducts({ products, isLoading }) {
       {isLoading ? (
         <ProductGridSkeleton count={4} />
       ) : (
-        <div className="grid grid-rows-2 grid-flow-col sm:grid-rows-none sm:grid-flow-row auto-cols-[42vw] sm:auto-cols-auto overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="grid grid-rows-2 grid-flow-col sm:grid-rows-none sm:grid-flow-row auto-cols-[42vw] sm:auto-cols-auto overflow-x-auto sm:overflow-visible sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {products.map((product) => (
-            <div key={product._id} className="snap-start shrink-0 h-full">
+            <div key={product._id} className="shrink-0 h-full">
               <ProductCard product={product} />
             </div>
           ))}
