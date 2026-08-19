@@ -1,33 +1,18 @@
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { use } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import apiClient from '@/lib/api/client';
 import { ArrowLeft, MapPin, Package, CreditCard, Loader2, CheckCircle2, Circle, Clock, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useOrderDetails } from '@/lib/api/hooks/useOrders';
 
 export default function OrderDetailsPage({ params }) {
   const unwrappedParams = use(params);
   const orderId = unwrappedParams.id;
   
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const data = await apiClient.get(`/orders/${orderId}`);
-        setOrder(data);
-      } catch (err) {
-        setError('Could not fetch order details. Ensure you are authorized to view this order.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (orderId) fetchOrder();
-  }, [orderId]);
+  const { data: order, isLoading: loading, isError } = useOrderDetails(orderId);
+  const error = isError ? 'Could not fetch order details. Ensure you are authorized to view this order.' : null;
 
   const getImageUrl = (image) => {
     if (!image) return '/placeholder.jpg';
@@ -127,19 +112,9 @@ export default function OrderDetailsPage({ params }) {
               <div className="relative border-l-2 border-brand-purple/20 ml-3 space-y-8 pb-4">
                 {timelineSteps.map((step, index) => {
                   const timestamp = getStepTimestamp(step.id);
-                  const isCompleted = !!timestamp;
-                  // If order status is pending, current is pending.
-                  // Wait, how to find current step exactly? 
-                  // If step has timestamp, it's completed. The LAST step with timestamp is current?
-                  // Actually, if it has a timestamp, it's done. But we want the highest completed one to be "current".
-                  let isCurrent = false;
-                  if (order.statusHistory) {
-                    const completedSteps = timelineSteps.filter(s => getStepTimestamp(s.id));
-                    const lastCompleted = completedSteps[completedSteps.length - 1];
-                    if (lastCompleted && lastCompleted.id === step.id && order.orderStatus !== 'delivered') {
-                        isCurrent = true;
-                    }
-                  }
+                  const stepIndex = timelineSteps.findIndex(s => s.id === step.id);
+                  const isCompleted = stepIndex <= currentStatusIndex;
+                  const isCurrent = stepIndex === currentStatusIndex && order.orderStatus !== 'delivered';
 
                   return (
                     <div key={step.id} className="relative pl-8">

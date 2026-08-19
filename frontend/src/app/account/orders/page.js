@@ -1,34 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Package, Truck, ArrowRight, CheckCircle2, Loader2, RefreshCcw } from 'lucide-react';
-import apiClient from '@/lib/api/client';
 import { Button } from '@/components/ui/Button';
+import { useMyOrders } from '@/lib/api/hooks/useOrders';
 
 export default function MyOrdersPage() {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchOrders = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await apiClient.get('/orders/myorders');
-      setOrders(data);
-    } catch (err) {
-      setError('Could not fetch your orders. Please make sure you are logged in.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => fetchOrders(), 0);
-    return () => clearTimeout(timer);
-  }, []);
+  const { data: orders = [], isLoading: loading, isError, refetch: fetchOrders } = useMyOrders();
+  const error = isError ? 'Could not fetch your orders. Please make sure you are logged in.' : null;
 
   const getImageUrl = (image) => {
     if (!image) return '/placeholder.jpg';
