@@ -20,7 +20,7 @@ export function Header() {
   const totalItems = getTotalItems();
   const { data: user } = useUser();
   const { mutate: logout } = useLogout();
-  const { data: categoriesData } = useCategories();
+  const { data: categoriesData, isLoading: loadingCategories } = useCategories();
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 0);
@@ -39,8 +39,6 @@ export function Header() {
     name: cat.name,
     href: `/category/${cat.slug}`,
   }));
-
-  const navigation = [...baseNavigation, ...categoryNavigation];
 
   const isActive = (path) => pathname === path;
 
@@ -85,7 +83,7 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center justify-center gap-5 lg:gap-8 mx-auto px-6">
-            {navigation.map((item) => (
+            {baseNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
@@ -95,6 +93,23 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
+            
+            {loadingCategories ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={`skel-${i}`} className="h-4 w-16 bg-foreground/10 rounded animate-pulse" />
+              ))
+            ) : (
+              categoryNavigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`text-sm font-bold whitespace-nowrap transition-all hover:-translate-y-0.5 hover:text-brand-purple ${isActive(item.href) ? 'text-brand-purple' : 'text-foreground/70'
+                    }`}
+                >
+                  {item.name}
+                </Link>
+              ))
+            )}
           </nav>
 
           {/* Right side icons */}
@@ -162,7 +177,7 @@ export function Header() {
               <div className="mt-8 flow-root">
                 <nav className="-my-6 divide-y divide-foreground/10">
                   <div className="space-y-2 py-6">
-                    {navigation.map((item) => (
+                    {baseNavigation.map((item) => (
                       <Link
                         key={item.name}
                         href={item.href}
@@ -172,6 +187,23 @@ export function Header() {
                         {item.name}
                       </Link>
                     ))}
+                    
+                    {loadingCategories ? (
+                      Array.from({ length: 3 }).map((_, i) => (
+                        <div key={`mob-skel-${i}`} className="h-6 w-32 bg-foreground/10 rounded animate-pulse my-4 mx-1" />
+                      ))
+                    ) : (
+                      categoryNavigation.map((item) => (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          className="-mx-3 block rounded-lg px-3 py-2 text-base font-bold text-foreground hover:bg-foreground/5 hover:text-brand-purple"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {item.name}
+                        </Link>
+                      ))
+                    )}
                   </div>
                   <div className="py-6 space-y-2">
                     {user ? (
