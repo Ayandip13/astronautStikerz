@@ -21,11 +21,11 @@ export function ProductCard({ product }) {
 
   return (
     <Link href={`/products/${slug}`} className="group flex flex-col h-full bg-transparent outline-none">
-      <div className="relative w-full overflow-hidden bg-white border border-foreground/20 rounded-xl flex items-center justify-center mb-3 transition-colors">
+      <div className="relative w-full overflow-hidden bg-white border-[1.5px] border-foreground rounded-xl flex items-center justify-center mb-3 transition-colors shadow-sm">
         <img
           src={mainImage}
           alt={name}
-          className="w-full h-auto object-contain p-1 drop-shadow-md transition-transform duration-500 group-hover:scale-[1.02]"
+          className="w-full h-auto object-contain p-3 drop-shadow-md transition-transform duration-500 group-hover:scale-[1.02]"
         />
         
         {/* Badges */}
