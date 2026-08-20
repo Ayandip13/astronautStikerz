@@ -10,7 +10,6 @@ const IMAGES = [
   '/images/campaign/hero-banner.png',
   '/images/campaign/hero-banner-2.png',
   '/images/campaign/hero-banner-3.png',
-  '/images/bengali_culture.png',
 ];
 
 export function HeroBanner() {
