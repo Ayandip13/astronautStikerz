@@ -404,7 +404,7 @@ export function ProductCanvas({ product, currentSide = 'front', onPreview, isLas
       });
     } catch (err) {
       console.error(err);
-      alert("Failed to generate preview. Please ensure you are logged in.");
+      alert(err?.message || "Failed to generate preview. Please try again or check your connection.");
     } finally {
       setSaving(false);
     }
