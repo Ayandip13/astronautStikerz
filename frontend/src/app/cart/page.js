@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { ScribbleUnderline } from '@/components/ui/Doodles';
 import { useCartStore } from '@/store/cartStore';
 import { Button } from '@/components/ui/Button';
 
@@ -63,7 +64,10 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="font-display text-4xl font-bold text-foreground mb-8">Your Cart 🛒</h1>
+      <div className="relative inline-block mb-8">
+        <h1 className="font-display text-4xl font-bold text-foreground relative z-10">Your Cart</h1>
+        <ScribbleUnderline className="absolute -bottom-3 left-0 w-full h-4 text-brand-purple opacity-50" />
+      </div>
       
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Cart Items */}

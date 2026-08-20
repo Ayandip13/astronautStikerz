@@ -10,6 +10,7 @@ import { CartDrawer } from '../cart/CartDrawer';
 import { useCartStore } from '@/store/cartStore';
 import { useUser, useLogout } from '@/lib/api/hooks/useUser';
 import { useCategories } from '@/lib/api/hooks/useCategories';
+import { StarDoodle } from '@/components/ui/Doodles';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

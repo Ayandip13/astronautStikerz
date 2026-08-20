@@ -6,6 +6,7 @@ import Script from 'next/script';
 import { useCartStore } from '@/store/cartStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/Button';
+import { RocketDoodle } from '@/components/ui/Doodles';
 import { useCreateOrder, useVerifyPayment } from '@/lib/api/hooks/useCheckout';
 import { ShoppingBag, Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -148,7 +149,10 @@ export default function CheckoutPage() {
       {/* Load Razorpay script dynamically */}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
-      <h1 className="font-display text-4xl font-bold text-foreground mb-8">Checkout</h1>
+      <div className="relative inline-flex items-center mb-8">
+        <h1 className="font-display text-4xl font-bold text-foreground">Checkout</h1>
+        <RocketDoodle className="w-10 h-10 ml-4 text-brand-purple -rotate-45" />
+      </div>
 
       <div className="mb-8 rounded-2xl bg-brand-purple/5 p-4 text-center border border-brand-purple/10">
         <p className="text-foreground/80 font-medium">

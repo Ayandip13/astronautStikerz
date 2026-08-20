@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { CoffeeDoodle } from '@/components/ui/Doodles';
 
 export function Footer() {
   const pathname = usePathname();
@@ -80,8 +81,8 @@ export function Footer() {
         </div>
         
         <div className="mt-12 border-t border-foreground/10 pt-8 flex flex-col md:flex-row items-center justify-between">
-          <p className="text-sm font-medium text-foreground/60">
-            &copy; {new Date().getFullYear()} Astronaut Stickerz. All rights reserved.
+          <p className="text-sm font-medium text-foreground/60 flex items-center gap-2">
+            &copy; {new Date().getFullYear()} Astronaut Stickerz. Made with <CoffeeDoodle className="w-4 h-4 text-foreground/40" /> in Kolkata.
           </p>
         </div>
       </div>

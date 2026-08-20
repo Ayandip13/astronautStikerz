@@ -4,8 +4,8 @@ import { useEffect, useState, use, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle2, Package, ShoppingBag, ArrowRight } from 'lucide-react';
-import { useOrderDetails } from '@/lib/api/hooks/useOrders';
 import { Button } from '@/components/ui/Button';
+import { CheckmarkDoodle } from '@/components/ui/Doodles';
 
 function OrderSuccessPage({ params }) {
   const unwrappedParams = use(params);
@@ -47,9 +47,12 @@ function OrderSuccessPage({ params }) {
             <CheckCircle2 className="h-12 w-12 text-brand-purple" />
           </div>
           
-          <h1 className="font-display text-4xl font-bold text-foreground mb-4">
-            Order Confirmed!
-          </h1>
+          <div className="relative inline-block mb-4">
+            <h1 className="font-display text-4xl font-bold text-foreground">
+              Order Confirmed!
+            </h1>
+            <CheckmarkDoodle className="absolute -top-6 -right-10 w-12 h-12 text-green-500" />
+          </div>
           <p className="text-lg font-medium text-foreground/70 mb-8">
             Thank you for shopping with Astronaut Stickerz. Your order <span className="font-bold text-foreground">#{order.orderNumber}</span> has been placed successfully.
           </p>

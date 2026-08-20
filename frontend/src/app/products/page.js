@@ -9,6 +9,7 @@ import { ProductGrid, ProductGridSkeleton } from '@/components/product/ProductGr
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Button } from '@/components/ui/Button';
 import { Search } from 'lucide-react';
+import { StarDoodle } from '@/components/ui/Doodles';
 
 function ShopContent() {
   const router = useRouter();
@@ -68,11 +69,14 @@ function ShopContent() {
 
   return (
     <div className="mx-auto w-full max-w-[96rem] px-4 py-12 sm:px-6 lg:px-12 bg-background min-h-screen">
-      <SectionHeading 
-        title={keywordParam ? `Search: "${keywordParam}"` : "All Products"} 
-        subtitle="Browse our complete collection of beautiful desk essentials."
-        className="mb-8 items-center text-center sm:items-start sm:text-left"
-      />
+      <div className="relative inline-block w-full">
+        <StarDoodle className="absolute -top-4 right-10 sm:left-40 sm:right-auto w-10 h-10 text-brand-purple opacity-40 -rotate-12" />
+        <SectionHeading 
+          title={keywordParam ? `Search: "${keywordParam}"` : "All Products"} 
+          subtitle="Browse our complete collection of beautiful desk essentials."
+          className="mb-8 items-center text-center sm:items-start sm:text-left"
+        />
+      </div>
 
       <div className="flex flex-col mb-12 border-b border-foreground/10 pb-6 gap-6 sm:flex-row sm:items-center sm:justify-between">
         

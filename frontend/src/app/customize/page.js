@@ -7,6 +7,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { CUSTOM_PRODUCTS } from '@/lib/data/customProducts';
+import { InkPotDoodle, PaperclipDoodle } from '@/components/ui/Doodles';
 
 function CustomizeContent() {
   const router = useRouter();
@@ -16,11 +17,15 @@ function CustomizeContent() {
 
   return (
     <div className="mx-auto w-full max-w-[96rem] px-4 py-12 sm:px-6 lg:px-12 bg-background min-h-screen">
-      <SectionHeading 
-        title="Customization Studio" 
-        subtitle="Design your own custom products. Select a template to get started."
-        className="mb-12 items-center text-center"
-      />
+      <div className="relative inline-block w-full">
+        <InkPotDoodle className="absolute -top-4 left-10 sm:left-1/3 w-10 h-10 text-brand-yellow opacity-60 -rotate-12" />
+        <PaperclipDoodle className="absolute -bottom-4 right-10 sm:right-1/3 w-8 h-8 text-brand-purple opacity-50 rotate-45" />
+        <SectionHeading 
+          title="Customization Studio" 
+          subtitle="Design your own custom products. Select a template to get started."
+          className="mb-12 items-center text-center relative z-10"
+        />
+      </div>
 
       {/* Product Grid Area */}
       <div className="w-full">

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useProductBySlug } from '@/lib/api/hooks/useProducts';
 import { RelatedProducts } from '@/components/product/RelatedProducts';
 import { Button } from '@/components/ui/Button';
+import { SparkleDoodle, HeartDoodle } from '@/components/ui/Doodles';
 import { useCartStore } from '@/store/cartStore';
 
 // For Next.js 15 params unwrapping
@@ -135,9 +136,12 @@ export default function ProductDetailPage({ params }) {
 
         {/* Product Info */}
         <div className="lg:w-1/2 flex flex-col pt-2 sm:pt-6">
-          <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
-            {product.name}
-          </h1>
+            <div className="relative inline-block">
+              <SparkleDoodle className="absolute -top-6 -right-6 w-8 h-8 text-brand-yellow opacity-80" />
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 uppercase tracking-tight leading-tight">
+                {product.name}
+              </h1>
+            </div>
           
           <div className="mt-4 flex items-end gap-3">
             <p className="text-3xl font-bold text-brand-purple">
@@ -199,9 +203,10 @@ export default function ProductDetailPage({ params }) {
             )}
 
             {/* CTAs */}
-            <div className="mt-2 flex flex-col sm:flex-row gap-4">
+            <div className="mt-2 flex flex-col sm:flex-row gap-4 relative">
+              <HeartDoodle className="absolute -top-4 -right-2 sm:-top-6 sm:-right-8 w-8 h-8 text-brand-coral opacity-60 rotate-12" />
               <Button size="lg" onClick={handleAddToCart} className="w-full sm:w-auto shadow-lg" disabled={isOutOfStock}>
-                Add to Cart 🛒
+                Add to Cart
               </Button>
             </div>
             

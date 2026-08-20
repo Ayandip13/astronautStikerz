@@ -7,6 +7,7 @@ import { ProductCanvas } from '@/components/editor/ProductCanvas';
 import { ReviewStep } from '@/components/editor/ReviewStep';
 import { Button } from '@/components/ui/Button';
 import { ArrowLeft, Loader2 } from 'lucide-react';
+import { SparkleDoodle } from '@/components/ui/Doodles';
 
 export default function StudioPage({ params }) {
   const unwrappedParams = use(params);
@@ -89,7 +90,10 @@ export default function StudioPage({ params }) {
             <ArrowLeft className="h-4 w-4 mr-2" /> Back
           </Button>
           <div>
-            <h1 className="font-display font-bold text-lg leading-none">Design Studio</h1>
+            <div className="relative inline-block">
+              <h1 className="font-display font-bold text-lg leading-none">Design Studio</h1>
+              <SparkleDoodle className="absolute -top-3 -right-5 w-5 h-5 text-brand-yellow opacity-80" />
+            </div>
             <p className="text-xs text-foreground/50">{product.name}</p>
           </div>
         </div>
