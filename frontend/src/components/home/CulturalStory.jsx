@@ -16,7 +16,7 @@ export function CulturalStory() {
             
             <div className="w-full h-[60%] sm:h-[65%] relative border-b border-white/10">
               <Image 
-                src="/images/campaign/bengali_culture.png"
+                src="/images/campaign/vintage_desk.png"
                 alt="Original Bengali Art" 
                 fill
                 className="object-cover"
