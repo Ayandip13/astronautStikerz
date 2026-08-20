@@ -49,3 +49,37 @@ export function PaperclipDoodle({ className = '' }) {
     </svg>
   );
 }
+
+export function InkPotDoodle({ className = '' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 16v2a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2" />
+      <path d="M7 16h10v-3s-2-2-5-2-5 2-5 2v3z" />
+      <path d="M12 11V3s2 1 2 4-2 4-2 4z" />
+      <path d="M12 3s-2 1-2 4 2 4 2 4" />
+    </svg>
+  );
+}
+
+export function GlassesDoodle({ className = '' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="15" r="4" />
+      <circle cx="18" cy="15" r="4" />
+      <path d="M10 15c0-1.5 1.5-2.5 2-2.5s2 1 2 2.5" />
+      <path d="M2 15s1-3 4-3" />
+      <path d="M22 15s-1-3-4-3" />
+    </svg>
+  );
+}
+
+export function BharDoodle({ className = '' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 8l1 11a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2l1-11" />
+      <ellipse cx="12" cy="8" rx="5" ry="2" />
+      <path d="M10 4s1 2 1 0 1 2 1 0" opacity="0.6" />
+      <path d="M14 3s1 3 1 0" opacity="0.6" />
+    </svg>
+  );
+}

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { InkPotDoodle, GlassesDoodle, BharDoodle } from '@/components/ui/Doodles';
 
 import Image from 'next/image';
 
@@ -31,14 +32,19 @@ export function CulturalStory() {
         </div>
 
         {/* Text Content */}
-        <div className="w-full lg:w-1/2 flex flex-col items-start text-left mt-8 lg:mt-0">
+        <div className="w-full lg:w-1/2 flex flex-col items-start text-left mt-8 lg:mt-0 relative">
+          <BharDoodle className="absolute -top-8 sm:-top-12 right-0 sm:-right-4 w-8 h-8 sm:w-10 sm:h-10 text-white/20 rotate-12" />
           <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 leading-[1.1] uppercase tracking-tight text-white">
             Made for People<br/>
-            <span className="text-brand-coral italic lowercase tracking-normal">who collect stories.</span>
+            <span className="text-brand-coral italic lowercase tracking-normal relative inline-block">
+              who collect stories.
+              <InkPotDoodle className="absolute -bottom-4 sm:-bottom-6 -right-8 sm:-right-12 w-8 h-8 sm:w-10 sm:h-10 text-brand-yellow/80 -rotate-12" />
+            </span>
           </h2>
           
-          <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-white/80 font-medium mb-8 sm:mb-10 max-w-lg">
-            <p>
+          <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-white/80 font-medium mb-8 sm:mb-10 max-w-lg relative">
+            <GlassesDoodle className="absolute top-10 -left-6 sm:-left-12 w-10 h-10 sm:w-12 sm:h-12 text-white/10 -rotate-12" />
+            <p className="relative z-10">
               Astronaut Stickerz isn't just about covering your laptop. It's about taking the visual culture of Kolkata, the nostalgia of retro comics, and the warmth of Bengali literature, and giving it a place on your desk.
             </p>
           </div>
