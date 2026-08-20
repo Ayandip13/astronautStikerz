@@ -10,7 +10,7 @@ export function CategoryCard({ category, customImage, tagline }) {
 
   return (
     <Link href={`/category/${slug}`} className="group flex flex-col w-full h-full border border-foreground/10 bg-white hover:border-foreground/30 hover:shadow-lg transition-all duration-300">
-      <div className="relative aspect-[4/5] sm:aspect-square overflow-hidden bg-[#F8F0E6]">
+      <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-[#F8F0E6]">
         {displayImage ? (
           <Image
             src={displayImage}
