@@ -24,7 +24,7 @@ export function NewArrivals({ products, isLoading }) {
       ) : (
         <div className="flex sm:grid overflow-x-auto sm:overflow-visible sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {products.map((product) => (
-            <div key={product._id} className="min-w-[65vw] sm:min-w-0 shrink-0">
+            <div key={product._id} className="min-w-[42vw] sm:min-w-0 shrink-0">
               <ProductCard product={product} />
             </div>
           ))}
