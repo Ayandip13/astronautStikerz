@@ -1,7 +1,7 @@
 import { ProductCard } from '@/components/product/ProductCard';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-
+import { StarDoodle } from '@/components/ui/Doodles';
 import { ProductGridSkeleton } from '@/components/product/ProductGrid';
 
 export function FeaturedProducts({ products, isLoading }) {
@@ -11,7 +11,10 @@ export function FeaturedProducts({ products, isLoading }) {
     <section className="w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-bg-sand/30">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 gap-4">
         <div className="flex flex-col gap-2">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground uppercase tracking-tight">What's Popular</h2>
+          <h2 className="relative font-display text-2xl sm:text-3xl font-bold text-foreground uppercase tracking-tight">
+            What's Popular
+            <StarDoodle className="absolute -top-3 -right-6 w-5 h-5 text-brand-yellow opacity-90" />
+          </h2>
           <div className="h-1 w-16 sm:w-24 bg-brand-purple"></div>
         </div>
         <Link href="/products" className="text-sm font-bold text-foreground/70 hover:text-brand-purple uppercase tracking-widest flex items-center gap-2 transition-colors">

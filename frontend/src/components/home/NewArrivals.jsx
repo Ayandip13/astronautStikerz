@@ -1,7 +1,7 @@
 import { ProductCard } from '@/components/product/ProductCard';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-
+import { PlanetDoodle, ArrowDoodle } from '@/components/ui/Doodles';
 import { ProductGridSkeleton } from '@/components/product/ProductGrid';
 
 export function NewArrivals({ products, isLoading }) {
@@ -11,11 +11,14 @@ export function NewArrivals({ products, isLoading }) {
     <section className="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
         <div className="flex flex-col gap-2">
-          <h2 className="font-display text-3xl font-bold text-foreground uppercase tracking-tight">Just Dropped</h2>
+          <h2 className="relative font-display text-3xl font-bold text-foreground uppercase tracking-tight flex items-center gap-2">
+            Just Dropped
+            <PlanetDoodle className="w-6 h-6 text-brand-coral opacity-80" />
+          </h2>
           <div className="h-1 w-24 bg-brand-coral"></div>
         </div>
         <Link href="/products" className="text-sm font-bold text-foreground/70 hover:text-brand-coral uppercase tracking-widest flex items-center gap-2 transition-colors">
-          See Newest <ArrowRight className="h-4 w-4" />
+          See Newest <ArrowDoodle className="h-4 w-4" />
         </Link>
       </div>
       

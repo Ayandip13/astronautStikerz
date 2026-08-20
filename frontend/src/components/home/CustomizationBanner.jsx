@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { PaperclipDoodle } from '@/components/ui/Doodles';
 
 export function CustomizationBanner() {
   return (
@@ -26,7 +27,8 @@ export function CustomizationBanner() {
            
            <div className="relative z-10 w-full px-12 grid grid-cols-2 gap-4">
               <div className="aspect-square bg-white rounded-2xl rotate-3 shadow-2xl flex items-center justify-center p-4">
-                 <div className="w-full h-full bg-bg-sand rounded-xl border border-dashed border-foreground/30 flex items-center justify-center">
+                  <div className="w-full h-full bg-bg-sand rounded-xl border border-dashed border-foreground/30 flex items-center justify-center relative">
+                    <PaperclipDoodle className="absolute -top-3 -right-3 w-8 h-8 text-brand-purple rotate-45" />
                     <span className="text-foreground/50 font-bold uppercase text-xs tracking-wider">Your Art Here</span>
                  </div>
               </div>

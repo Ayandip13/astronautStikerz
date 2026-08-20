@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { useState, useEffect } from 'react';
+import { SparkleDoodle } from '@/components/ui/Doodles';
 
 const IMAGES = [
   '/images/campaign/hero-banner.png',
@@ -44,9 +45,12 @@ export function HeroBanner() {
         {/* Content Container */}
         <div className="absolute inset-0 flex flex-col justify-end p-6 sm:justify-center sm:p-12 lg:p-24 w-full z-20 pb-12 sm:pb-6">
           <div className="max-w-2xl text-left">
-            <h1 className="font-display text-3xl sm:text-5xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight tracking-tight drop-shadow-xl uppercase" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8)' }}>
+            <h1 className="relative font-display text-3xl sm:text-5xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight tracking-tight drop-shadow-xl uppercase" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8)' }}>
               Stickers for<br />
-              <span className="text-brand-yellow drop-shadow-2xl">Your Kind</span><br />
+              <span className="relative inline-block text-brand-yellow drop-shadow-2xl">
+                Your Kind
+                <SparkleDoodle className="absolute -top-4 -right-8 sm:-top-6 sm:-right-12 w-6 h-6 sm:w-10 sm:h-10 text-white opacity-90 animate-pulse" />
+              </span><br />
               of People.
             </h1>
             

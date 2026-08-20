@@ -148,7 +148,7 @@ export default function CheckoutPage() {
       {/* Load Razorpay script dynamically */}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
-      <h1 className="font-display text-4xl font-bold text-foreground mb-8">Checkout 🚀</h1>
+      <h1 className="font-display text-4xl font-bold text-foreground mb-8">Checkout</h1>
 
       <div className="mb-8 rounded-2xl bg-brand-purple/5 p-4 text-center border border-brand-purple/10">
         <p className="text-foreground/80 font-medium">
