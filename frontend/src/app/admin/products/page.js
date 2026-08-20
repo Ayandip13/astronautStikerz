@@ -150,7 +150,7 @@ export default function AdminProducts() {
                                         </td>
                                         <td className="px-6 py-4">
                                             {product.customizable ? (
-                                                <span className="text-brand-purple font-bold">Yes ✨</span>
+                                                <span className="text-brand-purple font-bold">Yes</span>
                                             ) : (
                                                 <span className="text-zinc-400">No</span>
                                             )}

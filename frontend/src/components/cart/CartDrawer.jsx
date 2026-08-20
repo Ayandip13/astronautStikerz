@@ -65,7 +65,7 @@ export function CartDrawer({ isOpen, onClose }) {
                 <ShoppingBag className="h-12 w-12 text-brand-purple" />
               </div>
               <p className="text-lg font-bold text-foreground/70">Your cart is empty.</p>
-              <Button onClick={onClose} variant="primary">Continue Shopping ✨</Button>
+              <Button onClick={onClose} variant="primary">Continue Shopping</Button>
             </div>
           ) : (
             <ul className="space-y-6">
@@ -90,7 +90,7 @@ export function CartDrawer({ isOpen, onClose }) {
                         <p className="font-bold text-brand-purple ml-4">₹{item.product.price.toFixed(2)}</p>
                       </div>
                       {item.isCustomized && (
-                        <p className="mt-1 text-xs font-bold text-brand-coral">Customized Design ✨</p>
+                        <p className="mt-1 text-xs font-bold text-brand-coral">Customized Design</p>
                       )}
                     </div>
                     

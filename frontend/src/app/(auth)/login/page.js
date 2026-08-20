@@ -80,7 +80,7 @@ export default function Login() {
                     </div>
                     
                     <Button type="submit" size="lg" variant="primary" className="mt-4 shadow-lg w-full text-lg" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Login ✨'}
+                        {loading ? 'Logging in...' : 'Login'}
                     </Button>
                 </form>
                 

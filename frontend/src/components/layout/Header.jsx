@@ -31,7 +31,7 @@ export function Header() {
 
   const baseNavigation = [
     { name: 'Home', href: '/' },
-    { name: 'Customization ✨', href: '/customize' },
+    { name: 'Customization', href: '/customize' },
     { name: 'Shop All', href: '/products' },
   ];
 

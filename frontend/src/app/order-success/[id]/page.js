@@ -48,7 +48,7 @@ function OrderSuccessPage({ params }) {
           </div>
           
           <h1 className="font-display text-4xl font-bold text-foreground mb-4">
-            Order Confirmed! ✨
+            Order Confirmed!
           </h1>
           <p className="text-lg font-medium text-foreground/70 mb-8">
             Thank you for shopping with Astronaut Stickerz. Your order <span className="font-bold text-foreground">#{order.orderNumber}</span> has been placed successfully.

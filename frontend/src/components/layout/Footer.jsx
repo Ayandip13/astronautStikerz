@@ -39,7 +39,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/customize" className="text-base font-medium text-foreground/70 hover:text-brand-purple transition-colors">
-                  Customization ✨
+                  Customization
                 </Link>
               </li>
             </ul>

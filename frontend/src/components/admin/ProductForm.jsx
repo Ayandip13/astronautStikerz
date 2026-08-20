@@ -320,7 +320,7 @@ export function ProductForm({ initialData = null }) {
                     {/* Customization */}
                     <div className="bg-white rounded-xl shadow-sm border border-zinc-100 p-6 space-y-4">
                         <div className="flex justify-between items-center border-b border-zinc-100 pb-2">
-                            <h2 className="text-lg font-bold text-zinc-900">Customization ✨</h2>
+                            <h2 className="text-lg font-bold text-zinc-900">Customization</h2>
                             <label className="flex items-center gap-2">
                                 <span className="text-sm font-medium text-zinc-700">Allow Customization</span>
                                 <input type="checkbox" name="customizable" checked={formData.customizable} onChange={handleChange} className="w-4 h-4 text-brand-purple border-zinc-300 rounded focus:ring-brand-purple" />

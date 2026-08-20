@@ -93,7 +93,7 @@ export default function Register() {
                     </div>
                     
                     <Button type="submit" size="lg" variant="primary" className="mt-4 shadow-lg w-full text-lg" disabled={loading}>
-                        {loading ? 'Creating account...' : 'Create Account ✨'}
+                        {loading ? 'Creating account...' : 'Create Account'}
                     </Button>
                 </form>
                 

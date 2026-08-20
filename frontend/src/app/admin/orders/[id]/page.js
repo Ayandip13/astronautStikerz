@@ -152,7 +152,7 @@ export default function AdminOrderDetails() {
                                                     <p className="text-sm text-zinc-500">Qty: {item.quantity}</p>
                                                     {item.isCustomized && (
                                                         <span className="inline-flex items-center gap-1 mt-1 rounded-full bg-brand-purple/10 px-2 py-0.5 text-xs font-bold text-brand-purple">
-                                                            ✨ CUSTOMIZED
+                                                            CUSTOMIZED
                                                         </span>
                                                     )}
                                                 </div>

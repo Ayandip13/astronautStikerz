@@ -248,7 +248,7 @@ export default function CheckoutPage() {
                 <dt>Shipping</dt>
                 <dd className="font-bold text-foreground">
                   {shipping === 0 ? (
-                    <span className="text-brand-coral">Free ✨</span>
+                    <span className="text-brand-coral">Free</span>
                   ) : (
                     `₹${shipping.toFixed(2)}`
                   )}

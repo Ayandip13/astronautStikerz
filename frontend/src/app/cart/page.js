@@ -50,7 +50,7 @@ export default function CartPage() {
         </p>
         <Link href="/products">
           <Button size="lg" variant="primary" className="mt-4 shadow-lg">
-            Start Shopping ✨
+            Start Shopping
           </Button>
         </Link>
       </div>
@@ -89,7 +89,7 @@ export default function CartPage() {
                       </h3>
                       {item.isCustomized && (
                         <p className="mt-2 inline-flex rounded-full bg-brand-purple/10 px-3 py-1 text-xs font-bold text-brand-purple">
-                          Customized Design ✨
+                          Customized Design
                         </p>
                       )}
                     </div>
@@ -143,7 +143,7 @@ export default function CartPage() {
                 <dt>Shipping</dt>
                 <dd className="font-bold text-foreground">
                   {shipping === 0 ? (
-                    <span className="text-brand-coral">Free ✨</span>
+                    <span className="text-brand-coral">Free</span>
                   ) : (
                     `₹${shipping.toFixed(2)}`
                   )}

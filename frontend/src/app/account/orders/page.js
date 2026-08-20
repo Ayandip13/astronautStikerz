@@ -82,7 +82,7 @@ export default function MyOrdersPage() {
           <h2 className="text-xl font-bold text-foreground mb-2">No orders yet</h2>
           <p className="text-foreground/60 mb-6">Looks like you haven&apos;t bought anything from us yet.</p>
           <Link href="/products">
-            <Button variant="primary">Start Shopping ✨</Button>
+            <Button variant="primary">Start Shopping</Button>
           </Link>
         </div>
       ) : (
@@ -128,7 +128,7 @@ export default function MyOrdersPage() {
                         />
                         {item.isCustomized && (
                           <div className="absolute top-1 left-1 bg-brand-purple text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">
-                            ✨ Custom
+                            Custom
                           </div>
                         )}
                       </div>

@@ -104,7 +104,7 @@ export default function ProductDetailPage({ params }) {
               )}
               {product.customizable && (
                 <span className="rounded-full bg-brand-purple px-4 py-2 text-xs uppercase tracking-widest font-bold text-white shadow-md">
-                  Customizable ✨
+                  Customizable
                 </span>
               )}
             </div>
