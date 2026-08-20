@@ -10,7 +10,7 @@ const IMAGES = [
   '/images/campaign/hero-banner.png',
   '/images/campaign/hero-banner-2.png',
   '/images/campaign/hero-banner-3.png',
-  '/images/campaign/bengali_culture.png',
+  '/images/bengali_culture.png',
 ];
 
 export function HeroBanner() {
@@ -28,21 +28,20 @@ export function HeroBanner() {
       <div className="relative w-full min-h-[85vh] sm:min-h-0 sm:aspect-[21/9] lg:aspect-[24/9] bg-bg-sand overflow-hidden">
         {/* The Campaign Artwork Carousel */}
         {IMAGES.map((src, idx) => (
-          <Image 
+          <Image
             key={src}
-            src={src} 
+            src={src}
             alt={`Astronaut Stickerz Campaign ${idx + 1}`}
             fill
             priority={idx === 0}
-            className={`object-cover object-center transition-opacity duration-1000 ease-in-out ${
-              idx === currentIdx ? 'opacity-100 scale-105' : 'opacity-0 scale-100'
-            }`}
+            className={`object-cover object-center transition-opacity duration-1000 ease-in-out ${idx === currentIdx ? 'opacity-100 scale-105' : 'opacity-0 scale-100'
+              }`}
           />
         ))}
-        
+
         {/* Overlay for text readability - darker for better contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent sm:bg-gradient-to-r sm:from-black/90 sm:via-black/60 sm:to-black/10 z-10" />
-        
+
         {/* Content Container */}
         <div className="absolute inset-0 flex flex-col justify-end p-6 sm:justify-center sm:p-12 lg:p-24 w-full z-20 pb-12 sm:pb-6">
           <div className="max-w-2xl text-left">
@@ -54,11 +53,11 @@ export function HeroBanner() {
               </span><br />
               of People.
             </h1>
-            
+
             <p className="text-lg sm:text-xl text-white/95 font-medium mb-8 max-w-lg drop-shadow-lg hidden sm:block" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
               Your desk called. It wants personality. Discover original artwork, retro aesthetics, and goods worth sticking around for.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-0">
               <Link href="/products" className="w-full sm:w-auto">
                 <Button size="lg" variant="primary" className="w-full shadow-2xl font-bold tracking-wider text-sm bg-white text-foreground hover:bg-brand-yellow">
