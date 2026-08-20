@@ -411,7 +411,7 @@ export function ProductCanvas({ product, currentSide = 'front', onPreview, isLas
   };
 
   return (
-    <div className="flex h-full w-full flex-col sm:flex-row">
+    <div className="flex h-full w-full flex-col-reverse sm:flex-row relative">
       <EditorToolbar 
         onAddText={addText}
         onUploadImage={uploadImage}
@@ -453,13 +453,13 @@ export function ProductCanvas({ product, currentSide = 'front', onPreview, isLas
         </div>
       </div>
 
-      <div className="absolute bottom-6 right-6 z-30">
+      <div className="absolute bottom-20 sm:bottom-6 right-4 sm:right-6 z-30">
         <Button 
           size="lg" 
           variant="primary" 
           onClick={handlePreview} 
           disabled={saving}
-          className="shadow-2xl flex items-center gap-2 px-8 py-6 text-lg rounded-2xl"
+          className="shadow-2xl flex items-center gap-2 px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-lg rounded-2xl"
         >
           {saving ? (
             <><Loader2 className="h-6 w-6 animate-spin" /> Processing...</>

@@ -84,17 +84,17 @@ export default function StudioPage({ params }) {
     <div className="flex flex-col h-screen overflow-hidden bg-zinc-50 dark:bg-zinc-50">
       
       {/* Studio Header */}
-      <header className="h-16 shrink-0 border-b border-foreground/10 bg-white dark:bg-zinc-300 flex items-center justify-between px-6 z-40">
-        <div className="flex items-center gap-4">
-          <Button variant="outline" size="sm" onClick={() => router.back()} className="rounded-full">
-            <ArrowLeft className="h-4 w-4 mr-2" /> Back
+      <header className="h-16 shrink-0 border-b border-foreground/10 bg-white dark:bg-zinc-300 flex items-center justify-between px-2 sm:px-6 z-40">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <Button variant="outline" size="sm" onClick={() => router.back()} className="rounded-full px-2 sm:px-3">
+            <ArrowLeft className="h-4 w-4 sm:mr-2" /> <span className="hidden sm:inline">Back</span>
           </Button>
-          <div>
+          <div className="hidden sm:block">
             <div className="relative inline-block">
-              <h1 className="font-display font-bold text-lg leading-none">Design Studio</h1>
+              <h1 className="font-display font-bold text-sm sm:text-lg leading-none">Design Studio</h1>
               <SparkleDoodle className="absolute -top-3 -right-5 w-5 h-5 text-brand-yellow opacity-80" />
             </div>
-            <p className="text-xs text-foreground/50">{product.name}</p>
+            <p className="text-[10px] sm:text-xs text-foreground/50">{product.name}</p>
           </div>
         </div>
 
@@ -102,28 +102,28 @@ export default function StudioPage({ params }) {
           <div className="flex bg-zinc-200/50 dark:bg-zinc-300 p-1 rounded-xl">
             <button
               onClick={() => setCurrentSide('front')}
-              className={`px-6 py-1.5 rounded-lg text-sm font-bold transition-all ${
+              className={`px-3 sm:px-6 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all ${
                 currentSide === 'front' 
                   ? 'bg-white shadow text-brand-purple' 
                   : 'text-foreground/50 hover:text-foreground'
               }`}
             >
-              Front Design
+              Front
             </button>
             <button
               onClick={() => setCurrentSide('back')}
-              className={`px-6 py-1.5 rounded-lg text-sm font-bold transition-all ${
+              className={`px-3 sm:px-6 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all ${
                 currentSide === 'back' 
                   ? 'bg-white shadow text-brand-purple' 
                   : 'text-foreground/50 hover:text-foreground'
               }`}
             >
-              Back Design
+              Back
             </button>
           </div>
         )}
 
-        <div className="w-[120px]">
+        <div className="w-8 sm:w-[120px]">
            {/* Placeholder to keep flex-between balanced since we removed the Review button from here */}
         </div>
       </header>

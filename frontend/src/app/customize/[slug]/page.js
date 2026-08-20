@@ -96,7 +96,7 @@ export default function CustomizeConfigPage({ params }) {
             {/* Size Option */}
             <div className="space-y-3">
               <label className="text-sm font-bold uppercase tracking-wider text-foreground/60">Size</label>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                 {['Standard', 'Large'].map((s) => (
                   <button
                     key={s}
@@ -116,7 +116,7 @@ export default function CustomizeConfigPage({ params }) {
             {supportsBack && (
               <div className="space-y-3">
                 <label className="text-sm font-bold uppercase tracking-wider text-foreground/60">Printing</label>
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                   <button
                     onClick={() => setPrintSides('front')}
                     className={`flex-1 py-4 px-6 rounded-2xl border-2 text-center font-bold transition-all ${printSides === 'front'
